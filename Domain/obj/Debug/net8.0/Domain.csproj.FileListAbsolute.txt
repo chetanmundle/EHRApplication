@@ -10,3 +10,15 @@ D:\Visual Studio\Asp.NetCore\Assessment_23_11_24_Backend\Domain\obj\Debug\net8.0
 D:\Visual Studio\Asp.NetCore\Assessment_23_11_24_Backend\Domain\obj\Debug\net8.0\refint\Domain.dll
 D:\Visual Studio\Asp.NetCore\Assessment_23_11_24_Backend\Domain\obj\Debug\net8.0\Domain.pdb
 D:\Visual Studio\Asp.NetCore\Assessment_23_11_24_Backend\Domain\obj\Debug\net8.0\ref\Domain.dll
+D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\bin\Debug\net8.0\Domain.deps.json
+D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\bin\Debug\net8.0\Domain.dll
+D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\bin\Debug\net8.0\Domain.pdb
+D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
+D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
+D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
+D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\obj\Debug\net8.0\Domain.sourcelink.json
+D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\obj\Debug\net8.0\Domain.dll
+D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\obj\Debug\net8.0\refint\Domain.dll
+D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\obj\Debug\net8.0\Domain.pdb
+D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\obj\Debug\net8.0\ref\Domain.dll

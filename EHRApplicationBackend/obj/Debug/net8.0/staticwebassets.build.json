@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "PKIye50kYHzwWAi74MqRUwxh774YSFEq7DDQVdo+WYg=",
-  "Source": "Assess_23_10_24_Backend",
-  "BasePath": "_content/Assess_23_10_24_Backend",
+  "Hash": "6F3tbLUuSlCIO2n9i/c1PvLrps/XwsvRbJcE0q6lAug=",
+  "Source": "EHRApplicationBackend",
+  "BasePath": "_content/EHRApplicationBackend",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "EHRApplicationBackend\\wwwroot",
+      "Source": "EHRApplicationBackend",
+      "ContentRoot": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\EHRApplicationBackend\\wwwroot\\",
+      "BasePath": "_content/EHRApplicationBackend",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

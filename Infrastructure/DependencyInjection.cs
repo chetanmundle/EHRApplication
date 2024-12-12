@@ -2,6 +2,8 @@
 using App.Core.Interfaces;
 using Infrastructure.context;
 using Infrastructure.Repository;
+using Infrastructure.service;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +21,16 @@ namespace Infrastructure
 
             // Register the Emp service 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+
+            // Register the Jwt Service
+            services.AddScoped<IJwtService, JwtService>();
+
+            // Register the Encryption Service 
+            services.AddScoped<IEncryptionService, EncryptionService>();
+
+            // Register the Mail SMTP Service
+            services.AddScoped<IEmailSmtpService, EmailSmtpService>();
  
 
 
