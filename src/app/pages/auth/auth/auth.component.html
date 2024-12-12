@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row gap-4 justify-content-center mt-3">
+    <button
+      type="button"
+      class="btn btn-outline-success col-2"
+      routerLink="/auth/Register/Patient"
+      [class]="
+        currentUrl == '/auth/Register/Patient' ? 'btn-success text-white' : ''
+      "
+    >
+      Patient Register
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-success col-2"
+      routerLink="/auth/Register/Provider"
+      [class]="
+        currentUrl == '/auth/Register/Provider' ? 'btn-success text-white' : ''
+      "
+    >
+      Provider Register
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-success col-1"
+      routerLink="/auth/Login"
+      [class]="currentUrl == '/auth/Login' ? 'btn-success text-white' : ''"
+    >
+      Login
+    </button>
+  </div>
+</div>
+
+<router-outlet />
