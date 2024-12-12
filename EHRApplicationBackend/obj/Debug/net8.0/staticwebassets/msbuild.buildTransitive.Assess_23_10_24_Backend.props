@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Assess_23_10_24_Backend.props" />
+</Project>
