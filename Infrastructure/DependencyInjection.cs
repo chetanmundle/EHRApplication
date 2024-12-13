@@ -19,8 +19,10 @@ namespace Infrastructure
             // Bind Database context
             services.AddScoped<IAppDbContext, AppDbContext>();
 
-            // Register the Emp service 
-            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            // Register the service 
+            services.AddScoped<ICountryStateRepository, CountryStateRepository>();
+            services.AddScoped<ISpecialisationRepository, SpecialisationRepository>();
+
 
 
             // Register the Jwt Service

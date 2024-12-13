@@ -1,49 +1,29 @@
 [
   {
-    "ContainingType": "EHRApplicationBackend.Controllers.EmployeeController",
-    "Method": "CreateEmployee",
-    "RelativePath": "api/Employee/CreateEmployee",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "emp",
-        "Type": "App.Core.Models.Employee.CreateEmpDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "App.Common.Models.AppResponse\u00601[[App.Core.Models.Employee.EmpDto, App.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "EHRApplicationBackend.Controllers.EmployeeController",
-    "Method": "GetAllEmployees",
-    "RelativePath": "api/Employee/GetAllEmployees",
+    "ContainingType": "Ecom_Assessment_Backend.Controllers.CountryStateController",
+    "Method": "GetAllCountries",
+    "RelativePath": "api/CountryState/GetAllCountries",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": [
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Ecom_Assessment_Backend.Controllers.CountryStateController",
+    "Method": "GetAllStatesByCountryId",
+    "RelativePath": "api/CountryState/GetAllStatesByCountryId/{countryId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Type": "App.Common.Models.AppResponse\u00601[[System.Collections.IEnumerable, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
+        "Name": "countryId",
+        "Type": "System.Int32",
+        "IsRequired": true
       }
-    ]
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "ImageUpload.Controllers.ImageController",
@@ -57,6 +37,80 @@
         "Name": "file",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.SpecializationController",
+    "Method": "GetAllSpecialization",
+    "RelativePath": "api/Specialization/GetAllSpecialization",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.UserController",
+    "Method": "LoginUser",
+    "RelativePath": "api/User/LoginUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginUserDto",
+        "Type": "App.Core.Models.User.LoginUserDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.UserController",
+    "Method": "LoginUserValidateOtp",
+    "RelativePath": "api/User/LoginUserValidateOtp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginUserValidateOtpDto",
+        "Type": "App.Core.Models.Users.LoginUserValidateOtpDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.UserController",
+    "Method": "RegisterPatient",
+    "RelativePath": "api/User/RegisterPatient",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createPatientDto",
+        "Type": "App.Core.Models.User.CreatePatientDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.UserController",
+    "Method": "RegisterProvider",
+    "RelativePath": "api/User/RegisterProvider",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createProvider",
+        "Type": "App.Core.Models.User.CreateProviderDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

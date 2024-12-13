@@ -30,3 +30,19 @@ D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBa
 D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\App.Core\obj\Debug\net8.0\refint\App.Core.dll
 D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\App.Core\obj\Debug\net8.0\App.Core.pdb
 D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\App.Core\obj\Debug\net8.0\ref\App.Core.dll
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\bin\Debug\net8.0\App.Core.deps.json
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\bin\Debug\net8.0\App.Core.dll
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\bin\Debug\net8.0\App.Core.pdb
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\bin\Debug\net8.0\Domain.dll
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\bin\Debug\net8.0\Domain.pdb
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\obj\Debug\net8.0\App.Core.csproj.AssemblyReference.cache
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\obj\Debug\net8.0\App.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\obj\Debug\net8.0\App.Core.AssemblyInfoInputs.cache
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\obj\Debug\net8.0\App.Core.AssemblyInfo.cs
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\obj\Debug\net8.0\App.Core.csproj.CoreCompileInputs.cache
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\obj\Debug\net8.0\App.Core.sourcelink.json
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\obj\Debug\net8.0\App.Core.csproj.Up2Date
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\obj\Debug\net8.0\App.Core.dll
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\obj\Debug\net8.0\refint\App.Core.dll
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\obj\Debug\net8.0\App.Core.pdb
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\obj\Debug\net8.0\ref\App.Core.dll

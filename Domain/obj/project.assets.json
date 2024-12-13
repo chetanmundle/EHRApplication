@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\cheta\\.nuget\\packages\\": {}
+    "C:\\Users\\chetanmundle\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\Domain\\Domain.csproj",
+      "projectUniqueName": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\Domain\\Domain.csproj",
       "projectName": "Domain",
-      "projectPath": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\Domain\\Domain.csproj",
-      "packagesPath": "C:\\Users\\cheta\\.nuget\\packages\\",
-      "outputPath": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\Domain\\obj\\",
+      "projectPath": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\Domain\\Domain.csproj",
+      "packagesPath": "C:\\Users\\chetanmundle\\.nuget\\packages\\",
+      "outputPath": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\cheta\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\chetanmundle\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -67,7 +67,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -19,6 +19,7 @@ namespace Domain.Entities
         public DateTime AppointmentDate { get; set; }
         public TimeSpan? AppointmentTime { get; set; }
         public string AppointmentStatus { get; set; }
+        public string ChiefComplaint { get; set; }
         public float? Fee { get; set; }
         public User User { get; set; }
 

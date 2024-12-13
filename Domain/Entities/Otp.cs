@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Employee
+    public class Otp
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int EmployeeId { get; set; }
-        public string Name { get; set; }
-        public int Salary { get; set; }
+        public int  OtpId { get; set; }
+        public int OtpValue {  get; set; }
+        public string Email { get; set; }
+        public DateTime OtpValidity { get; set; }
     }
 }

@@ -22,3 +22,15 @@ D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBa
 D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\obj\Debug\net8.0\refint\Domain.dll
 D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\obj\Debug\net8.0\Domain.pdb
 D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\Domain\obj\Debug\net8.0\ref\Domain.dll
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\Domain\bin\Debug\net8.0\Domain.deps.json
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\Domain\bin\Debug\net8.0\Domain.dll
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\Domain\bin\Debug\net8.0\Domain.pdb
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\Domain\obj\Debug\net8.0\Domain.sourcelink.json
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\Domain\obj\Debug\net8.0\Domain.dll
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\Domain\obj\Debug\net8.0\refint\Domain.dll
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\Domain\obj\Debug\net8.0\Domain.pdb
+D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\Domain\obj\Debug\net8.0\ref\Domain.dll
