@@ -1,0 +1,67 @@
+<div
+  class="container height-100 d-flex justify-content-center align-items-center"
+>
+  <div class="position-relative">
+    <div class="card p-2 text-center">
+      <h6>
+        Please enter the one time password <br />
+        to verify your account
+      </h6>
+      <div>
+        <span>A code has been sent to</span>
+        <small id="maskedNumber"> {{email}}</small>
+      </div>
+      <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+        <input
+          class="m-2 text-center form-control rounded"
+          type="number"
+          maxlength="1"
+          [(ngModel)]="otp[0]"
+          (input)="onInput($event, 0)"
+        />
+        <input
+          class="m-2 text-center form-control rounded"
+          type="number"
+          maxlength="1"
+          [(ngModel)]="otp[1]"
+          (input)="onInput($event, 1)"
+        />
+        <input
+          class="m-2 text-center form-control rounded"
+          type="number"
+          maxlength="1"
+          [(ngModel)]="otp[2]"
+          (input)="onInput($event, 2)"
+        />
+        <input
+          class="m-2 text-center form-control rounded"
+          type="number"
+          maxlength="1"
+          [(ngModel)]="otp[3]"
+          (input)="onInput($event, 3)"
+        />
+        <input
+          class="m-2 text-center form-control rounded"
+          type="number"
+          maxlength="1"
+          [(ngModel)]="otp[4]"
+          (input)="onInput($event, 4)"
+        />
+        <input
+          class="m-2 text-center form-control rounded"
+          type="number"
+          maxlength="1"
+          [(ngModel)]="otp[5]"
+          (input)="onInput($event, 5)"
+        />
+      </div>
+      <div class="mt-4 gap-3 row">
+        <button class="btn btn-danger px-4 validate" (click)="onClickCancel()">Cancel</button>
+        <button class="btn btn-danger px-4 validate" (click)="validateOTP()">
+          Validate 
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

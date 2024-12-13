@@ -1,1 +1,594 @@
-<p>provider-register works!</p>
+<div class="container">
+  <div class="mt-3">
+    <form class="row g-3" [formGroup]="registerForm">
+      <div class="col-md-4">
+        <label for="validationDefault01 " class="form-label form-labelStart">
+          First name
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="validationDefault01"
+          formControlName="firstName"
+          required
+          maxlength="25"
+          (input)="onInputText($event, 25)"
+        />
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['firstName'].touched ||
+            registerForm.controls['firstName'].dirty
+          "
+        >
+          <div *ngIf="registerForm.controls['firstName'].hasError('required')">
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label
+          for="validationDefault02"
+          class="form-label form-labelStart form-labelStart"
+        >
+          Last name
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="validationDefault02"
+          formControlName="lastName"
+          required
+          maxlength="25"
+          (input)="onInputText($event, 25)"
+        />
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['lastName'].touched ||
+            registerForm.controls['lastName'].dirty
+          "
+        >
+          <div *ngIf="registerForm.controls['lastName'].hasError('required')">
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label
+          for="validationDefaultUsername"
+          class="form-label form-labelStart"
+        >
+          Email
+        </label>
+        <div class="input-group">
+          <span class="input-group-text" id="inputGroupPrepend2">{{
+            "@"
+          }}</span>
+          <input
+            type="email"
+            class="form-control"
+            id="validationDefaultUsername"
+            aria-describedby="inputGroupPrepend2"
+            formControlName="email"
+            required
+            maxlength="50"
+            (input)="onInputText($event, 50)"
+          />
+        </div>
+        <div style="font-size: 13px">
+          <div
+            *ngIf="
+              isSubmitClick ||
+              registerForm.controls['email'].touched ||
+              registerForm.controls['email'].dirty
+            "
+          >
+            <div *ngIf="registerForm.controls['email'].hasError('required')">
+              <div class="text-danger">*required</div>
+            </div>
+            <div
+              *ngIf="registerForm.controls['email'].hasError('invalidEmail')"
+            >
+              <div class="text-danger">* Email Format</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="validationDefault02" class="form-label form-labelStart">
+          Date Of Birth
+        </label>
+        <input
+          type="date"
+          class="form-control"
+          id="validationDefault02"
+          value="Otto"
+          formControlName="dateOfBirth"
+          [max]="todaysDate()"
+          required
+        />
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['dateOfBirth'].touched ||
+            registerForm.controls['dateOfBirth'].dirty
+          "
+        >
+          <div
+            *ngIf="registerForm.controls['dateOfBirth'].hasError('required')"
+          >
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="validationDefault02" class="form-label form-labelStart">
+          Phone Number
+        </label>
+        <input
+          type="number"
+          class="form-control"
+          id="validationDefault02"
+          required
+          formControlName="phoneNumber"
+          [maxlength]="10"
+          (input)="onNumberType($event)"
+        />
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['phoneNumber'].touched ||
+            registerForm.controls['phoneNumber'].dirty
+          "
+        >
+          <div
+            *ngIf="registerForm.controls['phoneNumber'].hasError('required')"
+          >
+            <div class="text-danger">*required</div>
+          </div>
+          <div
+            *ngIf="
+              !registerForm.controls['phoneNumber'].hasError('required') &&
+              !isMobileNumberValid
+            "
+          >
+            <div class="text-danger">*Must be 10 digit</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="validationDefault02" class="form-label form-labelStart">
+          Gender
+        </label>
+
+        <div>
+          <label for="male">
+            <input
+              type="radio"
+              name="gender"
+              value="Male"
+              id="male"
+              formControlName="gender"
+            />
+            Male
+          </label>
+          &nbsp; &nbsp;
+          <label for="female">
+            <input
+              type="radio"
+              name="gender"
+              value="Female"
+              id="female"
+              formControlName="gender"
+            />
+            Female
+          </label>
+          &nbsp; &nbsp;
+          <label for="other">
+            <input
+              type="radio"
+              name="gender"
+              value="Other"
+              id="other"
+              formControlName="gender"
+            />
+            Other
+          </label>
+          &nbsp; &nbsp;
+        </div>
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['gender'].touched ||
+            registerForm.controls['gender'].dirty
+          "
+        >
+          <div *ngIf="registerForm.controls['gender'].hasError('required')">
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="validationDefault04" class="form-label form-labelStart">
+          Blood Group
+        </label>
+        <select
+          class="form-select"
+          id="validationDefault04"
+          required
+          formControlName="bloodGroup"
+        >
+          <option selected disabled value="">Choose Blood Group</option>
+          <option value="O+">O+</option>
+          <option value="O-">O-</option>
+          <option value="A+">A+</option>
+          <option value="A-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B-">B-</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB-</option>
+          <option value="other">Other</option>
+          <!-- <option *ngFor="let con of stateList" value="{{ con.stateId }}">
+              {{ con.stateName }}
+            </option> -->
+        </select>
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['bloodGroup'].touched ||
+            registerForm.controls['bloodGroup'].dirty
+          "
+        >
+          <div *ngIf="registerForm.controls['bloodGroup'].hasError('required')">
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="validationDefault03" class="form-label form-labelStart">
+          Address
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="validationDefault03"
+          required
+          formControlName="address"
+          maxlength="70"
+          (input)="onInputText($event, 70)"
+        />
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['address'].touched ||
+            registerForm.controls['address'].dirty
+          "
+        >
+          <div *ngIf="registerForm.controls['address'].hasError('required')">
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="validationDefault03" class="form-label form-labelStart">
+          City
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="validationDefault03"
+          required
+          formControlName="city"
+          maxlength="25"
+          (input)="onInputText($event, 25)"
+        />
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['city'].touched ||
+            registerForm.controls['city'].dirty
+          "
+        >
+          <div *ngIf="registerForm.controls['city'].hasError('required')">
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="validationDefault04" class="form-label form-labelStart">
+          Country
+        </label>
+        <select
+          class="form-select"
+          id="validationDefault04"
+          required
+          (change)="onChangeCountry($event)"
+          formControlName="countryId"
+        >
+          <option selected disabled value="">Choose Country</option>
+          <option *ngFor="let con of countryList" value="{{ con.countryId }}">
+            {{ con.countryName }}
+          </option>
+        </select>
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['countryId'].touched ||
+            registerForm.controls['countryId'].dirty
+          "
+        >
+          <div *ngIf="registerForm.controls['countryId'].hasError('required')">
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="validationDefault04" class="form-label form-labelStart">
+          State
+        </label>
+        <select
+          class="form-select"
+          id="validationDefault04"
+          required
+          formControlName="stateId"
+        >
+          <option selected disabled value="">Choose State</option>
+          <option *ngFor="let con of stateList" value="{{ con.stateId }}">
+            {{ con.stateName }}
+          </option>
+        </select>
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['stateId'].touched ||
+            registerForm.controls['stateId'].dirty
+          "
+        >
+          <div *ngIf="registerForm.controls['stateId'].hasError('required')">
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="validationDefault05" class="form-label form-labelStart">
+          ZipCode
+        </label>
+        <input
+          type="number"
+          class="form-control"
+          id="validationDefault05"
+          required
+          formControlName="zipCode"
+          [maxlength]="8"
+          (input)="onInputText($event, 6)"
+        />
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['zipCode'].touched ||
+            registerForm.controls['zipCode'].dirty
+          "
+        >
+          <div *ngIf="registerForm.controls['zipCode'].hasError('required')">
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="validationDefault01 " class="form-label form-labelStart">
+          Qualification
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="validationDefault01"
+          formControlName="qualification"
+          required
+          maxlength="40"
+          (input)="onInputText($event, 40)"
+        />
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['qualification'].touched ||
+            registerForm.controls['qualification'].dirty
+          "
+        >
+          <div
+            *ngIf="registerForm.controls['qualification'].hasError('required')"
+          >
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="specialisationId" class="form-label form-labelStart">
+          Specialisation
+        </label>
+        <select
+          class="form-select"
+          id="specialisationId"
+          required
+          formControlName="specialisationId"
+        >
+          <option selected disabled value="">Choose State</option>
+          <option
+            *ngFor="let con of specializationList"
+            value="{{ con.specialisationId }}"
+          >
+            {{ con.specialisationName }}
+          </option>
+        </select>
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['specialisationId'].touched ||
+            registerForm.controls['specialisationId'].dirty
+          "
+        >
+          <div
+            *ngIf="
+              registerForm.controls['specialisationId'].hasError('required')
+            "
+          >
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="validationDefault01 " class="form-label form-labelStart">
+          RegistrationNumber
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="validationDefault01"
+          formControlName="registrationNumber"
+          required
+          maxlength="25"
+          (input)="onInputText($event, 25)"
+        />
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['registrationNumber'].touched ||
+            registerForm.controls['registrationNumber'].dirty
+          "
+        >
+          <div
+            *ngIf="
+              registerForm.controls['registrationNumber'].hasError('required')
+            "
+          >
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="visitingCharge " class="form-label form-labelStart">
+          Visiting Charge
+        </label>
+        <input
+          type="number"
+          class="form-control"
+          id="visitingCharge"
+          formControlName="visitingCharge"
+          required
+          maxlength="15"
+          (input)="onInputText($event, 10)"
+        />
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            registerForm.controls['visitingCharge'].touched ||
+            registerForm.controls['visitingCharge'].dirty
+          "
+        >
+          <div
+            *ngIf="registerForm.controls['visitingCharge'].hasError('required')"
+          >
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label for="validationDefault05" class="form-label"
+          >Profile Image</label
+        >
+        <div class="input-group">
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            class="form-control"
+            id="inputGroupFile01"
+          />
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="invalidCheck2"
+            required
+            formControlName="isChecked"
+          />
+          <label class="form-check-label" for="invalidCheck2">
+            Agree to terms and conditions
+          </label>
+
+          <div
+            style="font-size: 13px"
+            *ngIf="
+              isSubmitClick ||
+              registerForm.controls['isChecked'].touched ||
+              registerForm.controls['isChecked'].dirty
+            "
+          >
+            <div
+              *ngIf="registerForm.controls['isChecked'].hasError('required')"
+            >
+              <div class="text-danger">*required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row col-12 my-3">
+        <div class="col-2">
+          <button
+            class="btn btn-primary"
+            type="submit"
+            (click)="onClickRegitster()"
+          >
+            Register
+          </button>
+        </div>
+        <div class="col-3">
+          <button class="btn btn-danger" (click)="onClickClearBtn()">
+            Clear
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+@if (isLoader) {
+<div class="loader-backdrop">
+  <span class="loader"></span>
+</div>
+}
