@@ -11,5 +11,6 @@ namespace App.Core.Models.User
         public int UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public float? VisitingCharge { get; set; }
     }
 }

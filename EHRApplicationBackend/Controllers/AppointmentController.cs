@@ -34,5 +34,13 @@ namespace EHRApplicationBackend.Controllers
             var result = await _mediator.Send(new PaymentAndBookAppointmentCommand { paymentAndBookAppointmentDto = bookAppointmentDto });
             return Ok(result);
         }
+
+        [HttpGet("[action]/{patientId}")]
+        [Authorize(Roles = "Patient")]
+        public async Task<IActionResult> GetAppoinmentsByPatientId(int patientId)
+        {
+            var result = await _mediator.Send(new GetAppointmentByPatientIdQuery { PatientId = patientId });
+            return Ok(result);
+        }
     }
 }

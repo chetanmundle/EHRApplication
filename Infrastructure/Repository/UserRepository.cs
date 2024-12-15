@@ -19,9 +19,9 @@ namespace Infrastructure.Repository
         public async Task<IEnumerable<GetProviderDto>> GetProvidersBySpecializationIdAsync(int SpecialisationId)
         {
             var query = SpecialisationId == 0 ?
-                @"Select UserId, FirstName, LastName from Users where UserTypeId = 
+                @"Select UserId, FirstName, LastName, VisitingCharge from Users where UserTypeId = 
                         (Select UserTypeId from UserTypes where UserTypeName =  'Provider')" :
-                @"Select UserId, FirstName, LastName from Users where UserTypeId =
+                @"Select UserId, FirstName, LastName, VisitingCharge from Users where UserTypeId =
                          (Select UserTypeId from UserTypes where UserTypeName =  'Provider')
                          and SpecialisationId = @SpecialisationId";
 

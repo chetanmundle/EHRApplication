@@ -17,6 +17,22 @@
   },
   {
     "ContainingType": "EHRApplicationBackend.Controllers.AppointmentController",
+    "Method": "GetAppoinmentsByPatientId",
+    "RelativePath": "api/Appointment/GetAppoinmentsByPatientId/{patientId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.AppointmentController",
     "Method": "PaymentBookAppointment",
     "RelativePath": "api/Appointment/PaymentBookAppointment",
     "HttpMethod": "POST",
