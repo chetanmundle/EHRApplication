@@ -1,1 +1,38 @@
-<p>home-patient works!</p>
+<div class="container">
+  <div *ngFor="let appt of appointmentList">
+    <div class="card mt-3">
+      <div class="card-body row">
+        <div class="col-5 column-gap-2">
+          <div class="mb-2">
+            <strong>Provider Name :</strong> {{ appt.providerName }}
+          </div>
+          <div class="mb-2"><strong>Appt. Fee :</strong> {{ appt.fee }}</div>
+          <div class="mb-2">
+            <strong>Start Time :</strong> {{ appt.startTime }}
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="mb-2">
+            <strong>Appt Status :</strong> {{ appt.appointmentStatus }}
+          </div>
+          <div class="mb-2">
+            <strong>Appt Date :</strong> {{ appt.appointmentDate | date }}
+          </div>
+          <div class="mb-2"><strong>End Time :</strong> {{ appt.endTime }}</div>
+        </div>
+        <div class="col-2 row">
+          @if (appt.appointmentStatus !== 'cancelled') {
+          <button class="btn mb-2" style="background-color: greenyellow">
+            Edit
+          </button>
+          <button class="btn btn-danger">Cancel</button>
+          }@else {
+          <div class="text-center mt-4" style="font-size: 22px">
+            {{ appt.appointmentStatus }}
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

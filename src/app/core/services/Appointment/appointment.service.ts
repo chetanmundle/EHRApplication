@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   BookAppointmentDto,
+  GetAppoinmentByPatientIdDto,
   PayAndBookAppointmentDto,
 } from '../../Models/Interfaces/Appointment/appointment.model';
 import { Observable } from 'rxjs';
@@ -30,6 +31,14 @@ export class AppointmentService {
     return this.http.post<AppResponse<null>>(
       `${this.Url}/PaymentBookAppointment`,
       payload
+    );
+  }
+
+  GetAppointmentByPatientId$(
+    patientId: number
+  ): Observable<AppResponse<GetAppoinmentByPatientIdDto[]>> {
+    return this.http.get<AppResponse<GetAppoinmentByPatientIdDto[]>>(
+      `${this.Url}/GetAppoinmentsByPatientId/${patientId}`
     );
   }
 }

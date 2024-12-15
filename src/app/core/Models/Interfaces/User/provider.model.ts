@@ -22,4 +22,5 @@ export interface UserWithIdNameDto {
   userId: number;
   firstName: string;
   lastName: string;
+  visitingCharge: number;
 }

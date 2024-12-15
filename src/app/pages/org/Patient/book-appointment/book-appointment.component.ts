@@ -48,6 +48,7 @@ export class BookAppointmentComponent
   specializationList?: specialisationDto[];
   providersList?: UserWithIdNameDto[];
   loggedUser?: LoggedUserDto;
+  fee: number = 0;
 
   private modalInstance: Modal | null = null;
   isLoader: boolean = false;
@@ -244,7 +245,7 @@ export class BookAppointmentComponent
       startTime: this.appointmentForm.get('startTime')?.value + ':00',
       endTime: this.appointmentForm.get('endTime')?.value + ':00',
       chiefComplaint: this.appointmentForm.get('chiefComplaint')?.value,
-      amount: 150, // take amount here
+      amount: this.fee,
       customerEmail: this.loggedUser?.email,
       customerName: this.loggedUser?.firstName + this.loggedUser?.lastName,
       sourceToken: this.stripeToken.id.toString(),
@@ -271,6 +272,10 @@ export class BookAppointmentComponent
 
   // Function to open the modal CArdModal
   openModal() {
+    this.isSubmitClick = true;
+    if (this.appointmentForm.invalid) {
+      return;
+    }
     const modalElement = document.getElementById('exampleModal');
     if (modalElement) {
       this.modalInstance = new Modal(modalElement); // Initialize the modal
@@ -312,6 +317,14 @@ export class BookAppointmentComponent
     } else {
       this.isLoader = false;
       alert(error.message);
+    }
+  }
+
+  onChangeProvider(event: Event) {
+    const providerId = Number((event.target as HTMLSelectElement).value);
+    const provider = this.providersList?.find((p) => p.userId === providerId);
+    if (provider) {
+      this.fee = provider.visitingCharge;
     }
   }
 
