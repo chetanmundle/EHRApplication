@@ -1,27 +1,35 @@
 {
   "Files": [
     {
-      "Id": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\EHRApplicationBackend\\wwwroot\\Images\\257e2018-28ad-47ec-b018-3204ad837cb6.jpg",
+      "Id": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\EHRApplicationBackend\\wwwroot\\Images\\257e2018-28ad-47ec-b018-3204ad837cb6.jpg",
       "PackagePath": "staticwebassets\\Images\\257e2018-28ad-47ec-b018-3204ad837cb6.jpg"
     },
     {
-      "Id": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\EHRApplicationBackend\\wwwroot\\Images\\3eb6e32e-0995-41a4-b541-ceb61a457c20.png",
+      "Id": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\EHRApplicationBackend\\wwwroot\\Images\\35dc85a9-954b-4a13-b741-f17e8997209c.png",
+      "PackagePath": "staticwebassets\\Images\\35dc85a9-954b-4a13-b741-f17e8997209c.png"
+    },
+    {
+      "Id": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\EHRApplicationBackend\\wwwroot\\Images\\3eb6e32e-0995-41a4-b541-ceb61a457c20.png",
       "PackagePath": "staticwebassets\\Images\\3eb6e32e-0995-41a4-b541-ceb61a457c20.png"
     },
     {
-      "Id": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\EHRApplicationBackend\\wwwroot\\Images\\6ad97b70-3713-4091-afde-ced16367a5bf.png",
+      "Id": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\EHRApplicationBackend\\wwwroot\\Images\\5c28fbee-57b2-45ae-b66a-42f559106fe4.jpg",
+      "PackagePath": "staticwebassets\\Images\\5c28fbee-57b2-45ae-b66a-42f559106fe4.jpg"
+    },
+    {
+      "Id": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\EHRApplicationBackend\\wwwroot\\Images\\6ad97b70-3713-4091-afde-ced16367a5bf.png",
       "PackagePath": "staticwebassets\\Images\\6ad97b70-3713-4091-afde-ced16367a5bf.png"
     },
     {
-      "Id": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\EHRApplicationBackend\\wwwroot\\Images\\751f8000-f7ec-4459-ac03-3116ed1e074b.jpg",
+      "Id": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\EHRApplicationBackend\\wwwroot\\Images\\751f8000-f7ec-4459-ac03-3116ed1e074b.jpg",
       "PackagePath": "staticwebassets\\Images\\751f8000-f7ec-4459-ac03-3116ed1e074b.jpg"
     },
     {
-      "Id": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\EHRApplicationBackend\\wwwroot\\Images\\c8331e05-2acc-44bb-9d76-2b1c78f8313c.png",
+      "Id": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\EHRApplicationBackend\\wwwroot\\Images\\c8331e05-2acc-44bb-9d76-2b1c78f8313c.png",
       "PackagePath": "staticwebassets\\Images\\c8331e05-2acc-44bb-9d76-2b1c78f8313c.png"
     },
     {
-      "Id": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\EHRApplicationBackend\\wwwroot\\Images\\f28c5033-7802-4fa4-b753-d0cc2b3e081c.png",
+      "Id": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\EHRApplicationBackend\\wwwroot\\Images\\f28c5033-7802-4fa4-b753-d0cc2b3e081c.png",
       "PackagePath": "staticwebassets\\Images\\f28c5033-7802-4fa4-b753-d0cc2b3e081c.png"
     },
     {

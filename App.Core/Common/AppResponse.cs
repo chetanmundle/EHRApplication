@@ -40,6 +40,11 @@ namespace App.Common.Models
                 Data = data,
             };
         }
+
+        internal static AppResponse Response(bool v1, string v2, object badRequest)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public sealed class AppResponse<TModel>

@@ -22,7 +22,8 @@ namespace Infrastructure
             // Register the service 
             services.AddScoped<ICountryStateRepository, CountryStateRepository>();
             services.AddScoped<ISpecialisationRepository, SpecialisationRepository>();
-
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IStripePaymentService, StripePaymentService>();
 
 
             // Register the Jwt Service

@@ -30,7 +30,7 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointmentId"));
 
-                    b.Property<DateTime>("AppointmentDate")
+                    b.Property<DateTime?>("AppointmentDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("AppointmentStatus")
@@ -42,6 +42,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("ChiefComplaint")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<TimeSpan?>("EndTime")
+                        .HasColumnType("time");
+
                     b.Property<float?>("Fee")
                         .HasColumnType("real");
 
@@ -50,6 +53,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<int?>("ProviderId")
                         .HasColumnType("int");
+
+                    b.Property<TimeSpan?>("StartTime")
+                        .HasColumnType("time");
 
                     b.HasKey("AppointmentId");
 

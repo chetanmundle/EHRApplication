@@ -1,7 +1,10 @@
 ﻿using App.Core.App.User.Command;
+using App.Core.App.User.Commond;
+using App.Core.App.User.Query;
 using App.Core.Models.User;
 using App.Core.Models.Users;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +52,39 @@ namespace EHRApplicationBackend.Controllers
         public async Task<IActionResult> LoginUserValidateOtp(LoginUserValidateOtpDto loginUserValidateOtpDto)
         {
             var result = await _mediator.Send(new LoginUserValidateOtpCommand { LoginUserValidateOtpDto = loginUserValidateOtpDto });   
+            return Ok(result);
+        }
+
+        [HttpGet("[action]/{userId}")]
+        [Authorize(Roles = "Provider, Patient")]
+        public async Task<IActionResult> GetLoggedUser(int userId)
+        {
+            var result = await _mediator.Send(new GetLoggedUserByUserIdQuery { UserId = userId });
+            return Ok(result);
+        }
+
+        // Api for Forget Password
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordDto forgetPasswordDto)
+        {
+            var result = await _mediator.Send(new ForgetPasswordCommond { ForgetPasswordDto = forgetPasswordDto });
+            return Ok(result);
+        }
+
+        // Forgot Email Api (send random string to User)
+        [HttpGet("[action]/{email}")]
+        public async Task<IActionResult> ForgotPasswordWithRandomString(string email)
+        {
+            var result = await _mediator.Send(new SendRandomPasswordOnMailCommand { Email = email });
+            return Ok(result);
+        }
+
+        // Get All providers by Specializaton Id if 0 then all
+        [HttpGet("[action]/{specializationId}")]
+        [Authorize(Roles = "Patient, Provider")]
+        public async Task<IActionResult> GetProvidersBySpecializationId(int specializationId)
+        {
+            var result = await _mediator.Send(new GetProvidersBySpecializationQuery { SpecialisationId = specializationId });
             return Ok(result);
         }
     }

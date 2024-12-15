@@ -1,5 +1,37 @@
 [
   {
+    "ContainingType": "EHRApplicationBackend.Controllers.AppointmentController",
+    "Method": "BookAppointment",
+    "RelativePath": "api/Appointment/BookAppointment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookAppointmentDto",
+        "Type": "App.Core.Models.Appointment.BookAppointmentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.AppointmentController",
+    "Method": "PaymentBookAppointment",
+    "RelativePath": "api/Appointment/PaymentBookAppointment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bookAppointmentDto",
+        "Type": "App.Core.Models.Appointment.PaymentAndBookAppointmentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Ecom_Assessment_Backend.Controllers.CountryStateController",
     "Method": "GetAllCountries",
     "RelativePath": "api/CountryState/GetAllCountries",
@@ -42,6 +74,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Ecom_Assessment_Backend.Controllers.OtpController",
+    "Method": "SendOtp",
+    "RelativePath": "api/Otp/SendOtp/{email}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "EHRApplicationBackend.Controllers.SpecializationController",
     "Method": "GetAllSpecialization",
     "RelativePath": "api/Specialization/GetAllSpecialization",
@@ -49,6 +97,70 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.UserController",
+    "Method": "ForgetPassword",
+    "RelativePath": "api/User/ForgetPassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "forgetPasswordDto",
+        "Type": "App.Core.Models.Users.ForgetPasswordDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.UserController",
+    "Method": "ForgotPasswordWithRandomString",
+    "RelativePath": "api/User/ForgotPasswordWithRandomString/{email}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.UserController",
+    "Method": "GetLoggedUser",
+    "RelativePath": "api/User/GetLoggedUser/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.UserController",
+    "Method": "GetProvidersBySpecializationId",
+    "RelativePath": "api/User/GetProvidersBySpecializationId/{specializationId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "specializationId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {

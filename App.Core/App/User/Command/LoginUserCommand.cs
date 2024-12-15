@@ -52,7 +52,7 @@ namespace App.Core.App.User.Command
             Random random = new Random();
             int otp = random.Next(100000, 999999);
 
-            Otp otpTblPbj = new Otp()
+            Domain.Entities.Otp otpTblPbj = new Domain.Entities.Otp()
             {
                 Email = LoginDto.Email,
                 OtpValidity = DateTime.Now.AddMinutes(5),
