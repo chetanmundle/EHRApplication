@@ -1,0 +1,151 @@
+<div class="px-5">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand">
+        <img
+          src="images/medical-team.png"
+          alt="logo"
+          style="width: 40px; height: 40px"
+        />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          @if (loggedUser?.userTypeName === 'Provider') {
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              routerLink="/org/Provider/Home"
+              >Provider Home</a
+            >
+          </li>
+          } @if (loggedUser?.userTypeName === 'Patient') {
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              routerLink="/org/Patient/Home"
+              >Patient Home</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              routerLink="/org/Patient/BookAppointment"
+              >Book Appointment</a
+            >
+          </li>
+          }
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/org/Profile">Profile</a>
+          </li>
+
+          <!-- <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Dropdown
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li> -->
+        </ul>
+        <div class="d-flex">
+          <div
+            class="mx-3"
+            popovertarget="profileclicktarget"
+            (click)="openModal()"
+          >
+            <img
+              *ngIf="loggedUser?.profileImage; else defaultImage"
+              [src]="loggedUser?.profileImage"
+              alt="images/profile.png"
+              style="width: 40px; height: 40px; cursor: pointer"
+              class="rounded-circle img-border"
+            />
+
+            <ng-template #defaultImage>
+              <img
+                src="images/profile.png"
+                alt="Default profile"
+                style="width: 40px; height: 40px; cursor: pointer"
+                class="rounded-circle img-border"
+              />
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<!-- Modal HTML -->
+<div class="modal" *ngIf="isModalOpen" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="d-flex justify-content-end">
+      <span (click)="closeModal()" style="font-size: 25px; cursor: pointer"
+        >&times;</span
+      >
+    </div>
+    <div>
+      <div class="d-flex justify-content-center">
+        <img
+          *ngIf="loggedUser?.profileImage; else defaultImage"
+          [src]="loggedUser?.profileImage"
+          alt="images/profile.png"
+          style="width: 80px; height: 80px; cursor: pointer"
+          class="rounded-circle img-border"
+          routerLink="/org/Profile"
+          (click)="closeModal()"
+        />
+      </div>
+
+      <ng-template #defaultImage>
+        <img
+          src="images/profile.png"
+          alt="Default profile"
+          style="width: 40px; height: 40px; cursor: pointer"
+          class="rounded-circle img-border"
+          (click)="closeModal()"
+        />
+      </ng-template>
+    </div>
+    <div class="row text-center">
+      <h5>{{ loggedUser?.firstName }} {{ loggedUser?.lastName }}</h5>
+      <p>UserName : {{ loggedUser?.userName }}</p>
+      <p>Email : {{ loggedUser?.email }}</p>
+      <div class="d-flex gap-2 justify-content-evenly">
+        <button
+          class="btn btn-primary"
+          routerLink="/org/Profile"
+          (click)="closeModal()"
+        >
+          Profile
+        </button>
+        <button class="btn btn-danger" (click)="onClickLogOut()">Logout</button>
+      </div>
+    </div>
+  </div>
+</div>

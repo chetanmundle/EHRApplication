@@ -17,3 +17,9 @@ export interface RegisterProvidertDto {
   visitingCharge: number;
   profileImage: string;
 }
+
+export interface UserWithIdNameDto {
+  userId: number;
+  firstName: string;
+  lastName: string;
+}

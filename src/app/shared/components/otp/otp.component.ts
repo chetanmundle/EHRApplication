@@ -105,10 +105,15 @@ export class OtpComponent implements OnDestroy {
       next: (res: AppResponse<LoginUserResponseDto>) => {
         if (res.isSuccess) {
           localStorage.setItem('accessToken', res.data.accessToken);
-          alert('Reset logged user not implemented Please implement');
-          //   this.userService.resetLoggedUser();
 
-          this.router.navigate(['/org/Home']);
+          this.userService.resetLoggedUser();
+
+          if (res.data.userTypeName === 'Provider') {
+            this.router.navigate(['/org/Provider/Home']);
+          } else if (res.data.userTypeName === 'Patient') {
+            this.router.navigate(['/org/Patient/Home']);
+          }
+
           this.tostr.showSuccess(res.message);
         } else {
           this.tostr.showError(res.message);

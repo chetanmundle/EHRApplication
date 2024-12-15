@@ -1,14 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { RegisterPatientDto } from '../../Models/Interfaces/User/patient.model';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AppResponse } from '../../Models/AppResponse';
-import { RegisterProvidertDto } from '../../Models/Interfaces/User/provider.model';
 import {
+  RegisterProvidertDto,
+  UserWithIdNameDto,
+} from '../../Models/Interfaces/User/provider.model';
+import {
+  ForgetPasswordDto,
   LoginUserDto,
   LoginUserResponseDto,
   LoginUserValidateOtpDto,
 } from '../../Models/Interfaces/User/UserDto.model';
+import { LoggedUserDto } from '../../Models/classes/User/LoggedUserDto';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +23,48 @@ export class UserService {
   private http = inject(HttpClient);
 
   private Url = 'https://localhost:7035/api/User';
+
+  loggedUser$: BehaviorSubject<LoggedUserDto> =
+    new BehaviorSubject<LoggedUserDto>(new LoggedUserDto());
+
+  constructor() {
+    this, this.getLoggedUser();
+  }
+
+  private getLoggedUser(): void {
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (accessToken) {
+      const decodedToken: any = jwtDecode(accessToken);
+      const userId = decodedToken.userId;
+
+      // Fetch the user details from the API
+      this.GetLoggedUserById$(userId).subscribe({
+        next: (res: AppResponse<LoggedUserDto>) => {
+          if (res.isSuccess) {
+            this.loggedUser$.next(res.data); // Update BehaviorSubject with user data
+          } else {
+            this.loggedUser$.next(new LoggedUserDto()); // Emit empty user data if the API fails
+          }
+        },
+        error: () => {
+          this.loggedUser$.next(new LoggedUserDto()); // Handle API errors gracefully
+        },
+      });
+    } else {
+      this.loggedUser$.next(new LoggedUserDto()); // Emit empty user data if no token exists
+    }
+  }
+
+  public resetLoggedUser(): void {
+    this.getLoggedUser();
+  }
+
+  GetLoggedUserById$(userId: number): Observable<AppResponse<LoggedUserDto>> {
+    return this.http.get<AppResponse<LoggedUserDto>>(
+      `${this.Url}/GetLoggedUser/${userId}`
+    );
+  }
 
   RegisterPatient$(payload: RegisterPatientDto): Observable<AppResponse<null>> {
     return this.http.post<AppResponse<null>>(
@@ -44,6 +92,30 @@ export class UserService {
     return this.http.post<AppResponse<LoginUserResponseDto>>(
       `${this.Url}/LoginUserValidateOtp`,
       payload
+    );
+  }
+
+  // Forget Password
+  ForgetPassword$(payload: ForgetPasswordDto): Observable<AppResponse<null>> {
+    return this.http.post<AppResponse<null>>(
+      `${this.Url}/ForgetPassword`,
+      payload
+    );
+  }
+
+  // forgot Pass (send Random PAssword in Email)
+  SendRandomPasswordOnEmail$(email: string): Observable<AppResponse<null>> {
+    return this.http.get<AppResponse<null>>(
+      `${this.Url}/ForgotPasswordWithRandomString/${email}`
+    );
+  }
+
+  // this is for get provider by specialization id is give 0 then all
+  GetProvidersBySpecializationId$(
+    specializationId: number
+  ): Observable<AppResponse<UserWithIdNameDto[]>> {
+    return this.http.get<AppResponse<UserWithIdNameDto[]>>(
+      `${this.Url}/GetProvidersBySpecializationId/${specializationId}`
     );
   }
 }

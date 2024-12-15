@@ -15,3 +15,10 @@ export interface LoginUserResponseDto {
   userTypeName: string;
   accessToken: string;
 }
+
+export interface ForgetPasswordDto {
+  email: string;
+  otp: number;
+  password: string;
+  confirmPassword: string;
+}
