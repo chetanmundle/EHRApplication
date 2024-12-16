@@ -12,5 +12,7 @@ namespace App.Core.Interface
         Task<IEnumerable<GetProviderDto>> GetProvidersBySpecializationIdAsync(int SpecialisationId);
 
         Task<IEnumerable<PatientNameIdDto>> GetPatientNameIdAsync();
+
+        Task<UserDto> GetUserByUserIdAsync(int userId);
     }
 }

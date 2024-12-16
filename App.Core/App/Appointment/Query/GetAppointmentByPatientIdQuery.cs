@@ -34,7 +34,9 @@ namespace App.Core.App.Appointment.Query
 
             var appointmentlist = await _appDbContext.Set<Domain.Entities.Appointment>()
                           .Where(a => a.PatientId == patientUserId)
-                          .OrderByDescending(a => a.AppointmentDate).ToListAsync(cancellationToken);
+                          .OrderByDescending(x => x)
+                          .ToListAsync(cancellationToken);
+                          //.OrderByDescending(a => a.AppointmentDate).ToListAsync(cancellationToken);
 
             var resultlist = new List<GetAppointmentDto>();
 

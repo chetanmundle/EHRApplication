@@ -21,14 +21,18 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<GetProviderDto>> GetProvidersBySpecializationIdAsync(int SpecialisationId)
         {
-            var query = SpecialisationId == 0 ?
-                @"Select UserId, FirstName, LastName, VisitingCharge from Users where UserTypeId = 
-                        (Select UserTypeId from UserTypes where UserTypeName =  'Provider')" :
-                @"Select UserId, FirstName, LastName, VisitingCharge from Users where UserTypeId =
+            var conn = _appDbContext.GetConnection();
+            var query =  @"Select UserId, FirstName, LastName, VisitingCharge from Users where UserTypeId =
                          (Select UserTypeId from UserTypes where UserTypeName =  'Provider')
                          and SpecialisationId = @SpecialisationId";
 
-            var conn = _appDbContext.GetConnection();
+            if(SpecialisationId == 0)
+            {
+                query = @"Select UserId, FirstName, LastName, VisitingCharge from Users where UserTypeId = 
+                        (Select UserTypeId from UserTypes where UserTypeName =  'Provider')";
+                var result = await conn.QueryAsync<GetProviderDto>(query);
+                return result;
+            }          
 
             var payload = new
             {
@@ -48,6 +52,19 @@ namespace Infrastructure.Repository
 
             var patientList = await conn.QueryAsync<PatientNameIdDto>(query);
             return patientList;
+        }
+
+        public async Task<UserDto> GetUserByUserIdAsync(int userId)
+        {
+            var query = @"Select * from Users where UserId = @UserId";
+            var conn = _appDbContext.GetConnection();
+
+            var payload = new
+            {
+                UserId = userId
+            };
+            var user = await conn.QueryFirstOrDefaultAsync<UserDto>(query, payload);
+            return user;
         }
     }
 }

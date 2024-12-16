@@ -96,6 +96,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "EHRApplicationBackend.Controllers.AppointmentController",
+    "Method": "UpdateAppoinmentDto",
+    "RelativePath": "api/Appointment/UpdateAppoinmentDto",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "appoinmentDto",
+        "Type": "App.Core.Models.Appointment.UpdateAppointmentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Ecom_Assessment_Backend.Controllers.CountryStateController",
     "Method": "GetAllCountries",
     "RelativePath": "api/CountryState/GetAllCountries",
@@ -249,6 +265,22 @@
         "Name": "specializationId",
         "Type": "System.Int32",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.UserController",
+    "Method": "GetUserByUserId",
+    "RelativePath": "api/User/GetUserByUserId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

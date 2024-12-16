@@ -69,5 +69,13 @@ namespace EHRApplicationBackend.Controllers
             return Ok(result);
         }
 
+        [HttpPost("[action]")]
+        [Authorize(Roles = "Patient")]
+        public async Task<IActionResult> UpdateAppoinmentDto(UpdateAppointmentDto appoinmentDto)
+        {
+            var result = await _mediator.Send(new UpdateAppointmentCommand { updateAppointmentDto = appoinmentDto });
+            return Ok(result);
+        }
+
     }
 }
