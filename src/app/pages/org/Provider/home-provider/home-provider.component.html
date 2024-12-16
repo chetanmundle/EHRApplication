@@ -1,1 +1,62 @@
-<p>home-provider works!</p>
+<div class="container pt-2">
+  <div *ngIf="appointmentList?.length === 0" class="text-center">
+    <h2>No Appointment Schedule</h2>
+  </div>
+  <div *ngIf="appointmentList?.length !== 0">
+    <h2 class="text-center text-success mb-2">Your Appointment</h2>
+    <div class="row gap-3 justify-content-evenly col-12">
+      <div
+        class="card"
+        style="width: 18rem"
+        *ngFor="let appt of appointmentList"
+      >
+        <div class="d-flex justify-content-center mt-2">
+          <img
+            [src]="appt.profileImage"
+            class="rounded-circle"
+            alt="..."
+            style="width: 100px; height: 100px"
+          />
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ appt.patientName }}</h5>
+          <div>
+            <p class="mb-1">Appt Date : {{ appt.appointmentDate | date }}</p>
+            <p class="mb-1">
+              Appt Start Time :
+              {{ appt.startTime | timeFormat }}
+            </p>
+            <p class="mb-1">Appt End Time : {{ appt.endTime | timeFormat }}</p>
+            <p class="mb-1">
+              Appt Duration :
+              {{ appt.appointmentTime | timeFormat }} hr
+            </p>
+            <p class="mb-1">
+              Gender :
+              {{ appt.gender }}
+            </p>
+            <p class="mb-1">
+              Age :
+              {{ appt.age }}
+            </p>
+          </div>
+          <div class="row col-12 gap-3 justify-content-evenly">
+            <button
+              class="btn btn-danger col-5"
+              (click)="onClickCancel(appt.appointmentId)"
+            >
+              Cancel
+            </button>
+            <button class="btn btn-success col-5">View</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (isLoader) {
+<div class="loader-backdrop">
+  <span class="loader"></span>
+</div>
+}

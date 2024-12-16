@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import {
   BookAppointmentDto,
   GetAppoinmentByPatientIdDto,
+  GetAppoinmentByProviderIdDto,
   PayAndBookAppointmentDto,
 } from '../../Models/Interfaces/Appointment/appointment.model';
 import { Observable } from 'rxjs';
@@ -15,8 +16,8 @@ export class AppointmentService {
   private http = inject(HttpClient);
   private Url = 'https://localhost:7035/api/Appointment';
 
-  // Book ApointmentBy Patient
-  BookAppointmentByPatient$(
+  // Book ApointmentBy
+  BookAppointmentByProvider$(
     payload: BookAppointmentDto
   ): Observable<AppResponse<null>> {
     return this.http.post<AppResponse<null>>(
@@ -34,11 +35,29 @@ export class AppointmentService {
     );
   }
 
+  // Get patient apoinments by theire id
   GetAppointmentByPatientId$(
     patientId: number
   ): Observable<AppResponse<GetAppoinmentByPatientIdDto[]>> {
     return this.http.get<AppResponse<GetAppoinmentByPatientIdDto[]>>(
       `${this.Url}/GetAppoinmentsByPatientId/${patientId}`
+    );
+  }
+
+  // Get Providers Appointment which is booked by custoemer
+  GetAppointmentByProviderId$(
+    providerId: number
+  ): Observable<AppResponse<GetAppoinmentByProviderIdDto[]>> {
+    return this.http.get<AppResponse<GetAppoinmentByProviderIdDto[]>>(
+      `${this.Url}/GetAppoinmentsByProvidertId/${providerId}`
+    );
+  }
+
+  CancelAppointmentByApptId$(
+    appointmentId: number
+  ): Observable<AppResponse<null>> {
+    return this.http.delete<AppResponse<null>>(
+      `${this.Url}/CancelAppointmentById/${appointmentId}`
     );
   }
 }

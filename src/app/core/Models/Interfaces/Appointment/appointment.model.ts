@@ -20,7 +20,6 @@ export interface PayAndBookAppointmentDto {
   customerEmail: string;
 }
 
-
 export interface GetAppoinmentByPatientIdDto {
   appointmentId: number;
   patientId: number;
@@ -33,4 +32,22 @@ export interface GetAppoinmentByPatientIdDto {
   appointmentStatus: string;
   chiefComplaint: string;
   fee: number;
+}
+
+export interface GetAppoinmentByProviderIdDto {
+  appointmentId: number;
+  patientId: number;
+  providerId: number;
+  appointmentDate: string;
+  appointmentTime: string;
+  startTime: string;
+  endTime: string;
+  appointmentStatus: string;
+  chiefComplaint: string;
+  fee: number;
+  patientName: string;
+  profileImage: string;
+  gender: string;
+  age: number;
+  bloodGroup: string;
 }

@@ -12,6 +12,7 @@ import {
   LoginUserDto,
   LoginUserResponseDto,
   LoginUserValidateOtpDto,
+  UserNameIdDto,
 } from '../../Models/Interfaces/User/UserDto.model';
 import { LoggedUserDto } from '../../Models/classes/User/LoggedUserDto';
 import { jwtDecode } from 'jwt-decode';
@@ -116,6 +117,12 @@ export class UserService {
   ): Observable<AppResponse<UserWithIdNameDto[]>> {
     return this.http.get<AppResponse<UserWithIdNameDto[]>>(
       `${this.Url}/GetProvidersBySpecializationId/${specializationId}`
+    );
+  }
+
+  GetAllPatientNameId$(): Observable<AppResponse<UserNameIdDto[]>> {
+    return this.http.get<AppResponse<UserNameIdDto[]>>(
+      `${this.Url}/GetAllPatientNameId`
     );
   }
 }

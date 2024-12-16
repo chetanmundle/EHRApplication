@@ -22,3 +22,9 @@ export interface ForgetPasswordDto {
   password: string;
   confirmPassword: string;
 }
+
+export interface UserNameIdDto {
+  userId: number;
+  firstName: string;
+  lastName: string;
+}

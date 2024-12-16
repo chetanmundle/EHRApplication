@@ -1,0 +1,176 @@
+<div class="container">
+  <div class="mt-2">
+    <form class="row g-3 mx-5 px-5" [formGroup]="appointmentForm">
+      <div class="col-md-6">
+        <label for="specializationName" class="form-label form-labelStart"
+          >Specialization</label
+        >
+        <select
+          class="form-select"
+          id="specializationName"
+          formControlName="patientId"
+        >
+          <option disabled selected value="">Select Patient</option>
+          <option
+            *ngFor="let patient of patientList"
+            value="{{ patient.userId }}"
+          >
+            {{ patient.firstName + " " + patient.lastName }}
+          </option>
+        </select>
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            appointmentForm.controls['patientId'].touched ||
+            appointmentForm.controls['patientId'].dirty
+          "
+        >
+          <div
+            *ngIf="appointmentForm.controls['patientId'].hasError('required')"
+          >
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="validationDefault02" class="form-label form-labelStart">
+          Date Of Appointment
+        </label>
+        <input
+          type="date"
+          class="form-control mb-0"
+          id="validationDefault02"
+          value="Otto"
+          formControlName="appointmentDate"
+          [min]="todaysDate()"
+        />
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            appointmentForm.controls['appointmentDate'].touched ||
+            appointmentForm.controls['appointmentDate'].dirty
+          "
+        >
+          <div
+            *ngIf="
+              appointmentForm.controls['appointmentDate'].hasError('required')
+            "
+          >
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="startTime" class="form-label form-labelStart">
+          Start Time
+        </label>
+        <input
+          type="time"
+          class="form-control mb-0"
+          id="startTime"
+          formControlName="startTime"
+        />
+
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            appointmentForm.controls['startTime'].touched ||
+            appointmentForm.controls['startTime'].dirty
+          "
+        >
+          <div
+            *ngIf="appointmentForm.controls['startTime'].hasError('required')"
+          >
+            <div class="text-danger">*required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="startTime" class="form-label form-labelStart">
+          End Time
+        </label>
+        <input
+          type="time"
+          class="form-control mb-0"
+          id="startTime"
+          formControlName="endTime"
+        />
+
+        <div
+          style="font-size: 13px"
+          *ngIf="
+            isSubmitClick ||
+            appointmentForm.controls['endTime'].touched ||
+            appointmentForm.controls['endTime'].dirty
+          "
+        >
+          <div *ngIf="appointmentForm.controls['endTime'].hasError('required')">
+            <div class="text-danger">*required</div>
+          </div>
+
+          <div
+            *ngIf="appointmentForm.get('endTime')?.hasError('invalidEndTime')"
+            class="text-danger small"
+          >
+            End time must be within one hour of the start time.
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 px-4">
+        <div class="row">
+          <label for="ChiefComplaint" class="form-label form-labelStart">
+            Chief Complaint
+          </label>
+          <textarea
+            class="form-control"
+            name="ChiefComplaint"
+            id="ChiefComplaint"
+            rows="3"
+            cols=""
+            formControlName="chiefComplaint"
+          ></textarea>
+
+          <div
+            style="font-size: 13px"
+            *ngIf="
+              isSubmitClick ||
+              appointmentForm.controls['chiefComplaint'].touched ||
+              appointmentForm.controls['chiefComplaint'].dirty
+            "
+          >
+            <div
+              *ngIf="
+                appointmentForm.controls['chiefComplaint'].hasError('required')
+              "
+            >
+              <div class="text-danger">*required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="onClickBookAppointment()"
+        >
+          Book Appointment
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+@if (isLoader) {
+<div class="loader-backdrop">
+  <span class="loader"></span>
+</div>
+}
