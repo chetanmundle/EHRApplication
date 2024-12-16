@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
+  AppointmentWithSOAPNotesDto,
   BookAppointmentDto,
   GetAppoinmentByPatientIdDto,
   GetAppoinmentByProviderIdDto,
@@ -58,6 +59,14 @@ export class AppointmentService {
   ): Observable<AppResponse<null>> {
     return this.http.delete<AppResponse<null>>(
       `${this.Url}/CancelAppointmentById/${appointmentId}`
+    );
+  }
+
+  GetAppointmentWithSOAPNotes$(
+    appoinmentId: number
+  ): Observable<AppResponse<AppointmentWithSOAPNotesDto>> {
+    return this.http.get<AppResponse<AppointmentWithSOAPNotesDto>>(
+      `${this.Url}/GetAppointmentWithSOAPNotes/${appoinmentId}`
     );
   }
 }

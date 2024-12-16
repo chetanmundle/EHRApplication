@@ -7,7 +7,7 @@
     <div class="row gap-3 justify-content-evenly col-12">
       <div
         class="card"
-        style="width: 18rem"
+        style="width: 16rem"
         *ngFor="let appt of appointmentList"
       >
         <div class="d-flex justify-content-center mt-2">
@@ -28,6 +28,10 @@
             </p>
             <p class="mb-1">Appt End Time : {{ appt.endTime | timeFormat }}</p>
             <p class="mb-1">
+              Appt Status :
+              {{ appt.appointmentStatus }}
+            </p>
+            <!-- <p class="mb-1">
               Appt Duration :
               {{ appt.appointmentTime | timeFormat }} hr
             </p>
@@ -38,16 +42,24 @@
             <p class="mb-1">
               Age :
               {{ appt.age }}
-            </p>
+            </p> -->
           </div>
-          <div class="row col-12 gap-3 justify-content-evenly">
+          <div class="row col-12 gap-3 mt-4 justify-content-evenly">
             <button
               class="btn btn-danger col-5"
               (click)="onClickCancel(appt.appointmentId)"
             >
               Cancel
             </button>
-            <button class="btn btn-success col-5">View</button>
+            <button
+              class="btn btn-success col-5"
+              [routerLink]="[
+                '/org/Provider/ViewAppointment',
+                appt.appointmentId
+              ]"
+            >
+              View
+            </button>
           </div>
         </div>
       </div>

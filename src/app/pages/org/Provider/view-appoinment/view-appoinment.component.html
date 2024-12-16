@@ -1,1 +1,212 @@
-<p>view-appoinment works!</p>
+<div class="container">
+  <div class="card mx-5 mt-1 mb-5">
+    <div class="card-body">
+      <div class="row col-12 gap-2">
+        <div class="col-4">
+          <div class="d-flex justify-content-center mt-2">
+            <img
+              [src]="appointmentwithSoapNote?.profileImage"
+              class="rounded-2"
+              alt="..."
+              style="width: 150px; height: 150px"
+            />
+          </div>
+        </div>
+        <div class="col-6">
+          <div>
+            <span class="makebold">Name :</span>
+            {{ appointmentwithSoapNote?.patientName }}
+          </div>
+          <div>
+            <span class="makebold">Age :</span>
+            {{ calculateAge(appointmentwithSoapNote?.dateOfBirth ?? "") }}
+          </div>
+          <div>
+            <span class="makebold">Gender :</span>
+            {{ appointmentwithSoapNote?.gender }}
+          </div>
+          <div>
+            <span class="makebold">Appointment Date :</span>
+            {{ appointmentwithSoapNote?.appointmentDate | date }}
+          </div>
+
+          <div>
+            <span class="makebold">Appointment Date :</span>
+            {{ appointmentwithSoapNote?.appointmentDate | date }}
+          </div>
+
+          <div>
+            <span class="makebold">Appointment Time :</span>
+            {{ appointmentwithSoapNote?.startTime ?? "" | timeFormat }}
+          </div>
+          <div>
+            <span class="makebold">Appointment Duration :</span>
+            {{ appointmentwithSoapNote?.appointmentTime ?? "" | timeFormat }} hr
+          </div>
+          <div>
+            <span class="makebold">Chief Complaint :</span>
+            {{ appointmentwithSoapNote?.chiefComplaint }}
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div *ngIf="appointmentwithSoapNote?.appointmentStatus === 'Scheduled'">
+        <!-- <h5>SOAP :-</h5> -->
+        <div class="">
+          <form class="row row col-12 column-gap-5" [formGroup]="soapNoteForm">
+            <div class="col-5 mb-2">
+              <label for="validationCustom01" class="form-label">
+                Subjective
+              </label>
+              <textarea
+                name=""
+                id=""
+                class="form-control"
+                rows="3"
+                formControlName="subjective"
+              ></textarea>
+              <div
+                style="font-size: 13px"
+                *ngIf="
+                  isSubmitClick ||
+                  soapNoteForm.controls['subjective'].touched ||
+                  soapNoteForm.controls['subjective'].dirty
+                "
+              >
+                <div
+                  *ngIf="
+                    soapNoteForm.controls['subjective'].hasError('required')
+                  "
+                >
+                  <div class="text-danger">*required</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-5 mb-2">
+              <label for="validationCustom01" class="form-label">
+                Objectives
+              </label>
+              <textarea
+                name=""
+                id=""
+                class="form-control"
+                rows="3"
+                formControlName="objective"
+              ></textarea>
+              <div
+                style="font-size: 13px"
+                *ngIf="
+                  isSubmitClick ||
+                  soapNoteForm.controls['objective'].touched ||
+                  soapNoteForm.controls['objective'].dirty
+                "
+              >
+                <div
+                  *ngIf="
+                    soapNoteForm.controls['objective'].hasError('required')
+                  "
+                >
+                  <div class="text-danger">*required</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-5 mb-2">
+              <label for="validationCustom01" class="form-label">
+                Assessment
+              </label>
+              <textarea
+                name=""
+                id=""
+                class="form-control"
+                rows="3"
+                formControlName="assessment"
+              ></textarea>
+              <div
+                style="font-size: 13px"
+                *ngIf="
+                  isSubmitClick ||
+                  soapNoteForm.controls['assessment'].touched ||
+                  soapNoteForm.controls['assessment'].dirty
+                "
+              >
+                <div
+                  *ngIf="
+                    soapNoteForm.controls['assessment'].hasError('required')
+                  "
+                >
+                  <div class="text-danger">*required</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-5 mb-2">
+              <label for="validationCustom01" class="form-label">Plan</label>
+              <textarea
+                name=""
+                id=""
+                class="form-control"
+                rows="3"
+                formControlName="plan"
+              ></textarea>
+              <div
+                style="font-size: 13px"
+                *ngIf="
+                  isSubmitClick ||
+                  soapNoteForm.controls['plan'].touched ||
+                  soapNoteForm.controls['plan'].dirty
+                "
+              >
+                <div *ngIf="soapNoteForm.controls['plan'].hasError('required')">
+                  <div class="text-danger">*required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-2">
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="onClickSaveSOAPNote()"
+              >
+                Save SOAP
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div *ngIf="appointmentwithSoapNote?.appointmentStatus === 'Completed'">
+        <!-- <h5>SOAP :-</h5> -->
+        <div class="">
+          <div class="row row col-12 column-gap-5">
+            <div class="col-5 mb-2">
+              <div><strong>Subjective</strong></div>
+              <div>{{ appointmentwithSoapNote?.subjective }}</div>
+            </div>
+            <div class="col-5 mb-2">
+              <div><strong>Objective</strong></div>
+              <div>{{ appointmentwithSoapNote?.objective }}</div>
+            </div>
+            <div class="col-5 mb-2">
+              <div><strong>Assessment</strong></div>
+              <div>{{ appointmentwithSoapNote?.assessment }}</div>
+            </div>
+            <div class="col-5 mb-2">
+              <div><strong>Plan</strong></div>
+              <div>{{ appointmentwithSoapNote?.plan }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center" *ngIf="appointmentwithSoapNote?.appointmentStatus === 'Cancelled'">
+        <h2>This Appointment is Cancelled</h2>
+      </div>
+    </div>
+  </div>
+
+  @if (isLoader) {
+  <div class="loader-backdrop">
+    <span class="loader"></span>
+  </div>
+  }
+</div>

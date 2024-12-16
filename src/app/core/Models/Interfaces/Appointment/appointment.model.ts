@@ -51,3 +51,26 @@ export interface GetAppoinmentByProviderIdDto {
   age: number;
   bloodGroup: string;
 }
+
+export interface AppointmentWithSOAPNotesDto {
+  appointmentId: number;
+  patientId: number;
+  providerId: number;
+  patientName: string;
+  dateOfBirth: string;
+  gender: string;
+  bloodGroup: string;
+  profileImage: string;
+  appointmentDate: string;
+  appointmentTime: string;
+  startTime: string;
+  endTime: string;
+  appointmentStatus: string;
+  chiefComplaint: string;
+  fee: number;
+  soapNotesId: null;
+  subjective: null;
+  objective: null;
+  assessment: null;
+  plan: null;
+}

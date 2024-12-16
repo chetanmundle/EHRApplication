@@ -25,7 +25,13 @@
           <button class="btn mb-2" style="background-color: greenyellow">
             Edit
           </button>
-          <button class="btn btn-danger">Cancel</button>
+          <button
+            class="btn btn-danger"
+            type="button"
+            (click)="onClickCancelBtn(appt.appointmentId)"
+          >
+            Cancel
+          </button>
           }@else {
           <div class="text-center mt-4" style="font-size: 22px">
             {{ appt.appointmentStatus }}
@@ -36,3 +42,11 @@
     </div>
   </div>
 </div>
+
+
+@if (isLoader) {
+    <div class="loader-backdrop">
+      <span class="loader"></span>
+    </div>
+    }
+    

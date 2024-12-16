@@ -12,6 +12,7 @@ import { OrgComponent } from './pages/org/org/org.component';
 import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
 import { BookAppointmentComponent } from './pages/org/Patient/book-appointment/book-appointment.component';
 import { ProviderBookAppointmentComponent } from './pages/org/Provider/provider-book-appointment/provider-book-appointment.component';
+import { ViewAppoinmentComponent } from './pages/org/Provider/view-appoinment/view-appoinment.component';
 
 export const routes: Routes = [
   {
@@ -71,6 +72,12 @@ export const routes: Routes = [
       {
         path: 'Provider/BookAppointment',
         component: ProviderBookAppointmentComponent,
+        canActivate: [authGuard],
+        data: { roles: ['Provider'] },
+      },
+      {
+        path: 'Provider/ViewAppointment/:appointmentId',
+        component: ViewAppoinmentComponent,
         canActivate: [authGuard],
         data: { roles: ['Provider'] },
       },

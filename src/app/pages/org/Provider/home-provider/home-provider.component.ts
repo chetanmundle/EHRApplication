@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy } from '@angular/core';
-import { AppointmentService } from '../../../../core/Services/Appointment/appointment.service';
+import { AppointmentService } from '../../../../core/services/Appointment/appointment.service';
 import { UserService } from '../../../../core/services/UserService/user.service';
 import { GetAppoinmentByProviderIdDto } from '../../../../core/Models/Interfaces/Appointment/appointment.model';
 import { LoggedUserDto } from '../../../../core/Models/classes/User/LoggedUserDto';
@@ -9,11 +9,12 @@ import { CommonModule } from '@angular/common';
 import { TimeFormatPipe } from '../../../../core/pipe/TimeFormat/time-format.pipe';
 import { MyToastServiceService } from '../../../../core/services/MyToastService/my-toast-service.service';
 import Swal from 'sweetalert2';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home-provider',
   standalone: true,
-  imports: [CommonModule, TimeFormatPipe],
+  imports: [CommonModule, TimeFormatPipe, RouterLink],
   templateUrl: './home-provider.component.html',
   styleUrl: './home-provider.component.css',
 })
@@ -42,7 +43,6 @@ export class HomeProviderComponent implements OnDestroy {
         next: (res: AppResponse<GetAppoinmentByProviderIdDto[]>) => {
           if (res.isSuccess) {
             this.appointmentList = res.data;
-            console.log('a', res.data);
           }
         },
         error: (err: Error) => {

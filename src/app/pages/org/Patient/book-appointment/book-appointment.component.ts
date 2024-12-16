@@ -27,7 +27,7 @@ import {
 } from '../../../../core/Models/Interfaces/Appointment/appointment.model';
 import { LoggedUserDto } from '../../../../core/Models/classes/User/LoggedUserDto';
 import { CustomTimeValidator } from '../../../../core/Validators/ValidateEndTime.validation';
-import { AppointmentService } from '../../../../core/Services/Appointment/appointment.service';
+import { AppointmentService } from '../../../../core/services/Appointment/appointment.service';
 import { MyToastServiceService } from '../../../../core/services/MyToastService/my-toast-service.service';
 import { Modal } from 'bootstrap';
 import { AngularStripeService } from '@fireflysemantics/angular-stripe-service';
