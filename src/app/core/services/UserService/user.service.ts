@@ -115,6 +115,8 @@ export class UserService {
   GetProvidersBySpecializationId$(
     specializationId: number
   ): Observable<AppResponse<UserWithIdNameDto[]>> {
+    console.log('Id : ', specializationId);
+
     return this.http.get<AppResponse<UserWithIdNameDto[]>>(
       `${this.Url}/GetProvidersBySpecializationId/${specializationId}`
     );

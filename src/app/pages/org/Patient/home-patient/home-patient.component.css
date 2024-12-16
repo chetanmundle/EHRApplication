@@ -1,0 +1,4 @@
+.form-labelStart::after {
+    content: " *";
+    color: red;
+  }

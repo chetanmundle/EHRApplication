@@ -6,6 +6,7 @@ import {
   GetAppoinmentByPatientIdDto,
   GetAppoinmentByProviderIdDto,
   PayAndBookAppointmentDto,
+  UpdateAppointmentDto,
 } from '../../Models/Interfaces/Appointment/appointment.model';
 import { Observable } from 'rxjs';
 import { AppResponse } from '../../Models/AppResponse';
@@ -67,6 +68,15 @@ export class AppointmentService {
   ): Observable<AppResponse<AppointmentWithSOAPNotesDto>> {
     return this.http.get<AppResponse<AppointmentWithSOAPNotesDto>>(
       `${this.Url}/GetAppointmentWithSOAPNotes/${appoinmentId}`
+    );
+  }
+
+  UpdateAppointment$(
+    payload: UpdateAppointmentDto
+  ): Observable<AppResponse<null>> {
+    return this.http.post<AppResponse<null>>(
+      `${this.Url}/UpdateAppoinmentDto`,
+      payload
     );
   }
 }

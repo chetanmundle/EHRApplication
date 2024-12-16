@@ -8,7 +8,8 @@
           </div>
           <div class="mb-2"><strong>Appt. Fee :</strong> {{ appt.fee }}</div>
           <div class="mb-2">
-            <strong>Start Time :</strong> {{ appt.startTime }}
+            <strong>Start Time (HH:MM):</strong>
+            {{ appt.startTime | timeFormat }}
           </div>
         </div>
         <div class="col-5">
@@ -18,11 +19,17 @@
           <div class="mb-2">
             <strong>Appt Date :</strong> {{ appt.appointmentDate | date }}
           </div>
-          <div class="mb-2"><strong>End Time :</strong> {{ appt.endTime }}</div>
+          <div class="mb-2">
+            <strong>End Time (HH:MM):</strong> {{ appt.endTime | timeFormat }}
+          </div>
         </div>
         <div class="col-2 row">
-          @if (appt.appointmentStatus !== 'Cancelled') {
-          <button class="btn mb-2" style="background-color: greenyellow">
+          @if (appt.appointmentStatus === 'Scheduled') {
+          <button
+            class="btn mb-2"
+            style="background-color: greenyellow"
+            (click)="openModal(appt)"
+          >
             Edit
           </button>
           <button
@@ -33,8 +40,16 @@
             Cancel
           </button>
           }@else {
-          <div class="text-center mt-4" style="font-size: 22px">
-            {{ appt.appointmentStatus }}
+          <div
+            class="text-center mt-4;"
+            style="font-size: 22px; margin-top: 30px"
+            [ngClass]="
+              appt.appointmentStatus == 'Cancelled'
+                ? 'text-danger'
+                : 'text-success'
+            "
+          >
+            <strong>{{ appt.appointmentStatus }}</strong>
           </div>
           }
         </div>
@@ -43,10 +58,172 @@
   </div>
 </div>
 
+<!-- Modal for Card -->
+<div
+  class="modal fade"
+  id="editModal"
+  tabindex="-1"
+  aria-labelledby="editModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Enter Card Details</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" [formGroup]="appointmentForm">
+          <div class="">
+            <label for="validationDefault02" class="form-label form-labelStart">
+              Date Of Appointment
+            </label>
+            <input
+              type="date"
+              class="form-control mb-0"
+              id="validationDefault02"
+              value="Otto"
+              formControlName="appointmentDate"
+              [min]="todaysDate()"
+            />
+            <div
+              style="font-size: 13px"
+              *ngIf="
+                isSubmitClick ||
+                appointmentForm.controls['appointmentDate'].touched ||
+                appointmentForm.controls['appointmentDate'].dirty
+              "
+            >
+              <div
+                *ngIf="
+                  appointmentForm.controls['appointmentDate'].hasError(
+                    'required'
+                  )
+                "
+              >
+                <div class="text-danger">*required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <label for="startTime" class="form-label form-labelStart">
+              Start Time
+            </label>
+            <input
+              type="time"
+              class="form-control mb-0"
+              id="startTime"
+              formControlName="startTime"
+            />
+
+            <div
+              style="font-size: 13px"
+              *ngIf="
+                isSubmitClick ||
+                appointmentForm.controls['startTime'].touched ||
+                appointmentForm.controls['startTime'].dirty
+              "
+            >
+              <div
+                *ngIf="
+                  appointmentForm.controls['startTime'].hasError('required')
+                "
+              >
+                <div class="text-danger">*required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <label for="startTime" class="form-label form-labelStart">
+              End Time
+            </label>
+            <input
+              type="time"
+              class="form-control mb-0"
+              id="startTime"
+              formControlName="endTime"
+            />
+
+            <div
+              style="font-size: 13px"
+              *ngIf="
+                isSubmitClick ||
+                appointmentForm.controls['endTime'].touched ||
+                appointmentForm.controls['endTime'].dirty
+              "
+            >
+              <div
+                *ngIf="appointmentForm.controls['endTime'].hasError('required')"
+              >
+                <div class="text-danger">*required</div>
+              </div>
+
+              <div
+                *ngIf="
+                  appointmentForm.get('endTime')?.hasError('invalidEndTime')
+                "
+                class="text-danger small"
+              >
+                End time must be within one hour of the start time.
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 px-4">
+            <div class="row">
+              <label for="ChiefComplaint" class="form-label form-labelStart">
+                Chief Complaint
+              </label>
+              <textarea
+                class="form-control"
+                name="ChiefComplaint"
+                id="ChiefComplaint"
+                rows="3"
+                cols=""
+                formControlName="chiefComplaint"
+              ></textarea>
+
+              <div
+                style="font-size: 13px"
+                *ngIf="
+                  isSubmitClick ||
+                  appointmentForm.controls['chiefComplaint'].touched ||
+                  appointmentForm.controls['chiefComplaint'].dirty
+                "
+              >
+                <div
+                  *ngIf="
+                    appointmentForm.controls['chiefComplaint'].hasError(
+                      'required'
+                    )
+                  "
+                >
+                  <div class="text-danger">*required</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="onClickUpdate()">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 @if (isLoader) {
-    <div class="loader-backdrop">
-      <span class="loader"></span>
-    </div>
-    }
-    
+<div class="loader-backdrop">
+  <span class="loader"></span>
+</div>
+}

@@ -74,3 +74,11 @@ export interface AppointmentWithSOAPNotesDto {
   assessment: null;
   plan: null;
 }
+
+export interface UpdateAppointmentDto {
+  appointmentId: number;
+  appointmentDate: string;
+  startTime: string;
+  endTime: string;
+  chiefComplaint: string;
+}

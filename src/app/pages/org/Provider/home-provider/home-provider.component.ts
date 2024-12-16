@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy } from '@angular/core';
-import { AppointmentService } from '../../../../core/services/Appointment/appointment.service';
+import { AppointmentService } from '../../../../core/Services/Appointment/appointment.service';
 import { UserService } from '../../../../core/services/UserService/user.service';
 import { GetAppoinmentByProviderIdDto } from '../../../../core/Models/Interfaces/Appointment/appointment.model';
 import { LoggedUserDto } from '../../../../core/Models/classes/User/LoggedUserDto';
