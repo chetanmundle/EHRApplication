@@ -10,5 +10,7 @@ namespace App.Core.Interface
     public interface IUserRepository
     {
         Task<IEnumerable<GetProviderDto>> GetProvidersBySpecializationIdAsync(int SpecialisationId);
+
+        Task<IEnumerable<PatientNameIdDto>> GetPatientNameIdAsync();
     }
 }

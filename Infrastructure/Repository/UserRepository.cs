@@ -16,6 +16,9 @@ namespace Infrastructure.Repository
         {
             _appDbContext = appDbContext;
         }
+
+
+
         public async Task<IEnumerable<GetProviderDto>> GetProvidersBySpecializationIdAsync(int SpecialisationId)
         {
             var query = SpecialisationId == 0 ?
@@ -34,6 +37,17 @@ namespace Infrastructure.Repository
 
             var providerList = await conn.QueryAsync<GetProviderDto>(query, payload);
             return providerList;
+        }
+
+        public async Task<IEnumerable<PatientNameIdDto>> GetPatientNameIdAsync()
+        {
+            var query = @"Select UserId, FirstName, LastName from Users where UserTypeId = 
+                        (Select UserTypeId from UserTypes where UserTypeName =  'Patient')";
+
+            var conn = _appDbContext.GetConnection();
+
+            var patientList = await conn.QueryAsync<PatientNameIdDto>(query);
+            return patientList;
         }
     }
 }

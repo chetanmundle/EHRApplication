@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace App.Core.App.Appointment.Command
+namespace App.Core.App.Appointment.Query
 {
     public class GetAppointmentByPatientIdQuery : IRequest<AppResponse<IEnumerable<GetAppointmentDto>>>
     {
@@ -36,7 +36,7 @@ namespace App.Core.App.Appointment.Command
                           .Where(a => a.PatientId == patientUserId)
                           .OrderByDescending(a => a.AppointmentDate).ToListAsync(cancellationToken);
 
-           var resultlist = new List<GetAppointmentDto>();
+            var resultlist = new List<GetAppointmentDto>();
 
             foreach (var app in appointmentlist)
             {
@@ -54,7 +54,7 @@ namespace App.Core.App.Appointment.Command
                     Fee = app.Fee,
                     ProviderId = app.ProviderId,
                     StartTime = app.StartTime,
-                    ProviderName = provider.FirstName + provider.LastName,
+                    ProviderName = provider.FirstName +" "+ provider.LastName,
                 };
 
                 resultlist.Add(list);

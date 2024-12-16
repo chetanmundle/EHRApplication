@@ -1,8 +1,8 @@
 ﻿using App.Core.App.Appointment.Command;
+using App.Core.App.Appointment.Query;
 using App.Core.Models.Appointment;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -42,5 +42,23 @@ namespace EHRApplicationBackend.Controllers
             var result = await _mediator.Send(new GetAppointmentByPatientIdQuery { PatientId = patientId });
             return Ok(result);
         }
+
+
+        [HttpGet("[action]/{providerId}")]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> GetAppoinmentsByProvidertId(int providerId)
+        {
+            var result = await _mediator.Send(new GetAppointmentByProviderIdQuery {  ProviderId= providerId });
+            return Ok(result);
+        }
+
+        [HttpDelete("[action]/{appointmentId}")]
+        [Authorize(Roles = "Provider, Patient")]
+        public async Task<IActionResult> CancelAppointmentById(int appointmentId)
+        {
+            var result = await _mediator.Send(new CancelAppointmentCommnad { AppointmentId = appointmentId });
+            return Ok(result);
+        }
+
     }
 }

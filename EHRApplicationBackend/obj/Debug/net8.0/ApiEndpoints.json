@@ -17,6 +17,22 @@
   },
   {
     "ContainingType": "EHRApplicationBackend.Controllers.AppointmentController",
+    "Method": "CancelAppointmentById",
+    "RelativePath": "api/Appointment/CancelAppointmentById/{appointmentId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "appointmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.AppointmentController",
     "Method": "GetAppoinmentsByPatientId",
     "RelativePath": "api/Appointment/GetAppoinmentsByPatientId/{patientId}",
     "HttpMethod": "GET",
@@ -25,6 +41,22 @@
     "Parameters": [
       {
         "Name": "patientId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.AppointmentController",
+    "Method": "GetAppoinmentsByProvidertId",
+    "RelativePath": "api/Appointment/GetAppoinmentsByProvidertId/{providerId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "providerId",
         "Type": "System.Int32",
         "IsRequired": true
       }
@@ -145,6 +177,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.UserController",
+    "Method": "GetAllPatientNameId",
+    "RelativePath": "api/User/GetAllPatientNameId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

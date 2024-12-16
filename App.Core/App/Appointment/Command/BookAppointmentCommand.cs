@@ -43,7 +43,7 @@ namespace App.Core.App.Appointment.Command
             }
 
             TimeSpan appointmentTime = (TimeSpan)(endTime - startTime);
-            if (appointmentTime.TotalMinutes > 60)
+            if (appointmentTime.TotalMinutes > 60 || appointmentTime.TotalMinutes<0)
                 return AppResponse.Response(false, "Your time is more than 1 Hour",HttpStatusCodes.BadRequest);
 
 
@@ -61,10 +61,11 @@ namespace App.Core.App.Appointment.Command
 
 
             var overlappingAppointment = await _appDbContext.Set<Domain.Entities.Appointment>()
-                                         .Where(a => a.ProviderId == providerId && a.AppointmentDate == appointmentDate)
+                                         .Where(a => a.ProviderId == providerId && a.AppointmentDate == appointmentDate
+                                                     && a.AppointmentStatus == "Scheduled")
                                           .AnyAsync(a => (startTime >= a.StartTime && startTime < a.EndTime) ||
                                                          (endTime >= a.StartTime && endTime <= a.EndTime) ||
-                                                         (startTime <= a.StartTime && endTime >= a.EndTime), cancellationToken);
+                                                         (startTime <= a.StartTime && endTime >= a.EndTime) , cancellationToken);
 
 
             if (overlappingAppointment)

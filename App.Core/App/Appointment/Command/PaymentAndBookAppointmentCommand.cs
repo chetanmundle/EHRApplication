@@ -66,10 +66,12 @@ namespace App.Core.App.Appointment.Command
 
 
             var overlappingAppointment = await _appDbContext.Set<Domain.Entities.Appointment>()
-                                         .Where(a => a.ProviderId == providerId && a.AppointmentDate == appointmentDate)
+                                         .Where(a => a.ProviderId == providerId &&
+                                                     a.AppointmentDate == appointmentDate &&
+                                                     a.AppointmentStatus == "Scheduled")
                                           .AnyAsync(a => (startTime >= a.StartTime && startTime < a.EndTime) ||
                                                          (endTime >= a.StartTime && endTime <= a.EndTime) ||
-                                                         (startTime <= a.StartTime && endTime >= a.EndTime), cancellationToken);
+                                                         (startTime <= a.StartTime && endTime >= a.EndTime) , cancellationToken);
 
 
             if (overlappingAppointment)

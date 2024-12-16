@@ -87,5 +87,13 @@ namespace EHRApplicationBackend.Controllers
             var result = await _mediator.Send(new GetProvidersBySpecializationQuery { SpecialisationId = specializationId });
             return Ok(result);
         }
+
+        [HttpGet("[action]")]
+        [Authorize(Roles = "Patient, Provider")]
+        public async Task<IActionResult> GetAllPatientNameId()
+        {
+            var result = await _mediator.Send(new GetPatientNameIdQuery());
+            return Ok(result);
+        }
     }
 }
