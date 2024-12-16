@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "8ZX3X1xkcm6WRhh2FdrONdqNj8CD3xRB+aFee9fOYOM=",
+  "Hash": "E3Qt/fd3Q/HsOCNNQ/zfpk4GnmtWqpa9GAmm6h3Ai7c=",
   "Source": "EHRApplicationBackend",
   "BasePath": "_content/EHRApplicationBackend",
   "Mode": "Default",
@@ -129,6 +129,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\6ad97b70-3713-4091-afde-ced16367a5bf.png"
+    },
+    {
+      "Identity": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\EHRApplicationBackend\\wwwroot\\Images\\6faa4252-99f5-456f-8e59-1376d5f10141.png",
+      "SourceId": "EHRApplicationBackend",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\EHRApplicationBackend\\wwwroot\\",
+      "BasePath": "_content/EHRApplicationBackend",
+      "RelativePath": "Images/6faa4252-99f5-456f-8e59-1376d5f10141.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\6faa4252-99f5-456f-8e59-1376d5f10141.png"
     },
     {
       "Identity": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\EHRApplicationBackend\\wwwroot\\Images\\751f8000-f7ec-4459-ac03-3116ed1e074b.jpg",

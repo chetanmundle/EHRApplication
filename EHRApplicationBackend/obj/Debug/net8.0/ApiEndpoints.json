@@ -65,6 +65,22 @@
   },
   {
     "ContainingType": "EHRApplicationBackend.Controllers.AppointmentController",
+    "Method": "GetAppointmentWithSOAPNotes",
+    "RelativePath": "api/Appointment/GetAppointmentWithSOAPNotes/{appointmentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "appointmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.AppointmentController",
     "Method": "PaymentBookAppointment",
     "RelativePath": "api/Appointment/PaymentBookAppointment",
     "HttpMethod": "POST",
@@ -132,6 +148,22 @@
       {
         "Name": "email",
         "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.SOAPNotesController",
+    "Method": "SaveSOAPNotes",
+    "RelativePath": "api/SOAPNotes/SaveSOAPNotes",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "soapNotesDto",
+        "Type": "App.Core.Models.SOAPNotes.SOAPNotesDto",
         "IsRequired": true
       }
     ],

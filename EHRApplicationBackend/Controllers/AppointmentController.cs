@@ -60,5 +60,14 @@ namespace EHRApplicationBackend.Controllers
             return Ok(result);
         }
 
+
+        [HttpGet("[action]/{appointmentId}")]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> GetAppointmentWithSOAPNotes(int appointmentId)
+        {
+            var result = await _mediator.Send(new GetAppointmentWithSOAPNotesQuery { AppointmentId= appointmentId });   
+            return Ok(result);
+        }
+
     }
 }

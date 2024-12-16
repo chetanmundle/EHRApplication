@@ -2,7 +2,6 @@
 using App.Common.Models;
 using App.Core.Interfaces;
 using App.Core.Models.Appointment;
-using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -43,14 +42,14 @@ namespace App.Core.App.Appointment.Command
             }
 
             TimeSpan appointmentTime = (TimeSpan)(endTime - startTime);
-            if (appointmentTime.TotalMinutes > 60 || appointmentTime.TotalMinutes<0)
-                return AppResponse.Response(false, "Your time is more than 1 Hour",HttpStatusCodes.BadRequest);
+            if (appointmentTime.TotalMinutes > 60 || appointmentTime.TotalMinutes < 0)
+                return AppResponse.Response(false, "Your time is more than 1 Hour", HttpStatusCodes.BadRequest);
 
 
-                var patient = await _appDbContext.Set<Domain.Entities.User>()
-                          .FirstOrDefaultAsync(u => u.UserId == patientId, cancellationToken);
+            var patient = await _appDbContext.Set<Domain.Entities.User>()
+                      .FirstOrDefaultAsync(u => u.UserId == patientId, cancellationToken);
 
-            if(patient is null)
+            if (patient is null)
                 return AppResponse.Response(false, "User is not Found", HttpStatusCodes.NotFound);
 
             var provider = await _appDbContext.Set<Domain.Entities.User>()
@@ -65,7 +64,7 @@ namespace App.Core.App.Appointment.Command
                                                      && a.AppointmentStatus == "Scheduled")
                                           .AnyAsync(a => (startTime >= a.StartTime && startTime < a.EndTime) ||
                                                          (endTime >= a.StartTime && endTime <= a.EndTime) ||
-                                                         (startTime <= a.StartTime && endTime >= a.EndTime) , cancellationToken);
+                                                         (startTime <= a.StartTime && endTime >= a.EndTime), cancellationToken);
 
 
             if (overlappingAppointment)
