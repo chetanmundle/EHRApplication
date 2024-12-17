@@ -60,43 +60,49 @@
             </div>
 
             @if (status === "Scheduled") {
-            <div class="row col-12 gap-3 mt-4 justify-content-evenly">
-              <button
-                class="btn btn-danger col-5"
-                (click)="onClickCancel(appt.appointmentId)"
-              >
-                Cancel
-              </button>
-              <button
-                class="btn btn-success col-5"
-                [routerLink]="[
-                  '/org/Provider/ViewAppointment',
-                  appt.appointmentId
-                ]"
-              >
-                View
-              </button>
+            <div class="d-flex justify-content-center">
+              <div class="row col-12 gap-3 mt-4 justify-content-evenly">
+                <button
+                  class="btn btn-danger col-5"
+                  (click)="onClickCancel(appt.appointmentId)"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="btn btn-success col-5"
+                  [routerLink]="[
+                    '/org/Provider/ViewAppointment',
+                    appt.appointmentId
+                  ]"
+                >
+                  View
+                </button>
+              </div>
             </div>
             }@else if (status === "Cancelled") {
-            <div
-              class="row col-12 gap-3 mt-4 justify-content-evenly text-danger"
-            >
-              Cancelled
+            <div class="d-flex justify-content-center">
+              <div
+                class="row col-12 gap-3 mt-4 justify-content-evenly text-danger"
+              >
+                Cancelled
+              </div>
             </div>
             } @else if (status === "Completed") {
-            <div
-              class="row col-12 gap-3 mt-4 justify-content-evenly text-danger"
-            >
-              <button
-              type="button" 
-              class="btn btn-secondary"
-                [routerLink]="[
-                  '/org/Provider/ViewAppointment',
-                  appt.appointmentId
-                ]"
+            <div class="d-flex justify-content-center">
+              <div
+                class="row col-12 gap-3 mt-4 justify-content-evenly text-danger"
               >
-                View SOAP Note
-              </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  [routerLink]="[
+                    '/org/Provider/ViewAppointment',
+                    appt.appointmentId
+                  ]"
+                >
+                  View SOAP Note
+                </button>
+              </div>
             </div>
             }
           </div>
