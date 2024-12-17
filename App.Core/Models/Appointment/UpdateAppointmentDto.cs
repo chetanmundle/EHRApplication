@@ -10,8 +10,7 @@ namespace App.Core.Models.Appointment
     {
         public int AppointmentId { get; set; }
         public DateTime? AppointmentDate { get; set; }
-        public TimeSpan? StartTime { get; set; }
-        public TimeSpan? EndTime { get; set; }
+        public TimeSpan? AppointmentTime { get; set; }
         public string ChiefComplaint { get; set; }
     }
 }

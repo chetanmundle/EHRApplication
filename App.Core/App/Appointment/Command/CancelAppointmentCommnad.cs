@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace App.Core.App.Appointment.Query
+namespace App.Core.App.Appointment.Command
 {
     public class CancelAppointmentCommnad : IRequest<AppResponse>
     {
@@ -29,8 +29,8 @@ namespace App.Core.App.Appointment.Query
             var appointment = await _appDbContext.Set<Domain.Entities.Appointment>()
                               .FirstOrDefaultAsync(a => a.AppointmentId == appointmentId, cancellationToken);
 
-            if(appointment is null)
-                return AppResponse.Response(false,"Invalid Appointment Id..!",HttpStatusCodes.NotFound);
+            if (appointment is null)
+                return AppResponse.Response(false, "Invalid Appointment Id..!", HttpStatusCodes.NotFound);
 
             appointment.AppointmentStatus = "Cancelled";
 

@@ -49,8 +49,6 @@ namespace App.Core.App.Appointment.Query
                 AppointmentStatus = appointment.AppointmentStatus,
                 AppointmentTime = appointment.AppointmentTime,
                 Fee = appointment.Fee,
-                StartTime = appointment.StartTime,
-                EndTime = appointment.EndTime,
                 PatientId = appointment.PatientId,
                 ProviderId = appointment.ProviderId,
                 ChiefComplaint = appointment.ChiefComplaint,

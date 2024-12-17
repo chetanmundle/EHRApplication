@@ -31,19 +31,14 @@ namespace App.Core.App.Appointment.Command
 
             var appointmentDate = bookAppointmentDto.AppointmentDate;
             var providerId = bookAppointmentDto.ProviderId;
-            var startTime = bookAppointmentDto.StartTime;
-            var endTime = bookAppointmentDto.EndTime;
+        
             var patientId = bookAppointmentDto.PatientId;
 
 
-            if (appointmentDate is null || providerId is null || startTime is null || endTime is null)
+            if (appointmentDate is null || providerId is null)
             {
                 return AppResponse.Response(false, "Data is null ", HttpStatusCodes.BadRequest);
             }
-
-            TimeSpan appointmentTime = (TimeSpan)(endTime - startTime);
-            if (appointmentTime.TotalMinutes > 60 || appointmentTime.TotalMinutes < 0)
-                return AppResponse.Response(false, "Your time is more than 1 Hour", HttpStatusCodes.BadRequest);
 
 
             var patient = await _appDbContext.Set<Domain.Entities.User>()
@@ -59,31 +54,29 @@ namespace App.Core.App.Appointment.Command
                 return AppResponse.Response(false, "User is not Found", HttpStatusCodes.NotFound);
 
 
-            var overlappingAppointment = await _appDbContext.Set<Domain.Entities.Appointment>()
-                                         .Where(a => a.ProviderId == providerId && a.AppointmentDate == appointmentDate
-                                                     && a.AppointmentStatus == "Scheduled")
-                                          .AnyAsync(a => (startTime >= a.StartTime && startTime < a.EndTime) ||
-                                                         (endTime >= a.StartTime && endTime <= a.EndTime) ||
-                                                         (startTime <= a.StartTime && endTime >= a.EndTime), cancellationToken);
+            //var overlappingAppointment = await _appDbContext.Set<Domain.Entities.Appointment>()
+            //                             .Where(a => a.ProviderId == providerId && a.AppointmentDate == appointmentDate
+            //                                         && a.AppointmentStatus == "Scheduled")
+            //                              .AnyAsync(a => (startTime >= a.StartTime && startTime < a.EndTime) ||
+            //                                             (endTime >= a.StartTime && endTime <= a.EndTime) ||
+            //                                             (startTime <= a.StartTime && endTime >= a.EndTime), cancellationToken);
 
 
-            if (overlappingAppointment)
-            {
-                return AppResponse.Response(false, "Provider's time is already booked for the selected time.", HttpStatusCodes.BadRequest);
-            }
+            //if (overlappingAppointment)
+            //{
+            //    return AppResponse.Response(false, "Provider's time is already booked for the selected time.", HttpStatusCodes.BadRequest);
+            //}
 
             var newAppointment = new Domain.Entities.Appointment()
             {
                 AppointmentDate = appointmentDate,
                 AppointmentStatus = "Scheduled",
                 ProviderId = providerId,
-                StartTime = startTime,
-                EndTime = endTime,
                 User = patient,
                 PatientId = patient.UserId,
                 ChiefComplaint = bookAppointmentDto.ChiefComplaint,
                 Fee = provider.VisitingCharge,
-                AppointmentTime = appointmentTime
+                AppointmentTime = bookAppointmentDto.AppointmentTime,
             };
 
             await _appDbContext.Set<Domain.Entities.Appointment>()
