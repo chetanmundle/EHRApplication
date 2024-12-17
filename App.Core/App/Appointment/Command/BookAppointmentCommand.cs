@@ -1,9 +1,12 @@
 ﻿using App.Common.Constants;
 using App.Common.Models;
+using App.Core.Common;
+using App.Core.Interface;
 using App.Core.Interfaces;
 using App.Core.Models.Appointment;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Threading;
@@ -19,10 +22,15 @@ namespace App.Core.App.Appointment.Command
     internal class BookAppointmentCommandHandler : IRequestHandler<BookAppointmentCommand, AppResponse>
     {
         private readonly IAppDbContext _appDbContext;
+        private readonly IEmailSmtpService _emailSmtpService;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public BookAppointmentCommandHandler(IAppDbContext appDbContext)
+        public BookAppointmentCommandHandler(IAppDbContext appDbContext,
+            IEmailSmtpService emailSmtpService, IServiceScopeFactory serviceScopeFactory)
         {
             _appDbContext = appDbContext;
+            _emailSmtpService = emailSmtpService;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         public async Task<AppResponse> Handle(BookAppointmentCommand request, CancellationToken cancellationToken)
@@ -84,7 +92,72 @@ namespace App.Core.App.Appointment.Command
 
             await _appDbContext.SaveChangesAsync();
 
+            var body = Confirmation.AppointmentConfirmationBody(patient.FirstName + " " + patient.LastName,
+                provider.FirstName + " " + provider.LastName, appointmentDate.ToString(),
+                newAppointment.AppointmentTime.ToString());
+
+            // Send email in the background asynchronously
+            _ = SendEmailInBackground(patient, provider, body, cancellationToken);
+
+            //_emailSmtpService.SendEmail(patient.Email, patient.FirstName,
+            //    "Appointment Booking Confirmation", body);
+
+            //_emailSmtpService.SendEmail(provider.Email, provider.FirstName,
+            //   "Appointment Booking Confirmation", body);
+
             return AppResponse.Response(true, "Appointment Booked Successfully");
         }
-    }
+
+        private async Task SendEmailInBackground(Domain.Entities.User patient, Domain.Entities.User provider, string body, CancellationToken cancellationToken)
+        {
+            // Create a new scope for DbContext in background task
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var scopedDbContext = scope.ServiceProvider.GetRequiredService<IAppDbContext>();
+
+                try
+                {
+                    // Send email to the patient
+                    if (patient != null)
+                    {
+                        await Task.Run(() =>
+                        {
+                            try
+                            {
+                                _emailSmtpService.SendEmail(patient.Email, patient.FirstName, "Appointment Booking Confirmation", body);
+                            }
+                            catch (Exception ex)
+                            {
+                                // Log exception
+                                Console.WriteLine($"Failed to send email to patient: {ex.Message}");
+                            }
+                        }, cancellationToken);
+                    }
+
+                    // Send email to the provider
+                    if (provider != null)
+                    {
+                        await Task.Run(() =>
+                        {
+                            try
+                            {
+                                _emailSmtpService.SendEmail(provider.Email, provider.FirstName, "Appointment Booking Confirmation", body);
+                            }
+                            catch (Exception ex)
+                            {
+                                // Log exception
+                                Console.WriteLine($"Failed to send email to provider: {ex.Message}");
+                            }
+                        }, cancellationToken);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log exception
+                    Console.WriteLine($"Error in background task: {ex.Message}");
+                }
+            }
+        }
+    
+}
 }

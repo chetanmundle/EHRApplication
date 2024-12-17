@@ -14,5 +14,7 @@ namespace App.Core.Interface
         bool SendEmailForConfirmOrder(string emailSendTo, string name,string subject, string username, string body);
 
         bool SendForgotedPassword(string emailSendTo, string name, string subject, string username, string password);
+        bool SendEmail(string emailSendTo, string name, string subject, string body);
+
     }
 }

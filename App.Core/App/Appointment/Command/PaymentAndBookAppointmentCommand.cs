@@ -1,15 +1,12 @@
 ﻿using App.Common.Constants;
 using App.Common.Models;
+using App.Core.Common;
 using App.Core.Interface;
 using App.Core.Interfaces;
 using App.Core.Models.Appointment;
 using App.Core.Models.Stripe;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,11 +21,14 @@ namespace App.Core.App.Appointment.Command
     {
         private readonly IAppDbContext _appDbContext;
         private readonly IStripePaymentService _stripePaymentService;
+        private readonly IEmailSmtpService _emailSmtpService;
 
-        public PaymentAndBookAppointmentCommandHandler(IAppDbContext appDbContext, IStripePaymentService stripePaymentService)
+        public PaymentAndBookAppointmentCommandHandler(IAppDbContext appDbContext, IStripePaymentService stripePaymentService,
+            IEmailSmtpService emailSmtpService)
         {
             _appDbContext = appDbContext;
             _stripePaymentService = stripePaymentService;
+            _emailSmtpService = emailSmtpService;
         }
 
         public async Task<AppResponse> Handle(PaymentAndBookAppointmentCommand request, CancellationToken cancellationToken)
@@ -82,7 +82,7 @@ namespace App.Core.App.Appointment.Command
                 ChiefComplaint = bookAppointmentDto.ChiefComplaint,
                 Fee = provider.VisitingCharge,
                 AppointmentTime = bookAppointmentDto.AppointmentTime,
-                ProviderId = providerId,    
+                ProviderId = providerId,
             };
 
             await _appDbContext.Set<Domain.Entities.Appointment>()
@@ -90,11 +90,11 @@ namespace App.Core.App.Appointment.Command
 
             var paymentAndOrderDto = new Striprequestmodel()
             {
-                 Amount = bookAppointmentDto.Amount,
-                 CustomerEmail = bookAppointmentDto.CustomerEmail,
-                 CustomerName = bookAppointmentDto.CustomerName,
-                 SourceToken = bookAppointmentDto.SourceToken,
-                 UserId = bookAppointmentDto.PatientId
+                Amount = bookAppointmentDto.Amount,
+                CustomerEmail = bookAppointmentDto.CustomerEmail,
+                CustomerName = bookAppointmentDto.CustomerName,
+                SourceToken = bookAppointmentDto.SourceToken,
+                UserId = bookAppointmentDto.PatientId
             };
 
             // Do payment here
@@ -105,6 +105,16 @@ namespace App.Core.App.Appointment.Command
             }
 
             await _appDbContext.SaveChangesAsync();
+
+            var body = Confirmation.AppointmentConfirmationBody(patient.FirstName + " " + patient.LastName,
+           provider.FirstName + " " + provider.LastName, appointmentDate.ToString(),
+           newAppointment.AppointmentTime.ToString());
+
+            _emailSmtpService.SendEmail(patient.Email, patient.FirstName,
+                "Appointment Booking Confirmation", body);
+
+            _emailSmtpService.SendEmail(provider.Email, provider.FirstName,
+               "Appointment Booking Confirmation", body);
 
             return AppResponse.Response(true, "Appointment Booked Successfully");
         }

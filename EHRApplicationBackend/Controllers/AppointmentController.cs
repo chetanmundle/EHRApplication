@@ -44,11 +44,11 @@ namespace EHRApplicationBackend.Controllers
         }
 
 
-        [HttpGet("[action]/{providerId}")]
+        [HttpGet("[action]/{providerId}/{status}")]
         [Authorize(Roles = "Provider")]
-        public async Task<IActionResult> GetAppoinmentsByProvidertId(int providerId)
+        public async Task<IActionResult> GetAppoinmentsByProvidertId(int providerId, string status)
         {
-            var result = await _mediator.Send(new GetAppointmentByProviderIdQuery {  ProviderId= providerId });
+            var result = await _mediator.Send(new GetAppointmentByProviderIdQuery {  ProviderId= providerId, Status = status });
             return Ok(result);
         }
 

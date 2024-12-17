@@ -31,12 +31,12 @@ namespace Infrastructure.service
 
             var mailMessage = new MailMessage
             {
-                From = new MailAddress(smtpUsername, "ECom_Application"),
+                From = new MailAddress(smtpUsername, "EHR_Application"),
                 Subject = subject,
                 Body = $@"<div style=""font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2"">
   <div style=""margin:50px auto;width:70%;padding:20px 0"">
     <div style=""border-bottom:1px solid #eee"">
-      <a href="""" style=""font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600"">ECom_Application</a>
+      <a href="""" style=""font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600"">EHR_Application</a>
     </div>
     <p style=""font-size:1.1em"">Hi,</p>
     <p>Thank you for choosing Us. Use the following OTP. OTP is valid for 5 minutes</p>
@@ -48,7 +48,7 @@ namespace Infrastructure.service
     <p style=""font-size:0.9em;"">Regards,<br />Your Brand</p>
     <hr style=""border:none;border-top:1px solid #eee"" />
     <div style=""float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300"">
-      <p>ECom_Application</p>
+      <p>EHR_Application</p>
       <p>1600 Amphitheatre Parkway</p>
       <p>California</p>
     </div>
@@ -84,16 +84,16 @@ namespace Infrastructure.service
 
             var mailMessage = new MailMessage
             {
-                From = new MailAddress(smtpUsername, "ECom_Application"),
+                From = new MailAddress(smtpUsername, "EHR_Application"),
                 Subject = subject,
                 Body = $@"
 <div style=""font-family: Helvetica, Arial, sans-serif; min-width: 320px; max-width: 600px; margin: 0 auto; padding: 20px; box-sizing: border-box; overflow: auto; line-height: 1.5;"">
   <div style=""padding: 5px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);"">
     <div style=""border-bottom: 1px solid #eee; text-align: center;"">
-      <a href=""#"" style=""font-size: 1.4em; color: #00466a; text-decoration: none; font-weight: 600;"">Ecom_Application</a>
+      <a href=""#"" style=""font-size: 1.4em; color: #00466a; text-decoration: none; font-weight: 600;"">EHR_Application</a>
     </div>
     <p style=""font-size: 1.1em; text-align: left;"">Hi,</p>
-    <p style=""text-align: left;"">Thank you for choosing Ecom Application. Use the following credentials to log in:</p>
+    <p style=""text-align: left;"">Thank you for choosing EHR_Application. Use the following credentials to log in:</p>
     <div style=""margin: 20px auto; text-align: center;"">
       <h5 style=""background: #00466a; margin: 5px auto; padding: 5px; color: #fff; border-radius: 4px; max-width: 80%; word-wrap: break-word;"">
         Email: <span style=""color: #fff;"">{emailSendTo}</span>
@@ -105,10 +105,10 @@ namespace Infrastructure.service
         Password: <span style=""color: #fff;"">{password}</span>
       </h5>
     </div>
-    <p style=""font-size: 0.9em; text-align: left;"">Regards,<br />Ecom Application</p>
+    <p style=""font-size: 0.9em; text-align: left;"">Regards,<br /> Application</p>
     <hr style=""border: none; border-top: 1px solid #eee;"" />
     <div style=""text-align: right; padding: 8px 0; color: #aaa; font-size: 0.8em; line-height: 1.2; font-weight: 300;"">
-      <p>Ecom_Application</p>
+      <p>EHR_Application</p>
       <p>1600 Amphitheatre Parkway</p>
       <p>California</p>
     </div>
@@ -135,16 +135,16 @@ namespace Infrastructure.service
 
             var mailMessage = new MailMessage
             {
-                From = new MailAddress(smtpUsername, "ECom_Application"),
+                From = new MailAddress(smtpUsername, "EHR_Application"),
                 Subject = subject,
                 Body = $@"
 <div style=""font-family: Helvetica, Arial, sans-serif; min-width: 320px; max-width: 600px; margin: 0 auto; padding: 20px; box-sizing: border-box; overflow: auto; line-height: 1.5;"">
   <div style=""padding: 5px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);"">
     <div style=""border-bottom: 1px solid #eee; text-align: center;"">
-      <a href=""#"" style=""font-size: 1.4em; color: #00466a; text-decoration: none; font-weight: 600;"">Ecom_Application</a>
+      <a href=""#"" style=""font-size: 1.4em; color: #00466a; text-decoration: none; font-weight: 600;"">EHR_Application</a>
     </div>
     <p style=""font-size: 1.1em; text-align: left;"">Hi,</p>
-    <p style=""text-align: left;"">Thank you for choosing Ecom Application. Use the following credentials to Forget Password:</p>
+    <p style=""text-align: left;"">Thank you for choosing EHR Application. Use the following credentials to Forget Password:</p>
     <div style=""margin: 20px auto; text-align: center;"">
       <h5 style=""background: #00466a; margin: 5px auto; padding: 5px; color: #fff; border-radius: 4px; max-width: 80%; word-wrap: break-word;"">
         Email: <span style=""color: #fff;"">{emailSendTo}</span>
@@ -156,10 +156,10 @@ namespace Infrastructure.service
         Password: <span style=""color: #fff;"">{password}</span>
       </h5>
     </div>
-    <p style=""font-size: 0.9em; text-align: left;"">Regards,<br />Ecom Application</p>
+    <p style=""font-size: 0.9em; text-align: left;"">Regards,<br />EHR Application</p>
     <hr style=""border: none; border-top: 1px solid #eee;"" />
     <div style=""text-align: right; padding: 8px 0; color: #aaa; font-size: 0.8em; line-height: 1.2; font-weight: 300;"">
-      <p>Ecom_Application</p>
+      <p>EHR_Application</p>
       <p>1600 Amphitheatre Parkway</p>
       <p>California</p>
     </div>
@@ -196,9 +196,31 @@ namespace Infrastructure.service
 
             var mailMessage = new MailMessage
             {
-                From = new MailAddress(smtpUsername, "ECom_Application"),
+                From = new MailAddress(smtpUsername, "EHR_Application"),
                 Subject = subject,
                 Body =bodyData,
+                IsBodyHtml = isHtml
+            };
+
+            mailMessage.To.Add(emailSendTo);
+
+            client.Send(mailMessage);
+            return true;
+        }
+
+        public bool SendEmail(string emailSendTo, string name, string subject, string bodyData)
+        {
+           using var client = new SmtpClient(smtpHost, smtpPort)
+            {
+                Credentials = new NetworkCredential(smtpUsername, smtpPassword),
+                EnableSsl = enableSsl
+            };
+
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(smtpUsername, "EHR_Application"),
+                Subject = subject,
+                Body = bodyData,
                 IsBodyHtml = isHtml
             };
 

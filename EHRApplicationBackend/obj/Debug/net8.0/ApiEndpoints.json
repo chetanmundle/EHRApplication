@@ -55,7 +55,7 @@
   {
     "ContainingType": "EHRApplicationBackend.Controllers.AppointmentController",
     "Method": "GetAppoinmentsByProvidertId",
-    "RelativePath": "api/Appointment/GetAppoinmentsByProvidertId/{providerId}",
+    "RelativePath": "api/Appointment/GetAppoinmentsByProvidertId/{providerId}/{status}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -63,6 +63,11 @@
       {
         "Name": "providerId",
         "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],

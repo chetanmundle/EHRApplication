@@ -32,9 +32,16 @@ namespace App.Core.App.User.Command
             var updateUserDto = request.UpdateUser;
 
             var user = await _appDbContext.Set<Domain.Entities.User>()
-                      .FirstOrDefaultAsync(u => u.UserId == updateUserDto.UserId, cancellationToken);
+                    .FirstOrDefaultAsync(u => u.UserId == updateUserDto.UserId, cancellationToken);
 
-            if (user is null) return AppResponse.Response(false, "Invalid UserId",HttpStatusCodes.NotFound);
+            if (user is null) return AppResponse.Response(false, "Invalid UserId", HttpStatusCodes.NotFound);
+
+            // Check Email is Exist
+            var isEmailExist = await _appDbContext.Set<Domain.Entities.User>()
+                          .AnyAsync(u => u.Email == updateUserDto.Email, cancellationToken);
+
+            if (isEmailExist && !string.Equals(user.Email, updateUserDto.Email)) return AppResponse.Response(false, "Email Already Exist... Please any other Email", HttpStatusCodes.NotFound);
+
 
             user.FirstName = updateUserDto.FirstName;
             user.LastName = updateUserDto.LastName;

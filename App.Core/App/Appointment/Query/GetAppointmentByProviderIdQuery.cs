@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,6 +15,7 @@ namespace App.Core.App.Appointment.Query
     public class GetAppointmentByProviderIdQuery : IRequest<AppResponse<IEnumerable<GetAppointmentByProviderIdDto>>>
     {
         public int ProviderId { get; set; }
+        public string Status { get; set; }
     }
 
     internal class GetAppointmentByProviderIdQueryHandler : IRequestHandler<GetAppointmentByProviderIdQuery,
@@ -32,11 +32,13 @@ namespace App.Core.App.Appointment.Query
             Handle(GetAppointmentByProviderIdQuery request, CancellationToken cancellationToken)
         {
             var providerUserId = request.ProviderId;
+            var status = request.Status;
             var today = DateTime.Today;
             var appointmentlist = await _appDbContext.Set<Domain.Entities.Appointment>()
                         .Where(a => a.ProviderId == providerUserId &&
-                                    a.AppointmentDate >= today &&
-                                    a.AppointmentStatus == "Scheduled")
+                                    (status == "Scheduled" ?
+                                    (a.AppointmentDate >= today && a.AppointmentStatus == "Scheduled") : 
+                                    (a.AppointmentStatus == status)))
                         .OrderBy(a => a.AppointmentDate).ToListAsync(cancellationToken);
 
             var resultlist = new List<GetAppointmentByProviderIdDto>();
@@ -69,7 +71,7 @@ namespace App.Core.App.Appointment.Query
             return AppResponse.Success<IEnumerable<GetAppointmentByProviderIdDto>>(resultlist);
         }
 
-       
+
 
     }
 
