@@ -10,9 +10,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CustomTimeValidator } from '../../../../core/Validators/ValidateEndTime.validation';
+
 // import { AppointmentService } from '../../../../core/services/Appointment/appointment.service';
-import { AppointmentService } from '../../../../core/Services/Appointment/appointment.service';
+import { AppointmentService } from '../../../../core/services/Appointment/appointment.service';
 import { MyToastServiceService } from '../../../../core/services/MyToastService/my-toast-service.service';
 import { BookAppointmentDto } from '../../../../core/Models/Interfaces/Appointment/appointment.model';
 import { LoggedUserDto } from '../../../../core/Models/classes/User/LoggedUserDto';
@@ -42,14 +42,8 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
     this.appointmentForm = this.fb.group({
       patientId: ['', [Validators.required]],
       appointmentDate: ['', [Validators.required]],
-      startTime: ['', [Validators.required]],
-      endTime: [
-        '',
-        [
-          Validators.required,
-          CustomTimeValidator.validateEndTimeWithinOneHour('startTime'),
-        ],
-      ],
+      appointmentTime: ['', [Validators.required]],
+
       chiefComplaint: ['', [Validators.required]],
     });
 
@@ -69,14 +63,8 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
     this.appointmentForm = this.fb.group({
       patientId: ['', [Validators.required]],
       appointmentDate: ['', [Validators.required]],
-      startTime: ['', [Validators.required]],
-      endTime: [
-        '',
-        [
-          Validators.required,
-          CustomTimeValidator.validateEndTimeWithinOneHour('startTime'),
-        ],
-      ],
+      appointmentTime: ['', [Validators.required]],
+
       chiefComplaint: ['', [Validators.required]],
     });
   }
@@ -117,8 +105,9 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
 
     const payload: BookAppointmentDto = {
       appointmentDate: this.appointmentForm.get('appointmentDate')?.value,
-      startTime: this.appointmentForm.get('startTime')?.value + ':00',
-      endTime: this.appointmentForm.get('endTime')?.value + ':00',
+      appointmentTime:
+        this.appointmentForm.get('appointmentTime')?.value + ':00',
+
       chiefComplaint: this.appointmentForm.get('chiefComplaint')?.value,
       patientId: Number(this.appointmentForm.get('patientId')?.value),
       providerId: this.loggedUser?.userId,

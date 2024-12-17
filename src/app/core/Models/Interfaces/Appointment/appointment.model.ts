@@ -2,8 +2,8 @@ export interface BookAppointmentDto {
   patientId: number;
   providerId: number;
   appointmentDate: string;
-  startTime: string;
-  endTime: string;
+  appointmentTime: string;
+
   chiefComplaint: string;
 }
 
@@ -11,8 +11,7 @@ export interface PayAndBookAppointmentDto {
   patientId: number;
   providerId: number;
   appointmentDate: string;
-  startTime: string;
-  endTime: string;
+  appointmentTime: string;
   chiefComplaint: string;
   sourceToken: string;
   amount: number;
@@ -27,8 +26,6 @@ export interface GetAppoinmentByPatientIdDto {
   providerName: string;
   appointmentDate: string;
   appointmentTime: string;
-  startTime: string;
-  endTime: string;
   appointmentStatus: string;
   chiefComplaint: string;
   fee: number;
@@ -40,8 +37,6 @@ export interface GetAppoinmentByProviderIdDto {
   providerId: number;
   appointmentDate: string;
   appointmentTime: string;
-  startTime: string;
-  endTime: string;
   appointmentStatus: string;
   chiefComplaint: string;
   fee: number;
@@ -63,8 +58,6 @@ export interface AppointmentWithSOAPNotesDto {
   profileImage: string;
   appointmentDate: string;
   appointmentTime: string;
-  startTime: string;
-  endTime: string;
   appointmentStatus: string;
   chiefComplaint: string;
   fee: number;
@@ -78,7 +71,7 @@ export interface AppointmentWithSOAPNotesDto {
 export interface UpdateAppointmentDto {
   appointmentId: number;
   appointmentDate: string;
-  startTime: string;
-  endTime: string;
+  appointmentTime: string;
+
   chiefComplaint: string;
 }

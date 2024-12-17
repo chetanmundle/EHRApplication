@@ -4,7 +4,7 @@ import {
   UpdateAppointmentDto,
 } from '../../../../core/Models/Interfaces/Appointment/appointment.model';
 import { Subscription } from 'rxjs';
-import { AppointmentService } from '../../../../core/Services/Appointment/appointment.service';
+import { AppointmentService } from '../../../../core/services/Appointment/appointment.service';
 import { UserService } from '../../../../core/services/UserService/user.service';
 import { LoggedUserDto } from '../../../../core/Models/classes/User/LoggedUserDto';
 import { AppResponse } from '../../../../core/Models/AppResponse';
@@ -19,7 +19,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CustomTimeValidator } from '../../../../core/Validators/ValidateEndTime.validation';
 
 @Component({
   selector: 'app-home-patient',
@@ -52,14 +51,7 @@ export class HomePatientComponent implements OnDestroy {
     this.appointmentForm = this.fb.group({
       appointmentId: ['', Validators.required],
       appointmentDate: ['', [Validators.required]],
-      startTime: ['', [Validators.required]],
-      endTime: [
-        '',
-        [
-          Validators.required,
-          CustomTimeValidator.validateEndTimeWithinOneHour('startTime'),
-        ],
-      ],
+      appointmentTime: ['', [Validators.required]],
       chiefComplaint: ['', [Validators.required]],
     });
   }
@@ -123,13 +115,13 @@ export class HomePatientComponent implements OnDestroy {
     this.appointmentForm
       .get('appointmentDate')
       ?.setValue(appoinment.appointmentDate.toString().split('T')[0]);
-    // this.appointmentForm.get('startTime')?.setValue(appoinment.startTime);
-    // this.appointmentForm.get('endTime')?.setValue(appoinment.endTime);
-    const startTime = appoinment.startTime.split(':').slice(0, 2).join(':');
-    this.appointmentForm.get('startTime')?.setValue(startTime);
 
-    const endTime = appoinment.endTime.split(':').slice(0, 2).join(':');
-    this.appointmentForm.get('endTime')?.setValue(endTime);
+    const appointmentTime = appoinment.appointmentTime
+      .split(':')
+      .slice(0, 2)
+      .join(':');
+    this.appointmentForm.get('appointmentTime')?.setValue(appointmentTime);
+
     this.appointmentForm
       .get('chiefComplaint')
       ?.setValue(appoinment.chiefComplaint);
@@ -161,6 +153,7 @@ export class HomePatientComponent implements OnDestroy {
     this.isSubmitClick = true;
     if (this.appointmentForm.invalid) {
       this.tostR.showError('Enter All Required Fields');
+      return;
     }
 
     this.isLoader = true;
@@ -168,8 +161,9 @@ export class HomePatientComponent implements OnDestroy {
     const payload: UpdateAppointmentDto = {
       appointmentId: this.appointmentForm.get('appointmentId')?.value,
       appointmentDate: this.appointmentForm.get('appointmentDate')?.value,
-      startTime: this.appointmentForm.get('startTime')?.value + ':00',
-      endTime: this.appointmentForm.get('endTime')?.value + ':00',
+      appointmentTime:
+        this.appointmentForm.get('appointmentTime')?.value + ':00',
+
       chiefComplaint: this.appointmentForm.get('chiefComplaint')?.value,
     };
 

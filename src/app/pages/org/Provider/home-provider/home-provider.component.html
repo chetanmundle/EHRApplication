@@ -23,10 +23,10 @@
           <div>
             <p class="mb-1">Appt Date : {{ appt.appointmentDate | date }}</p>
             <p class="mb-1">
-              Appt Start Time :
-              {{ appt.startTime | timeFormat }}
+              Appt Time :
+              {{ appt.appointmentTime | timeFormat }}
             </p>
-            <p class="mb-1">Appt End Time : {{ appt.endTime | timeFormat }}</p>
+
             <p class="mb-1">
               Appt Status :
               {{ appt.appointmentStatus }}

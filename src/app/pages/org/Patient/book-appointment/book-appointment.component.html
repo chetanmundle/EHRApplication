@@ -94,60 +94,28 @@
       </div>
 
       <div class="col-md-3">
-        <label for="startTime" class="form-label form-labelStart">
+        <label for="appointmentTime" class="form-label form-labelStart">
           Start Time
         </label>
         <input
           type="time"
           class="form-control mb-0"
-          id="startTime"
-          formControlName="startTime"
+          id="appointmentTime"
+          formControlName="appointmentTime"
         />
 
         <div
           style="font-size: 13px"
           *ngIf="
             isSubmitClick ||
-            appointmentForm.controls['startTime'].touched ||
-            appointmentForm.controls['startTime'].dirty
+            appointmentForm.controls['appointmentTime'].touched ||
+            appointmentForm.controls['appointmentTime'].dirty
           "
         >
           <div
-            *ngIf="appointmentForm.controls['startTime'].hasError('required')"
+            *ngIf="appointmentForm.controls['appointmentTime'].hasError('required')"
           >
             <div class="text-danger">*required</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <label for="startTime" class="form-label form-labelStart">
-          End Time
-        </label>
-        <input
-          type="time"
-          class="form-control mb-0"
-          id="startTime"
-          formControlName="endTime"
-        />
-
-        <div
-          style="font-size: 13px"
-          *ngIf="
-            isSubmitClick ||
-            appointmentForm.controls['endTime'].touched ||
-            appointmentForm.controls['endTime'].dirty
-          "
-        >
-          <div *ngIf="appointmentForm.controls['endTime'].hasError('required')">
-            <div class="text-danger">*required</div>
-          </div>
-
-          <div
-            *ngIf="appointmentForm.get('endTime')?.hasError('invalidEndTime')"
-            class="text-danger small"
-          >
-            End time must be within one hour of the start time.
           </div>
         </div>
       </div>

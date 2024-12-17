@@ -8,8 +8,8 @@
           </div>
           <div class="mb-2"><strong>Appt. Fee :</strong> {{ appt.fee }}</div>
           <div class="mb-2">
-            <strong>Start Time (HH:MM):</strong>
-            {{ appt.startTime | timeFormat }}
+            <strong>Appointment Time (HH:MM):</strong>
+            {{ appt.appointmentTime | timeFormat }}
           </div>
         </div>
         <div class="col-5">
@@ -18,9 +18,6 @@
           </div>
           <div class="mb-2">
             <strong>Appt Date :</strong> {{ appt.appointmentDate | date }}
-          </div>
-          <div class="mb-2">
-            <strong>End Time (HH:MM):</strong> {{ appt.endTime | timeFormat }}
           </div>
         </div>
         <div class="col-2 row">
@@ -49,7 +46,9 @@
                 : 'text-success'
             "
           >
-            <strong>{{ appt.appointmentStatus }}</strong>
+            <strong
+              ><small>{{ appt.appointmentStatus }}</small></strong
+            >
           </div>
           }
         </div>
@@ -112,66 +111,32 @@
           </div>
 
           <div class="col-6">
-            <label for="startTime" class="form-label form-labelStart">
-              Start Time
+            <label for="appointmentTime" class="form-label form-labelStart">
+              Appointment Time
             </label>
             <input
               type="time"
               class="form-control mb-0"
-              id="startTime"
-              formControlName="startTime"
+              id="appointmentTime"
+              formControlName="appointmentTime"
             />
 
             <div
               style="font-size: 13px"
               *ngIf="
                 isSubmitClick ||
-                appointmentForm.controls['startTime'].touched ||
-                appointmentForm.controls['startTime'].dirty
+                appointmentForm.controls['appointmentTime'].touched ||
+                appointmentForm.controls['appointmentTime'].dirty
               "
             >
               <div
                 *ngIf="
-                  appointmentForm.controls['startTime'].hasError('required')
+                  appointmentForm.controls['appointmentTime'].hasError(
+                    'required'
+                  )
                 "
               >
                 <div class="text-danger">*required</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-6">
-            <label for="startTime" class="form-label form-labelStart">
-              End Time
-            </label>
-            <input
-              type="time"
-              class="form-control mb-0"
-              id="startTime"
-              formControlName="endTime"
-            />
-
-            <div
-              style="font-size: 13px"
-              *ngIf="
-                isSubmitClick ||
-                appointmentForm.controls['endTime'].touched ||
-                appointmentForm.controls['endTime'].dirty
-              "
-            >
-              <div
-                *ngIf="appointmentForm.controls['endTime'].hasError('required')"
-              >
-                <div class="text-danger">*required</div>
-              </div>
-
-              <div
-                *ngIf="
-                  appointmentForm.get('endTime')?.hasError('invalidEndTime')
-                "
-                class="text-danger small"
-              >
-                End time must be within one hour of the start time.
               </div>
             </div>
           </div>
@@ -216,7 +181,9 @@
         <button type="button" class="btn btn-secondary" (click)="closeModal()">
           Close
         </button>
-        <button type="button" class="btn btn-primary" (click)="onClickUpdate()">Update</button>
+        <button type="button" class="btn btn-primary" (click)="onClickUpdate()">
+          Update
+        </button>
       </div>
     </div>
   </div>
