@@ -39,10 +39,11 @@ export class AppointmentService {
 
   // Get patient apoinments by theire id
   GetAppointmentByPatientId$(
-    patientId: number
+    patientId: number,
+    status: string
   ): Observable<AppResponse<GetAppoinmentByPatientIdDto[]>> {
     return this.http.get<AppResponse<GetAppoinmentByPatientIdDto[]>>(
-      `${this.Url}/GetAppoinmentsByPatientId/${patientId}`
+      `${this.Url}/GetAppoinmentsByPatientId/${patientId}/${status}`
     );
   }
 

@@ -18,6 +18,7 @@ import { BookAppointmentDto } from '../../../../core/Models/Interfaces/Appointme
 import { LoggedUserDto } from '../../../../core/Models/classes/User/LoggedUserDto';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-provider-book-appointment',
   standalone: true,

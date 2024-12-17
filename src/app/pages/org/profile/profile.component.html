@@ -1,0 +1,662 @@
+<div class="container">
+  <div class="main-body">
+    <!-- /Breadcrumb -->
+
+    <div class="row gutters-sm">
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <ng-container *ngIf="user?.profileImage; else defaultimg">
+                <img
+                  [src]="loggedUser?.profileImage"
+                  alt="Admin"
+                  class="rounded-circle"
+                  width="150"
+                  height="150"
+                  style="border: 1px solid blue"
+                />
+              </ng-container>
+
+              <ng-template #defaultimg>
+                <img
+                  src="images/profile.png"
+                  alt="Admin"
+                  class="rounded-circle"
+                  width="150"
+                  height="150"
+                />
+              </ng-template>
+              <div class="mt-3 row">
+                <h4>{{ loggedUser?.firstName }} {{ loggedUser?.lastName }}</h4>
+                <p class="text-secondary mb-1">
+                  {{ loggedUser?.userTypeName }}
+                </p>
+                <p class="text-muted font-size-sm">
+                  {{ loggedUser?.userName }}
+                </p>
+                <div>
+                  <button class="btn btn-primary col-7" (click)="openModal()">
+                    Change Password
+                  </button>
+                  &nbsp;
+                  <!-- <button class="btn btn-outline-primary col-5">Message</button> -->
+                </div>
+                <div class="mt-3">
+                  <button class="btn btn-danger col-7" (click)="onClickEdit()">
+                    Edit Profile
+                  </button>
+                  &nbsp;
+                  <!-- <button class="btn btn-outline-primary col-5">Message</button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <form [formGroup]="userForm">
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">First Name</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div *ngIf="!isEditMode">
+                    {{ user?.firstName }}
+                  </div>
+                  <div class="" *ngIf="isEditMode">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="exampleFormControlInput1"
+                      placeholder="firstName"
+                      formControlName="firstName"
+                      maxlength="25"
+                      (input)="onInputText($event, 25)"
+                    />
+                    <div
+                      style="font-size: 13px"
+                      *ngIf="
+                        userForm.controls['firstName'].touched ||
+                        userForm.controls['firstName'].dirty
+                      "
+                    >
+                      <div
+                        *ngIf="
+                          userForm.controls['firstName'].hasError('required')
+                        "
+                      >
+                        <div class="text-danger">*required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Last Name</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div *ngIf="!isEditMode">
+                    {{ user?.lastName }}
+                  </div>
+                  <div class="" *ngIf="isEditMode">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="exampleFormControlInput1"
+                      placeholder="lastname"
+                      formControlName="lastName"
+                      maxlength="25"
+                      (input)="onInputText($event, 25)"
+                    />
+                    <div
+                      style="font-size: 13px"
+                      *ngIf="
+                        userForm.controls['lastName'].touched ||
+                        userForm.controls['lastName'].dirty
+                      "
+                    >
+                      <div
+                        *ngIf="
+                          userForm.controls['lastName'].hasError('required')
+                        "
+                      >
+                        <div class="text-danger">*required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Email</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div *ngIf="!isEditMode">
+                    {{ user?.email }}
+                  </div>
+                  <div class="" *ngIf="isEditMode">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="exampleFormControlInput1"
+                      placeholder="email"
+                      formControlName="email"
+                      maxlength="50"
+                      (input)="onInputText($event, 50)"
+                    />
+                    <div
+                      style="font-size: 13px"
+                      *ngIf="
+                        userForm.controls['email'].touched ||
+                        userForm.controls['email'].dirty
+                      "
+                    >
+                      <div
+                        *ngIf="userForm.controls['email'].hasError('required')"
+                      >
+                        <div class="text-danger">*required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Date of Birth</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div *ngIf="!isEditMode">
+                    {{ user?.dateOfBirth | date }}
+                  </div>
+                  <div class="" *ngIf="isEditMode">
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="exampleFormControlInput1"
+                      placeholder="lastname"
+                      formControlName="dateOfBirth"
+                      [max]="todaysDate()"
+                    />
+                    <div
+                      style="font-size: 13px"
+                      *ngIf="
+                        userForm.controls['dateOfBirth'].touched ||
+                        userForm.controls['dateOfBirth'].dirty
+                      "
+                    >
+                      <div
+                        *ngIf="
+                          userForm.controls['dateOfBirth'].hasError('required')
+                        "
+                      >
+                        <div class="text-danger">*required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">phoneNumber</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div *ngIf="!isEditMode">
+                    {{ user?.phoneNumber }}
+                  </div>
+                  <div class="" *ngIf="isEditMode">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="exampleFormControlInput1"
+                      placeholder="phoneNumber"
+                      formControlName="phoneNumber"
+                      [maxlength]="10"
+                      (input)="onNumberType($event)"
+                    />
+                    <div
+                      style="font-size: 13px"
+                      *ngIf="
+                        userForm.controls['phoneNumber'].touched ||
+                        userForm.controls['phoneNumber'].dirty
+                      "
+                    >
+                      <div
+                        *ngIf="
+                          userForm.controls['phoneNumber'].hasError('required')
+                        "
+                      >
+                        <div class="text-danger">*required</div>
+                      </div>
+                      <div
+                        *ngIf="
+                          !userForm.controls['phoneNumber'].hasError(
+                            'required'
+                          ) && !isMobileNumberValid
+                        "
+                      >
+                        <div class="text-danger">*Must be 10 digit</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Gender</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div *ngIf="!isEditMode">
+                    {{ user?.gender }}
+                  </div>
+                  <div class="" *ngIf="isEditMode">
+                    <div>
+                      <label for="male">
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="Male"
+                          id="male"
+                          formControlName="gender"
+                        />
+                        Male
+                      </label>
+                      &nbsp; &nbsp;
+                      <label for="female">
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="Female"
+                          id="female"
+                          formControlName="gender"
+                        />
+                        Female
+                      </label>
+                      &nbsp; &nbsp;
+                      <label for="other">
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="Other"
+                          id="other"
+                          formControlName="gender"
+                        />
+                        Other
+                      </label>
+                      &nbsp; &nbsp;
+                    </div>
+                    <div
+                      style="font-size: 13px"
+                      *ngIf="
+                        userForm.controls['gender'].touched ||
+                        userForm.controls['gender'].dirty
+                      "
+                    >
+                      <div
+                        *ngIf="userForm.controls['gender'].hasError('required')"
+                      >
+                        <div class="text-danger">*required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">BloodGroup</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div *ngIf="!isEditMode">
+                    {{ user?.bloodGroup }}
+                  </div>
+                  <div class="" *ngIf="isEditMode">
+                    <select
+                      class="form-select"
+                      id="validationDefault04"
+                      required
+                      formControlName="bloodGroup"
+                    >
+                      <option selected disabled value="">
+                        Choose Blood Group
+                      </option>
+                      <option value="O+">O+</option>
+                      <option value="O-">O-</option>
+                      <option value="A+">A+</option>
+                      <option value="A-">A-</option>
+                      <option value="B+">B+</option>
+                      <option value="B-">B-</option>
+                      <option value="AB+">AB+</option>
+                      <option value="AB-">AB-</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <div
+                      style="font-size: 13px"
+                      *ngIf="
+                        userForm.controls['bloodGroup'].touched ||
+                        userForm.controls['bloodGroup'].dirty
+                      "
+                    >
+                      <div
+                        *ngIf="
+                          userForm.controls['bloodGroup'].hasError('required')
+                        "
+                      >
+                        <div class="text-danger">*required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+              @if (loggedUser?.userTypeName === "Provider") {
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Qualification</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div *ngIf="!isEditMode">
+                    {{ user?.qualification }}
+                  </div>
+                  <div class="" *ngIf="isEditMode">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="exampleFormControlInput1"
+                      placeholder="qualification"
+                      formControlName="qualification"
+                    />
+                    <div
+                      style="font-size: 13px"
+                      *ngIf="
+                        userForm.controls['qualification'].touched ||
+                        userForm.controls['qualification'].dirty
+                      "
+                    >
+                      <div
+                        *ngIf="
+                          userForm.controls['qualification'].hasError(
+                            'required'
+                          )
+                        "
+                      >
+                        <div class="text-danger">*required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Specialisation</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div *ngIf="!isEditMode">
+                    {{ GetSpecilizationName(user?.specialisationId ?? 0) }}
+                  </div>
+                  <div class="" *ngIf="isEditMode">
+                    <select
+                      class="form-select"
+                      id="specialisationId"
+                      required
+                      formControlName="specialisationId"
+                    >
+                      <option selected disabled value="">Choose State</option>
+                      <option
+                        *ngFor="let con of specializationList"
+                        value="{{ con.specialisationId }}"
+                      >
+                        {{ con.specialisationName }}
+                      </option>
+                    </select>
+                    <div
+                      style="font-size: 13px"
+                      *ngIf="
+                        userForm.controls['specialisationId'].touched ||
+                        userForm.controls['specialisationId'].dirty
+                      "
+                    >
+                      <div
+                        *ngIf="
+                          userForm.controls['specialisationId'].hasError(
+                            'required'
+                          )
+                        "
+                      >
+                        <div class="text-danger">*required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Reg. Number</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div *ngIf="!isEditMode">
+                    {{ user?.registrationNumber }}
+                  </div>
+                  <div class="" *ngIf="isEditMode">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="registrationNumber"
+                      formControlName="registrationNumber"
+                    />
+                    <div
+                      style="font-size: 13px"
+                      *ngIf="
+                        userForm.controls['registrationNumber'].touched ||
+                        userForm.controls['registrationNumber'].dirty
+                      "
+                    >
+                      <div
+                        *ngIf="
+                          userForm.controls['registrationNumber'].hasError(
+                            'required'
+                          )
+                        "
+                      >
+                        <div class="text-danger">*required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">VisitingCharge</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div *ngIf="!isEditMode">
+                    {{ user?.visitingCharge }}
+                  </div>
+                  <div class="" *ngIf="isEditMode">
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="visitingCharge"
+                      formControlName="visitingCharge"
+                    />
+                    <div
+                      style="font-size: 13px"
+                      *ngIf="
+                        userForm.controls['visitingCharge'].touched ||
+                        userForm.controls['visitingCharge'].dirty
+                      "
+                    >
+                      <div
+                        *ngIf="
+                          userForm.controls['visitingCharge'].hasError(
+                            'required'
+                          )
+                        "
+                      >
+                        <div class="text-danger">*required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr />
+
+              }
+              <div class="row">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Address</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div *ngIf="!isEditMode">
+                    {{ user?.address }}, {{ user?.city }},
+                  </div>
+                  <div class="" *ngIf="isEditMode">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="exampleFormControlInput1"
+                      placeholder="address"
+                      formControlName="address"
+                    />
+                    <div
+                      style="font-size: 13px"
+                      *ngIf="
+                        userForm.controls['address'].touched ||
+                        userForm.controls['address'].dirty
+                      "
+                    >
+                      <div
+                        *ngIf="
+                          userForm.controls['address'].hasError('required')
+                        "
+                      >
+                        <div class="text-danger">*required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+              <div class="row" *ngIf="isEditMode">
+                <div class="col-sm-3">
+                  <h6 class="mb-0">Profile</h6>
+                </div>
+                <div class="col-sm-9 text-secondary">
+                  <div class="">
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="exampleFormControlInput1"
+                      placeholder="address"
+                      (change)="onFileSelected($event)"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+              <div class="row">
+                <div class="col-sm-6">
+                  <button
+                    *ngIf="isEditMode"
+                    class="btn btn-info"
+                    (click)="onClickCancelEditMode()"
+                  >
+                    Cancel
+                  </button>
+                </div>
+                <div class="col-sm-6" *ngIf="isEditMode">
+                  <button
+                    class="btn btn-success"
+                    (click)="onClickUpdate()"
+                    [disabled]="userForm.invalid"
+                  >
+                    Update
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Change Password</h1>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"
+              >New Password</label
+            >
+            <input
+              type="password"
+              class="form-control mb-0"
+              id="exampleFormControlInput1"
+              placeholder="New Password"
+              [(ngModel)]="Password"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"
+              >Confirm New Password</label
+            >
+            <input
+              type="password"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Confirm New Password"
+              [(ngModel)]="ConfirmPassword"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">
+          Close
+        </button>
+        <!-- <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="onClickChangePass()"> -->
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="onClickChangePass()"
+        >
+          Change Password
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -8,10 +8,13 @@ import {
   UserWithIdNameDto,
 } from '../../Models/Interfaces/User/provider.model';
 import {
+  ChangePasswordDto,
   ForgetPasswordDto,
   LoginUserDto,
   LoginUserResponseDto,
   LoginUserValidateOtpDto,
+  UpdateUserDto,
+  UserDto,
   UserNameIdDto,
 } from '../../Models/Interfaces/User/UserDto.model';
 import { LoggedUserDto } from '../../Models/classes/User/LoggedUserDto';
@@ -126,5 +129,23 @@ export class UserService {
     return this.http.get<AppResponse<UserNameIdDto[]>>(
       `${this.Url}/GetAllPatientNameId`
     );
+  }
+
+  //Change Password
+  ChangePassword$(payload: ChangePasswordDto): Observable<AppResponse<null>> {
+    return this.http.post<AppResponse<null>>(
+      `${this.Url}/ChangePassword`,
+      payload
+    );
+  }
+
+  GetUserByUserId$(userId: number): Observable<AppResponse<UserDto>> {
+    return this.http.get<AppResponse<UserDto>>(
+      `${this.Url}/GetUserByUserId?userId=${userId}`
+    );
+  }
+
+  UpdateUser$(payload: UpdateUserDto): Observable<AppResponse<null>> {
+    return this.http.post<AppResponse<null>>(`${this.Url}/UpdateUser`, payload);
   }
 }

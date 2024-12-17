@@ -1,4 +1,19 @@
 <div class="container">
+  <div class="mt-2">
+    <div>
+      <select
+        class="form-select w-25"
+        aria-label="Default select example"
+        [(ngModel)]="status"
+        (click)="onChangeStatus()"
+      >
+        <option value="All">All</option>
+        <option value="Scheduled">Scheduled</option>
+        <option value="Cancelled">Cancelled</option>
+        <option value="Completed">Completed</option>
+      </select>
+    </div>
+  </div>
   <div *ngFor="let appt of appointmentList">
     <div class="card mt-3">
       <div class="card-body row">
@@ -36,15 +51,24 @@
           >
             Cancel
           </button>
-          }@else {
+          } @else if (appt.appointmentStatus === "Completed") {
+          <div>
+            <button
+              class="btn btn-secondary mt-4"
+              type="button"
+              [routerLink]="[
+                '/org/Provider/ViewAppointment',
+                appt.appointmentId
+              ]"
+            >
+              View SOAP
+            </button>
+          </div>
+          } @else {
           <div
             class="text-center mt-4;"
             style="font-size: 22px; margin-top: 30px"
-            [ngClass]="
-              appt.appointmentStatus == 'Cancelled'
-                ? 'text-danger'
-                : 'text-success'
-            "
+            [ngClass]="'text-danger'"
           >
             <strong
               ><small>{{ appt.appointmentStatus }}</small></strong

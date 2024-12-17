@@ -16,14 +16,22 @@ import { Modal } from 'bootstrap';
 import {
   FormBuilder,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home-patient',
   standalone: true,
-  imports: [CommonModule, TimeFormatPipe, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TimeFormatPipe,
+    ReactiveFormsModule,
+    RouterLink,
+  ],
   templateUrl: './home-patient.component.html',
   styleUrl: './home-patient.component.css',
 })
@@ -34,6 +42,7 @@ export class HomePatientComponent implements OnDestroy {
   private modalInstance: Modal | null = null;
   appointmentForm: FormGroup;
   isSubmitClick: boolean = false;
+  status: string = 'Scheduled';
 
   subscriptions: Subscription = new Subscription();
   private appointmentService = inject(AppointmentService);
@@ -43,7 +52,7 @@ export class HomePatientComponent implements OnDestroy {
   constructor(private fb: FormBuilder) {
     const sub = this.userService.loggedUser$.subscribe((res: LoggedUserDto) => {
       this.loggedUser = res;
-      this.GetAppoinments(this.loggedUser.userId);
+      this.GetAppoinments(this.loggedUser.userId, this.status);
     });
 
     this.subscriptions.add(sub);
@@ -56,18 +65,20 @@ export class HomePatientComponent implements OnDestroy {
     });
   }
 
-  GetAppoinments(patientId: number) {
-    this.appointmentService.GetAppointmentByPatientId$(patientId).subscribe({
-      next: (res: AppResponse<GetAppoinmentByPatientIdDto[]>) => {
-        if (res.isSuccess) {
-          this.appointmentList = res.data;
-          console.log(res);
-        }
-      },
-      error: (err: Error) => {
-        console.error('Error to get appoinment :', err);
-      },
-    });
+  GetAppoinments(patientId: number, status: string) {
+    this.appointmentService
+      .GetAppointmentByPatientId$(patientId, status)
+      .subscribe({
+        next: (res: AppResponse<GetAppoinmentByPatientIdDto[]>) => {
+          if (res.isSuccess) {
+            this.appointmentList = res.data;
+            console.log(res);
+          }
+        },
+        error: (err: Error) => {
+          console.error('Error to get appoinment :', err);
+        },
+      });
   }
 
   onClickCancelBtn(appointmentId: number) {
@@ -88,7 +99,7 @@ export class HomePatientComponent implements OnDestroy {
             next: (res: AppResponse<null>) => {
               if (res.isSuccess) {
                 if (this.loggedUser) {
-                  this.GetAppoinments(this.loggedUser.userId);
+                  this.GetAppoinments(this.loggedUser.userId, this.status);
                 }
                 this.isLoader = false;
                 this.tostR.showSuccess(res.message);
@@ -171,7 +182,7 @@ export class HomePatientComponent implements OnDestroy {
       next: (res: AppResponse<null>) => {
         if (res.isSuccess) {
           if (this.loggedUser) {
-            this.GetAppoinments(this.loggedUser?.userId);
+            this.GetAppoinments(this.loggedUser?.userId, this.status);
           }
           this.isLoader = false;
           this.tostR.showSuccess(res.message);
@@ -187,6 +198,12 @@ export class HomePatientComponent implements OnDestroy {
         this.tostR.showError('Internal Service Error');
       },
     });
+  }
+
+  onChangeStatus() {
+    if (this.loggedUser) {
+      this.GetAppoinments(this.loggedUser?.userId, this.status);
+    }
   }
 
   ngOnDestroy(): void {

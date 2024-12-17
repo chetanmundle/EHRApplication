@@ -13,6 +13,7 @@ import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-pas
 import { BookAppointmentComponent } from './pages/org/Patient/book-appointment/book-appointment.component';
 import { ProviderBookAppointmentComponent } from './pages/org/Provider/provider-book-appointment/provider-book-appointment.component';
 import { ViewAppoinmentComponent } from './pages/org/Provider/view-appoinment/view-appoinment.component';
+import { ProfileComponent } from './pages/org/profile/profile.component';
 
 export const routes: Routes = [
   {
@@ -79,7 +80,14 @@ export const routes: Routes = [
         path: 'Provider/ViewAppointment/:appointmentId',
         component: ViewAppoinmentComponent,
         canActivate: [authGuard],
-        data: { roles: ['Provider'] },
+        data: { roles: ['Provider', 'Patient'] },
+      },
+
+      {
+        path: 'Profile',
+        component: ProfileComponent,
+        canActivate: [authGuard],
+        data: { roles: ['Provider', 'Patient'] },
       },
     ],
   },
