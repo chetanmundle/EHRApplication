@@ -104,5 +104,22 @@ namespace EHRApplicationBackend.Controllers
             return Ok(result);
         }
 
+        //Change Password APi
+        [HttpPost("[action]")]
+        [Authorize(Roles = "Patient, Provider")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto changePasswordDto)
+        {
+            var result = await _mediator.Send(new ChangePasswordCommand { ChangePassword = changePasswordDto });
+            return Ok(result);
+        }
+
+
+        [HttpPost("[action]")]
+        [Authorize(Roles = "Patient, Provider")]
+        public async Task<IActionResult> UpdateUser(UpdateUserDto updateUserDto)
+        {
+            var result = await _mediator.Send(new UpdateUserCommand { UpdateUser = updateUserDto });
+            return Ok(result);
+        }
     }
 }

@@ -34,7 +34,7 @@
   {
     "ContainingType": "EHRApplicationBackend.Controllers.AppointmentController",
     "Method": "GetAppoinmentsByPatientId",
-    "RelativePath": "api/Appointment/GetAppoinmentsByPatientId/{patientId}",
+    "RelativePath": "api/Appointment/GetAppoinmentsByPatientId/{patientId}/{status}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -42,6 +42,11 @@
       {
         "Name": "patientId",
         "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],
@@ -197,6 +202,22 @@
   },
   {
     "ContainingType": "EHRApplicationBackend.Controllers.UserController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/User/ChangePassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "changePasswordDto",
+        "Type": "App.Core.Models.User.ChangePasswordDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.UserController",
     "Method": "ForgetPassword",
     "RelativePath": "api/User/ForgetPassword",
     "HttpMethod": "POST",
@@ -344,6 +365,22 @@
       {
         "Name": "createProvider",
         "Type": "App.Core.Models.User.CreateProviderDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EHRApplicationBackend.Controllers.UserController",
+    "Method": "UpdateUser",
+    "RelativePath": "api/User/UpdateUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateUserDto",
+        "Type": "App.Core.Models.User.UpdateUserDto",
         "IsRequired": true
       }
     ],

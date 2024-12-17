@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EHRApplicationBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dc3705e6309d523801ffd3221fb3d3892bd6022f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b0e0ac3f477e4e39c688d8cbc1a717c7fd3fc823")]
 [assembly: System.Reflection.AssemblyProductAttribute("EHRApplicationBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EHRApplicationBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

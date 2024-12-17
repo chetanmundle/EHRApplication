@@ -35,11 +35,11 @@ namespace EHRApplicationBackend.Controllers
             return Ok(result);
         }
 
-        [HttpGet("[action]/{patientId}")]
+        [HttpGet("[action]/{patientId}/{status}")]
         [Authorize(Roles = "Patient")]
-        public async Task<IActionResult> GetAppoinmentsByPatientId(int patientId)
+        public async Task<IActionResult> GetAppoinmentsByPatientId(int patientId,string status)
         {
-            var result = await _mediator.Send(new GetAppointmentByPatientIdQuery { PatientId = patientId });
+            var result = await _mediator.Send(new GetAppointmentByPatientIdQuery { PatientId = patientId, Status = status });
             return Ok(result);
         }
 
@@ -62,7 +62,7 @@ namespace EHRApplicationBackend.Controllers
 
 
         [HttpGet("[action]/{appointmentId}")]
-        [Authorize(Roles = "Provider")]
+        [Authorize(Roles = "Provider, Patient")]
         public async Task<IActionResult> GetAppointmentWithSOAPNotes(int appointmentId)
         {
             var result = await _mediator.Send(new GetAppointmentWithSOAPNotesQuery { AppointmentId= appointmentId });   

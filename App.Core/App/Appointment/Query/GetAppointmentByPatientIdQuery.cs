@@ -17,6 +17,7 @@ namespace App.Core.App.Appointment.Query
     public class GetAppointmentByPatientIdQuery : IRequest<AppResponse<IEnumerable<GetAppointmentDto>>>
     {
         public int PatientId { get; set; }
+        public string Status { get; set; }
     }
 
     internal class GetAppointmentByPatientIdHandler : IRequestHandler<GetAppointmentByPatientIdQuery, AppResponse<IEnumerable<GetAppointmentDto>>>
@@ -31,9 +32,12 @@ namespace App.Core.App.Appointment.Query
         public async Task<AppResponse<IEnumerable<GetAppointmentDto>>> Handle(GetAppointmentByPatientIdQuery request, CancellationToken cancellationToken)
         {
             var patientUserId = request.PatientId;
+            var status = request.Status;
 
             var appointmentlist = await _appDbContext.Set<Domain.Entities.Appointment>()
-                          .Where(a => a.PatientId == patientUserId)
+                          .Where(a => a.PatientId == patientUserId &&
+                                 ( status != "All" ? a.AppointmentStatus == status : true )
+                           )
                           .OrderByDescending(x => x)
                           .ToListAsync(cancellationToken);
                           //.OrderByDescending(a => a.AppointmentDate).ToListAsync(cancellationToken);
