@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = App.Core
-build_property.ProjectDir = D:\Assessment\Assessment_12_12_24_PawanSir\EHRApplicationBackend\EHRApplication\App.Core\
+build_property.ProjectDir = D:\Visual Studio\Assessment_smartData\EHRApplication_Assessment\EHRApplicationBackend\EHRApplicationBackend\App.Core\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
