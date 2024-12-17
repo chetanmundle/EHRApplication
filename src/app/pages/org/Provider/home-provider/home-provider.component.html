@@ -1,37 +1,51 @@
 <div class="container pt-2">
-  <div *ngIf="appointmentList?.length === 0" class="text-center">
-    <h2>No Appointment Schedule</h2>
-  </div>
-  <div *ngIf="appointmentList?.length !== 0">
-    <h2 class="text-center text-success mb-2">Your Appointment</h2>
-    <div class="row gap-3 justify-content-evenly col-12">
-      <div
-        class="card"
-        style="width: 16rem"
-        *ngFor="let appt of appointmentList"
+  <div class="mt-2">
+    <div>
+      <select
+        class="form-select w-25"
+        aria-label="Default select example"
+        [(ngModel)]="status"
+        (click)="onChangeStatus()"
       >
-        <div class="d-flex justify-content-center mt-2">
-          <img
-            [src]="appt.profileImage"
-            class="rounded-circle"
-            alt="..."
-            style="width: 100px; height: 100px"
-          />
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">{{ appt.patientName }}</h5>
-          <div>
-            <p class="mb-1">Appt Date : {{ appt.appointmentDate | date }}</p>
-            <p class="mb-1">
-              Appt Time :
-              {{ appt.appointmentTime | timeFormat }}
-            </p>
+        <option value="Scheduled">Scheduled</option>
+        <option value="Cancelled">Cancelled</option>
+        <option value="Completed">Completed</option>
+      </select>
+    </div>
 
-            <p class="mb-1">
-              Appt Status :
-              {{ appt.appointmentStatus }}
-            </p>
-            <!-- <p class="mb-1">
+    <div *ngIf="appointmentList?.length === 0" class="text-center">
+      <h2>No Appointment Schedule</h2>
+    </div>
+    <div *ngIf="appointmentList?.length !== 0">
+      <h2 class="text-center text-success mb-2">Your Appointment</h2>
+      <div class="row gap-3 justify-content-evenly col-12">
+        <div
+          class="card"
+          style="width: 16rem"
+          *ngFor="let appt of appointmentList"
+        >
+          <div class="d-flex justify-content-center mt-2">
+            <img
+              [src]="appt.profileImage"
+              class="rounded-circle"
+              alt="..."
+              style="width: 100px; height: 100px"
+            />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ appt.patientName }}</h5>
+            <div>
+              <p class="mb-1">Appt Date : {{ appt.appointmentDate | date }}</p>
+              <p class="mb-1">
+                Appt Time :
+                {{ appt.appointmentTime | timeFormat }}
+              </p>
+
+              <p class="mb-1">
+                Appt Status :
+                {{ appt.appointmentStatus }}
+              </p>
+              <!-- <p class="mb-1">
               Appt Duration :
               {{ appt.appointmentTime | timeFormat }} hr
             </p>
@@ -43,32 +57,57 @@
               Age :
               {{ appt.age }}
             </p> -->
-          </div>
-          <div class="row col-12 gap-3 mt-4 justify-content-evenly">
-            <button
-              class="btn btn-danger col-5"
-              (click)="onClickCancel(appt.appointmentId)"
+            </div>
+
+            @if (status === "Scheduled") {
+            <div class="row col-12 gap-3 mt-4 justify-content-evenly">
+              <button
+                class="btn btn-danger col-5"
+                (click)="onClickCancel(appt.appointmentId)"
+              >
+                Cancel
+              </button>
+              <button
+                class="btn btn-success col-5"
+                [routerLink]="[
+                  '/org/Provider/ViewAppointment',
+                  appt.appointmentId
+                ]"
+              >
+                View
+              </button>
+            </div>
+            }@else if (status === "Cancelled") {
+            <div
+              class="row col-12 gap-3 mt-4 justify-content-evenly text-danger"
             >
-              Cancel
-            </button>
-            <button
-              class="btn btn-success col-5"
-              [routerLink]="[
-                '/org/Provider/ViewAppointment',
-                appt.appointmentId
-              ]"
+              Cancelled
+            </div>
+            } @else if (status === "Completed") {
+            <div
+              class="row col-12 gap-3 mt-4 justify-content-evenly text-danger"
             >
-              View
-            </button>
+              <button
+              type="button" 
+              class="btn btn-secondary"
+                [routerLink]="[
+                  '/org/Provider/ViewAppointment',
+                  appt.appointmentId
+                ]"
+              >
+                View SOAP Note
+              </button>
+            </div>
+            }
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-@if (isLoader) {
-<div class="loader-backdrop">
-  <span class="loader"></span>
+  @if (isLoader) {
+  <div class="loader-backdrop">
+    <span class="loader"></span>
+  </div>
+  }
 </div>
-}

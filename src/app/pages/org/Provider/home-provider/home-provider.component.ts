@@ -10,11 +10,12 @@ import { TimeFormatPipe } from '../../../../core/pipe/TimeFormat/time-format.pip
 import { MyToastServiceService } from '../../../../core/services/MyToastService/my-toast-service.service';
 import Swal from 'sweetalert2';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home-provider',
   standalone: true,
-  imports: [CommonModule, TimeFormatPipe, RouterLink],
+  imports: [CommonModule, TimeFormatPipe, RouterLink, FormsModule],
   templateUrl: './home-provider.component.html',
   styleUrl: './home-provider.component.css',
 })
@@ -22,6 +23,7 @@ export class HomeProviderComponent implements OnDestroy {
   appointmentList?: GetAppoinmentByProviderIdDto[];
   loggedUser?: LoggedUserDto;
   isLoader: boolean = false;
+  status: string = 'Scheduled';
 
   private subscriptions: Subscription = new Subscription();
   private userService = inject(UserService);
@@ -31,14 +33,14 @@ export class HomeProviderComponent implements OnDestroy {
   constructor() {
     const sub = this.userService.loggedUser$.subscribe((res: LoggedUserDto) => {
       this.loggedUser = res;
-      this.GetAllAppointments(this.loggedUser.userId);
+      this.GetAllAppointments(this.loggedUser.userId, this.status);
     });
     this.subscriptions.add(sub);
   }
 
-  GetAllAppointments(providerId: number) {
+  GetAllAppointments(providerId: number, status: string) {
     const sub = this.appointmentService
-      .GetAppointmentByProviderId$(providerId)
+      .GetAppointmentByProviderId$(providerId, status)
       .subscribe({
         next: (res: AppResponse<GetAppoinmentByProviderIdDto[]>) => {
           if (res.isSuccess) {
@@ -71,7 +73,7 @@ export class HomeProviderComponent implements OnDestroy {
             next: (res: AppResponse<null>) => {
               if (res.isSuccess) {
                 if (this.loggedUser) {
-                  this.GetAllAppointments(this.loggedUser?.userId);
+                  this.GetAllAppointments(this.loggedUser?.userId, this.status);
                 }
 
                 this.isLoader = false;
@@ -91,6 +93,12 @@ export class HomeProviderComponent implements OnDestroy {
       }
     });
   };
+
+  onChangeStatus() {
+    if (this.loggedUser) {
+      this.GetAllAppointments(this.loggedUser?.userId, this.status);
+    }
+  }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

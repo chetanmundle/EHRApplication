@@ -49,10 +49,11 @@ export class AppointmentService {
 
   // Get Providers Appointment which is booked by custoemer
   GetAppointmentByProviderId$(
-    providerId: number
+    providerId: number,
+    status: string
   ): Observable<AppResponse<GetAppoinmentByProviderIdDto[]>> {
     return this.http.get<AppResponse<GetAppoinmentByProviderIdDto[]>>(
-      `${this.Url}/GetAppoinmentsByProvidertId/${providerId}`
+      `${this.Url}/GetAppoinmentsByProvidertId/${providerId}/${status}`
     );
   }
 
