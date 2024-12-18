@@ -18,6 +18,7 @@ namespace App.Core.Models.Appointment
         public float? Fee { get; set; }
         public string PatientName { get; set; }
         public string ProfileImage { get; set; }
+        public string email { get; set; }
         public string Gender { get; set; }
         public int Age { get; set; }
         public string BloodGroup { get; set; }

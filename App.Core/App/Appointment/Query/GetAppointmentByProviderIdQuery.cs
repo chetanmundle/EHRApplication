@@ -61,7 +61,8 @@ namespace App.Core.App.Appointment.Query
                     PatientName = patient.FirstName + " " + patient.LastName,
                     Gender = patient.Gender,
                     ProfileImage = patient.ProfileImage,
-                    Age = Calculate.CalculateAge(patient.DateOfBirth ?? DateTime.Now)
+                    Age = Calculate.CalculateAge(patient.DateOfBirth ?? DateTime.Now),
+                    email = patient.Email,
                 };
 
                 resultlist.Add(obj);

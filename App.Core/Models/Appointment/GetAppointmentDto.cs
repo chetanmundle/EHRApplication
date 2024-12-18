@@ -18,5 +18,6 @@ namespace App.Core.Models.Appointment
         public string AppointmentStatus { get; set; }
         public string ChiefComplaint { get; set; }
         public float? Fee { get; set; }
+        public string email { get; set; }
     }
 }

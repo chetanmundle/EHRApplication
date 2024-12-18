@@ -59,6 +59,7 @@ namespace App.Core.App.Appointment.Query
                     Fee = app.Fee,
                     ProviderId = app.ProviderId,
                     ProviderName = provider.FirstName +" "+ provider.LastName,
+                    email = provider.Email,
                 };
 
                 resultlist.Add(list);
