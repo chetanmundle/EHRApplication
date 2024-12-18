@@ -17,6 +17,7 @@ import { ImageService } from '../../../core/services/ImageService/image.service'
 import { RegisterPatientDto } from '../../../core/Models/Interfaces/User/patient.model';
 import { UserService } from '../../../core/services/UserService/user.service';
 import { Router } from '@angular/router';
+import { useAuthStore } from '../../../core/stores/auth.store';
 
 @Component({
   selector: 'app-patient-register',
@@ -42,6 +43,7 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
   private imageService = inject(ImageService);
   private userService = inject(UserService);
   private router = inject(Router);
+  private authStore = inject(useAuthStore);
 
   constructor(private formBuilder: FormBuilder) {
     this.registerForm = this.formBuilder.group({
@@ -222,6 +224,7 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
     const sub = this.userService.RegisterPatient$(payload).subscribe({
       next: (res: AppResponse<null>) => {
         if (res.isSuccess) {
+          this.RegisterInFirebase(payload.email, 'Pass@123', payload.firstName);
           this.isLoader = false;
           this.onClickClearBtn();
           this.tostR.showSuccess(res.message);
@@ -239,5 +242,29 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions.add(sub);
+  }
+
+  async RegisterInFirebase(
+    email: string,
+    password: string,
+    displayName: string
+  ) {
+    try {
+      console.log(displayName);
+      await this.authStore.signUp(email, password, displayName);
+      // Navigate to chat list after successful signup
+    } catch (error) {
+      console.error('Signup error:', error);
+      if (error instanceof Error) {
+        console.log('Errm : ', error.message);
+
+        // this.errorMessage.set(error.message);
+      } else {
+        console.log('Errm : ', error);
+        // this.errorMessage.set(
+        //   'An unexpected error occurred. Please try again.'
+        // );
+      }
+    }
   }
 }

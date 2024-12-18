@@ -29,6 +29,7 @@ export interface GetAppoinmentByPatientIdDto {
   appointmentStatus: string;
   chiefComplaint: string;
   fee: number;
+  email: string;
 }
 
 export interface GetAppoinmentByProviderIdDto {
@@ -45,6 +46,7 @@ export interface GetAppoinmentByProviderIdDto {
   gender: string;
   age: number;
   bloodGroup: string;
+  email: string;
 }
 
 export interface AppointmentWithSOAPNotesDto {

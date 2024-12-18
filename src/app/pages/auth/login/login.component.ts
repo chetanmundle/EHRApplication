@@ -13,6 +13,7 @@ import { LoginUserDto } from '../../../core/Models/Interfaces/User/UserDto.model
 import { AppResponse } from '../../../core/Models/AppResponse';
 import { CommonModule } from '@angular/common';
 import { OtpComponent } from '../../../shared/components/otp/otp.component';
+import { useAuthStore } from '../../../core/stores/auth.store';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,7 @@ export class LoginComponent {
   private userService = inject(UserService);
   private router = inject(Router);
   private tostr = inject(MyToastServiceService);
+  private authStore = inject(useAuthStore);
 
   constructor(private formBuilder: FormBuilder) {
     this.loginForm = this.formBuilder.group({
@@ -61,6 +63,7 @@ export class LoginComponent {
       next: (res: AppResponse<null>) => {
         if (res.isSuccess) {
           this.isLoader = false;
+          this.FirebaseGetLogin(payload.email, 'Pass@123');
           this.isOtpBoxOpen = true;
         } else {
           this.isLoader = false;
@@ -87,5 +90,26 @@ export class LoginComponent {
 
   onCancelBtnClick(value: boolean) {
     this.isOtpBoxOpen = value;
+  }
+
+  async FirebaseGetLogin(email: string, password: string) {
+    try {
+      await this.authStore.login(email, password);
+      // this.router.navigate(['/chat']);
+      // Navigate to chat list after successful login
+    } catch (error) {
+      console.error('Login error:', error);
+      if (error instanceof Error) {
+        console.log('Error logi ', error.message);
+
+        // this.errorMessage.set(error.message);
+      } else {
+        console.log("'An unexpected error occurred. Please try again.'");
+
+        // this.errorMessage.set(
+        //   'An unexpected error occurred. Please try again.'
+        // );
+      }
+    }
   }
 }

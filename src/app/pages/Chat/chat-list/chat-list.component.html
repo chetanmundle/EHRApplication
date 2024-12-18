@@ -1,0 +1,40 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h4">Chats</h1>
+        <a routerLink="/new-chat" class="btn btn-primary">New Chat</a>
+      </div>
+
+      <div>
+        <ul class="list-group">
+          <!-- Loop over chats -->
+          @for (chat of chatStore.chats(); track chat.id) {
+          <li class="list-group-item d-flex align-items-center">
+            <a [routerLink]="['/org/chat', chat.id]" class="text-decoration-none w-100">
+              <div class="d-flex justify-content-between w-100">
+                <!-- Chat details -->
+                <div class="d-flex align-items-center">
+               
+                  <div class="ms-3">
+                    <p class="mb-0 fw-bold">{{ getChatName(chat) }}</p>
+                    <p class="mb-0 text-muted">{{ chat.lastMessage }}</p>
+                  </div>
+                </div>
+                <!-- Message timestamp -->
+                <div class="d-flex flex-column align-items-end">
+                  <small class="text-muted">{{ chat.lastMessageTimestamp.toDate() | date : "short" }}</small>
+                </div>
+              </div>
+            </a>
+          </li>
+          }
+        </ul>
+      </div>
+
+      @if (chatStore.chats().length === 0) {
+      <p class="text-center text-muted">No chats available. Start a new chat!</p>
+      }
+    </div>
+  </div>
+</div>

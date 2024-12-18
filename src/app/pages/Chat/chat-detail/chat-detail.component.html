@@ -1,0 +1,49 @@
+<div class="container-fluid d-flex flex-column  p-0" style="height: 88vh;">
+  <!-- Chat Header -->
+  <div class="bg-white shadow-sm py-1 px-4">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2 class="h4 mb-0">Chat</h2>
+      <a routerLink="/org/Chat" class="btn btn-outline-secondary">Back to Chats</a>
+    </div>
+  </div>
+
+  <!-- Messages Display -->
+  <div class="flex-grow-1 overflow-auto p-3" style="max-height: 70vh;" #messagesContainer>
+    <div class="d-flex flex-column">
+      <!-- Loop over messages -->
+      @for (message of chatStore.messages(); track message.id) {
+      <div class="d-flex mb-3 justify-content-{{ message.senderId === authStore.currentUser()?.uid ? 'end' : 'start' }}">
+        <div class="d-flex flex-column">
+          <div class="rounded-3 py-2 px-3"
+            [ngClass]="{
+              'bg-primary text-white': message.senderId === authStore.currentUser()?.uid,
+              'bg-light text-dark': message.senderId !== authStore.currentUser()?.uid
+            }">
+            <p class="mb-1">{{ message.text }}</p>
+            <p class="text-muted small mb-0">{{ message.timestamp.toDate() | date : 'short' }}</p>
+          </div>
+        </div>
+      </div>
+      }
+      <!-- No messages placeholder -->
+      @if (chatStore.messages().length === 0) {
+      <p class="text-muted text-center">No messages yet.</p>
+      }
+    </div>
+  </div>
+
+  <!-- Input Area (Fixed at Bottom) -->
+  <div class="bg-white border-top p-3">
+    <form (ngSubmit)="sendMessage()" class="d-flex">
+      <input
+        [(ngModel)]="newMessage"
+        name="newMessage"
+        type="text"
+        placeholder="Type a message..."
+        required
+        class="form-control me-2"
+      />
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+  </div>
+</div>

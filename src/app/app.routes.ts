@@ -14,8 +14,35 @@ import { BookAppointmentComponent } from './pages/org/Patient/book-appointment/b
 import { ProviderBookAppointmentComponent } from './pages/org/Provider/provider-book-appointment/provider-book-appointment.component';
 import { ViewAppoinmentComponent } from './pages/org/Provider/view-appoinment/view-appoinment.component';
 import { ProfileComponent } from './pages/org/profile/profile.component';
+import { ChatListComponent } from './pages/Chat/chat-list/chat-list.component';
+import { ChatDetailComponent } from './pages/Chat/chat-detail/chat-detail.component';
+
+// const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
 export const routes: Routes = [
+  // {
+  //   path: 'signup',
+  //   component: SignupComponent,
+  // },
+  // {
+  //   path: 'login',
+  //   component: LoginComponentT,
+  // },
+  // {
+  //   path: 'chat',
+  //   component: ChatListComponent,
+  //   ...canActivate(redirectUnauthorizedToLogin),
+  // },
+  // {
+  //   path: 'chat/:chatId',
+  //   component: ChatDetailComponent,
+  //   ...canActivate(redirectUnauthorizedToLogin),
+  // },
+  // {
+  //   path: 'new-chat',
+  //   component: NewChatComponent,
+  //   ...canActivate(redirectUnauthorizedToLogin),
+  // },
   {
     path: '',
     redirectTo: 'auth/Login',
@@ -86,6 +113,18 @@ export const routes: Routes = [
       {
         path: 'Profile',
         component: ProfileComponent,
+        canActivate: [authGuard],
+        data: { roles: ['Provider', 'Patient'] },
+      },
+      {
+        path: 'Chat',
+        component: ChatListComponent,
+        canActivate: [authGuard],
+        data: { roles: ['Provider', 'Patient'] },
+      },
+      {
+        path: 'chat/:chatId',
+        component: ChatDetailComponent,
         canActivate: [authGuard],
         data: { roles: ['Provider', 'Patient'] },
       },

@@ -45,11 +45,18 @@
             Edit
           </button>
           <button
-            class="btn btn-danger"
+            class="btn btn-danger mb-2"
             type="button"
             (click)="onClickCancelBtn(appt.appointmentId)"
           >
             Cancel
+          </button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            (click)="onClickMessage(appt.email)"
+          >
+            Message
           </button>
           } @else if (appt.appointmentStatus === "Completed") {
           <div>

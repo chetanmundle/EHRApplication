@@ -19,6 +19,7 @@ import { AppResponse } from '../../../core/Models/AppResponse';
 import { RegisterProvidertDto } from '../../../core/Models/Interfaces/User/provider.model';
 import { SpecializationService } from '../../../core/services/SpecializationService/specialization.service';
 import { specialisationDto } from '../../../core/Models/Interfaces/Specialization/specialization.model';
+import { useAuthStore } from '../../../core/stores/auth.store';
 
 @Component({
   selector: 'app-provider-register',
@@ -46,6 +47,7 @@ export class ProviderRegisterComponent {
   private userService = inject(UserService);
   private router = inject(Router);
   private specializationService = inject(SpecializationService);
+  private authStore = inject(useAuthStore);
 
   constructor(private formBuilder: FormBuilder) {
     this.registerForm = this.formBuilder.group({
@@ -253,6 +255,11 @@ export class ProviderRegisterComponent {
     const sub = this.userService.RegisterProvider$(payload).subscribe({
       next: (res: AppResponse<null>) => {
         if (res.isSuccess) {
+          this.RegisterInFirebase(
+            payload.email,
+            'Pass@123',
+            'Dr. ' + payload.firstName
+          );
           this.isLoader = false;
           this.onClickClearBtn();
           this.tostR.showSuccess(res.message);
@@ -269,5 +276,29 @@ export class ProviderRegisterComponent {
       },
     });
     this.subscriptions.add(sub);
+  }
+
+  async RegisterInFirebase(
+    email: string,
+    password: string,
+    displayName: string
+  ) {
+    try {
+      console.log(displayName);
+      await this.authStore.signUp(email, password, displayName);
+      // Navigate to chat list after successful signup
+    } catch (error) {
+      console.error('Signup error:', error);
+      if (error instanceof Error) {
+        console.log('Errm : ', error.message);
+
+        // this.errorMessage.set(error.message);
+      } else {
+        console.log('Errm : ', error);
+        // this.errorMessage.set(
+        //   'An unexpected error occurred. Please try again.'
+        // );
+      }
+    }
   }
 }

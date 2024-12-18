@@ -20,7 +20,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { useChatStore } from '../../../../core/stores/chat.store';
 
 @Component({
   selector: 'app-home-patient',
@@ -48,6 +49,8 @@ export class HomePatientComponent implements OnDestroy {
   private appointmentService = inject(AppointmentService);
   private userService = inject(UserService);
   private tostR = inject(MyToastServiceService);
+  private router = inject(Router);
+  private chatStore = inject(useChatStore);
 
   constructor(private fb: FormBuilder) {
     const sub = this.userService.loggedUser$.subscribe((res: LoggedUserDto) => {
@@ -203,6 +206,24 @@ export class HomePatientComponent implements OnDestroy {
   onChangeStatus() {
     if (this.loggedUser) {
       this.GetAppoinments(this.loggedUser?.userId, this.status);
+    }
+  }
+
+  async onClickMessage(email: string) {
+    try {
+      debugger;
+      const chatId = await this.chatStore.createNewChat(email);
+
+      this.router.navigate(['/org/chat', chatId]);
+    } catch (error) {
+      console.error('New chat error:', error);
+      if (error instanceof Error) {
+        // this.errorMessage.set(error.message);
+      } else {
+        // this.errorMessage.set(
+        //   'An unexpected error occurred. Please try again.'
+        // );
+      }
     }
   }
 

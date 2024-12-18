@@ -9,8 +9,9 @@ import { CommonModule } from '@angular/common';
 import { TimeFormatPipe } from '../../../../core/pipe/TimeFormat/time-format.pipe';
 import { MyToastServiceService } from '../../../../core/services/MyToastService/my-toast-service.service';
 import Swal from 'sweetalert2';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { useChatStore } from '../../../../core/stores/chat.store';
 
 @Component({
   selector: 'app-home-provider',
@@ -29,6 +30,8 @@ export class HomeProviderComponent implements OnDestroy {
   private userService = inject(UserService);
   private appointmentService = inject(AppointmentService);
   private tostR = inject(MyToastServiceService);
+  private chatStore = inject(useChatStore);
+  private router = inject(Router);
 
   constructor() {
     const sub = this.userService.loggedUser$.subscribe((res: LoggedUserDto) => {
@@ -102,5 +105,21 @@ export class HomeProviderComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  async onClickMessage(email: string) {
+    try {
+      const chatId = await this.chatStore.createNewChat(email);
+      this.router.navigate(['/org/chat', chatId]);
+    } catch (error) {
+      console.error('New chat error:', error);
+      if (error instanceof Error) {
+        // this.errorMessage.set(error.message);
+      } else {
+        // this.errorMessage.set(
+        //   'An unexpected error occurred. Please try again.'
+        // );
+      }
+    }
   }
 }
