@@ -15,12 +15,12 @@ using System.Threading.Tasks;
 
 namespace App.Core.App.User.Command
 {
-    public class LoginUserCommand : IRequest<AppResponse>
+    public class LoginUserCommand : IRequest<AppResponse<string>>
     {
         public LoginUserDto LoginUserDto { get; set; }
     }
 
-    internal class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, AppResponse>
+    internal class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, AppResponse<string>>
     {
         private readonly IAppDbContext _appDbContext;
         private readonly IEncryptionService _encryptionService;
@@ -35,7 +35,7 @@ namespace App.Core.App.User.Command
             _emailSmtpService = emailSmtpService;
         }
 
-        public async Task<AppResponse> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+        public async Task<AppResponse<string>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
             var LoginDto = request.LoginUserDto;
 
@@ -43,11 +43,13 @@ namespace App.Core.App.User.Command
                            .FirstOrDefaultAsync(u => u.Email == LoginDto.Email ||
                                                    u.UserName ==  LoginDto.Email, cancellationToken);
 
-            if( user is null)
-                return AppResponse.Response(false, "Invalid Username or Email", HttpStatusCodes.NotFound);
+            if (user is null)
+                return AppResponse.Fail<string>(null, "Invalid Username or Email", HttpStatusCodes.NotFound);
+                //return AppResponse.Response(false, "Invalid Username or Email", HttpStatusCodes.NotFound);
 
             if(!_encryptionService.VerifyPassword(LoginDto.Password, user.Password))
-                 return AppResponse.Response(false, "Invalid Password", HttpStatusCodes.NotFound);
+                return AppResponse.Fail<string>(null, "Invalid Password", HttpStatusCodes.NotFound);
+            //return AppResponse.Response(false, "Invalid Password", HttpStatusCodes.NotFound);
 
             Random random = new Random();
             int otp = random.Next(100000, 999999);
@@ -66,7 +68,8 @@ namespace App.Core.App.User.Command
 
             _emailSmtpService.SendEmailOtp(user.Email, user.FirstName, "Otp for Login", otp);
 
-            return AppResponse.Response(true, $"Otp is Send to {user.Email}");
+            //return AppResponse.Response(true, $"Otp is Send to {user.Email}");
+            return AppResponse.Success<string>(user.Email, $"Otp is Send to {user.Email}");
 
         }
     }
