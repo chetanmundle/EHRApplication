@@ -8,7 +8,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -39,7 +38,7 @@ namespace App.Core.App.Appointment.Command
 
             var appointmentDate = bookAppointmentDto.AppointmentDate;
             var providerId = bookAppointmentDto.ProviderId;
-        
+
             var patientId = bookAppointmentDto.PatientId;
 
 
@@ -158,6 +157,6 @@ namespace App.Core.App.Appointment.Command
                 }
             }
         }
-    
-}
+
+    }
 }

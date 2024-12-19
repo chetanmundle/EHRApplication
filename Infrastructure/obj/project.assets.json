@@ -4624,19 +4624,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\cheta\\.nuget\\packages\\": {}
+    "C:\\Users\\chetanmundle\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\Infrastructure\\Infrastructure.csproj",
+      "projectUniqueName": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\Infrastructure\\Infrastructure.csproj",
       "projectName": "Infrastructure",
-      "projectPath": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\Infrastructure\\Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\cheta\\.nuget\\packages\\",
-      "outputPath": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\Infrastructure\\obj\\",
+      "projectPath": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\Infrastructure\\Infrastructure.csproj",
+      "packagesPath": "C:\\Users\\chetanmundle\\.nuget\\packages\\",
+      "outputPath": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\cheta\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\chetanmundle\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4651,11 +4651,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\App.Core\\App.Core.csproj": {
-              "projectPath": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\App.Core\\App.Core.csproj"
+            "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\App.Core\\App.Core.csproj": {
+              "projectPath": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\App.Core\\App.Core.csproj"
             },
-            "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\Domain\\Domain.csproj": {
-              "projectPath": "D:\\Visual Studio\\Assessment_smartData\\EHRApplication_Assessment\\EHRApplicationBackend\\EHRApplicationBackend\\Domain\\Domain.csproj"
+            "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\Domain\\Domain.csproj": {
+              "projectPath": "D:\\Assessment\\Assessment_12_12_24_PawanSir\\EHRApplicationBackend\\EHRApplication\\Domain\\Domain.csproj"
             }
           }
         }
@@ -4724,7 +4724,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
