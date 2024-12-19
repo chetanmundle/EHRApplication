@@ -49,6 +49,7 @@ export class BookAppointmentComponent
   providersList?: UserWithIdNameDto[];
   loggedUser?: LoggedUserDto;
   fee: number = 0;
+  isTimeValid: boolean = true;
 
   private modalInstance: Modal | null = null;
   isLoader: boolean = false;
@@ -76,7 +77,7 @@ export class BookAppointmentComponent
   private toastr = inject(MyToastServiceService);
   private router = inject(Router);
 
-  isTimeValid: boolean = true;
+  
 
   constructor(
     private fb: FormBuilder,

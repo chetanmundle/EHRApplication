@@ -63,10 +63,12 @@ export class HomeProviderComponent implements OnDestroy {
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       icon: 'warning',
-      showCancelButton: true,
+      //   showCancelButton: true,
+      showCloseButton: true,
+      showDenyButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: 'Yes, Cancel it!',
     }).then((result) => {
       if (result.isConfirmed) {
         this.isLoader = true;
@@ -108,8 +110,8 @@ export class HomeProviderComponent implements OnDestroy {
   }
 
   async onClickMessage(email: string) {
-    alert('Implement It First');
-    return;
+    // alert('Implement It First');
+    // return;
 
     // comment out above code for working chat
 

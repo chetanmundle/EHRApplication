@@ -44,6 +44,7 @@ export class HomePatientComponent implements OnDestroy {
   appointmentForm: FormGroup;
   isSubmitClick: boolean = false;
   status: string = 'Scheduled';
+  isTimeValid: boolean = true;
 
   subscriptions: Subscription = new Subscription();
   private appointmentService = inject(AppointmentService);
@@ -89,10 +90,12 @@ export class HomePatientComponent implements OnDestroy {
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       icon: 'warning',
-      showCancelButton: true,
+      showCloseButton:true,
+      showDenyButton:true,
+    //   showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: 'Yes, Cancel it!',
     }).then((result) => {
       if (result.isConfirmed) {
         this.isLoader = true;
@@ -123,6 +126,7 @@ export class HomePatientComponent implements OnDestroy {
 
   // Function to open the modal CArdModal
   openModal(appoinment: GetAppoinmentByPatientIdDto) {
+    this.isTimeValid = true;
     this.appointmentForm
       .get('appointmentId')
       ?.setValue(appoinment.appointmentId);
@@ -165,7 +169,7 @@ export class HomePatientComponent implements OnDestroy {
 
   onClickUpdate() {
     this.isSubmitClick = true;
-    if (this.appointmentForm.invalid) {
+    if (this.appointmentForm.invalid || !this.isTimeValid) {
       this.tostR.showError('Enter All Required Fields');
       return;
     }
@@ -228,6 +232,80 @@ export class HomePatientComponent implements OnDestroy {
         // this.errorMessage.set(
         //   'An unexpected error occurred. Please try again.'
         // );
+      }
+    }
+  }
+
+  // validate time
+  onChangeTime(event: Event) {
+    const date = this.appointmentForm.get('appointmentDate')?.value;
+    if (date) {
+      const selectedDate = new Date(date);
+      const today = new Date();
+
+      selectedDate.setHours(0, 0, 0, 0); // Normalize to midnight
+      today.setHours(0, 0, 0, 0); // Normalize to midnight
+
+      if (selectedDate.getTime() === today.getTime()) {
+        const selectedTime = (event.target as HTMLInputElement).value;
+
+        // Get current time and add one hour
+        const now = new Date();
+        now.setHours(now.getHours() + 1);
+        const nextHour = now.getHours().toString().padStart(2, '0');
+        const nextMinutes = now.getMinutes().toString().padStart(2, '0');
+        const nextTime = `${nextHour}:${nextMinutes}`;
+
+        // Convert selected time and next time to Date objects for comparison
+        const selectedDateTime = new Date(
+          `${today.toDateString()} ${selectedTime}:00`
+        ); // Ensure seconds are included for accuracy
+
+        const nextDateTime = new Date(`${today.toDateString()} ${nextTime}:00`); // Add seconds
+
+        // Use getTime() for precise comparison of time values
+        if (selectedDateTime.getTime() < nextDateTime.getTime()) {
+          this.isTimeValid = false;
+          console.log('Selected time is less than one hour from now.');
+        } else {
+          this.isTimeValid = true;
+          console.log('Selected time is valid.');
+        }
+      }
+    }
+  }
+
+  onChangeDate() {
+    const time = this.appointmentForm.get('appointmentTime')?.value;
+    if (time) {
+      const date = this.appointmentForm.get('appointmentDate')?.value;
+      const selectedDate = new Date(date);
+      const today = new Date();
+
+      selectedDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate.getTime() === today.getTime()) {
+        const selectedTime = time;
+
+        // Get current time and add one hour
+        const now = new Date();
+        now.setHours(now.getHours() + 1);
+        const nextHour = now.getHours().toString().padStart(2, '0');
+        const nextMinutes = now.getMinutes().toString().padStart(2, '0');
+        const nextTime = `${nextHour}:${nextMinutes}`;
+
+        // Convert selected time and next time to Date objects for comparison
+        const selectedDateTime = new Date(
+          `${today.toDateString()} ${selectedTime}`
+        );
+        const nextDateTime = new Date(`${today.toDateString()} ${nextTime}`);
+
+        if (selectedDateTime < nextDateTime) {
+          this.isTimeValid = false;
+        } else {
+          this.isTimeValid = true;
+        }
       }
     }
   }
