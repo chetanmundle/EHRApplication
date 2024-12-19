@@ -194,7 +194,7 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
         },
         error: (err: Error) => {
           this.isLoader = false;
-          console.log('Unble to Save the Image', err.message);
+        //   'Unble to Save the Image', err.message;
         },
       });
 
@@ -250,7 +250,6 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
     displayName: string
   ) {
     try {
-      console.log(displayName);
       await this.authStore.signUp(email, password, displayName);
       // Navigate to chat list after successful signup
     } catch (error) {

@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { useAuthStore } from '../../../core/stores/auth.store';
 
-
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -132,7 +131,6 @@ export class SignupComponent {
 
   async onSubmit() {
     try {
-      console.log(this.displayName);
       await this.authStore.signUp(this.email, this.password, this.displayName);
       this.router.navigate(['/chat']);
       // Navigate to chat list after successful signup

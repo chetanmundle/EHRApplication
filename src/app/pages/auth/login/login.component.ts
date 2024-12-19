@@ -57,7 +57,6 @@ export class LoginComponent {
       password: this.loginForm.get('password')?.value,
     };
 
-    console.log('Login data : ', payload);
 
     const sub = this.userService.LoginUser$(payload).subscribe({
       next: (res: AppResponse<null>) => {

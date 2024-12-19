@@ -10,7 +10,7 @@ import { MyToastServiceService } from '../../../core/services/MyToastService/my-
 import { Subscription } from 'rxjs';
 import { UserService } from '../../../core/services/UserService/user.service';
 import { Router, RouterLink } from '@angular/router';
-import { OtpService } from '../../../core/Services/OtpService/otp.service';
+import { OtpService } from '../../../core/services/OtpService/otp.service';
 import { AppResponse } from '../../../core/Models/AppResponse';
 import { ForgetPasswordDto } from '../../../core/Models/Interfaces/User/UserDto.model';
 
@@ -50,7 +50,7 @@ export class ForgotPasswordComponent implements OnDestroy {
   // this fuction send the otp
   onClickSendOtpBtn() {
     const emailControl = this.passwordResetForm.get('email');
-    console.log(emailControl?.value);
+
 
     if (emailControl?.invalid) {
       this.tostr.showError('Enter the Valid Email..!');

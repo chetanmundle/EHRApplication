@@ -89,9 +89,6 @@ export class OtpComponent implements OnDestroy {
 
   validateOTP() {
     const otpCode = this.otp.join('');
-
-    console.log('otp : ', otpCode);
-
     if (!otpCode || otpCode.length !== 6) {
       this.tostr.showWarning('Enter the Correct Otp');
       return;

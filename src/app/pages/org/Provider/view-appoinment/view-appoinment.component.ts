@@ -62,8 +62,6 @@ export class ViewAppoinmentComponent implements OnInit, OnDestroy {
         next: (res: AppResponse<AppointmentWithSOAPNotesDto>) => {
           if (res.isSuccess) {
             this.isLoader = false;
-            console.log(res);
-
             this.appointmentwithSoapNote = res.data;
           } else {
             this.isLoader = false;
