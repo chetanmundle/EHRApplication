@@ -76,6 +76,8 @@ export class BookAppointmentComponent
   private toastr = inject(MyToastServiceService);
   private router = inject(Router);
 
+  isTimeValid: boolean = true;
+
   constructor(
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
@@ -262,7 +264,8 @@ export class BookAppointmentComponent
   // Function to open the modal CArdModal
   openModal() {
     this.isSubmitClick = true;
-    if (this.appointmentForm.invalid) {
+    if (this.appointmentForm.invalid || !this.isTimeValid) {
+      this.toastr.showError('All Fields Are Required');
       return;
     }
     const modalElement = document.getElementById('exampleModal');
@@ -314,6 +317,81 @@ export class BookAppointmentComponent
     const provider = this.providersList?.find((p) => p.userId === providerId);
     if (provider) {
       this.fee = provider.visitingCharge;
+    }
+  }
+
+  // validate time
+  onChangeTime(event: Event) {
+    const date = this.appointmentForm.get('appointmentDate')?.value;
+    if (date) {
+      const selectedDate = new Date(date);
+      const today = new Date();
+  
+      selectedDate.setHours(0, 0, 0, 0);  // Normalize to midnight
+      today.setHours(0, 0, 0, 0);  // Normalize to midnight
+  
+      if (selectedDate.getTime() === today.getTime()) {
+        const selectedTime = (event.target as HTMLInputElement).value;
+  
+        // Get current time and add one hour
+        const now = new Date();
+        now.setHours(now.getHours() + 1);
+        const nextHour = now.getHours().toString().padStart(2, '0');
+        const nextMinutes = now.getMinutes().toString().padStart(2, '0');
+        const nextTime = `${nextHour}:${nextMinutes}`;
+  
+        // Convert selected time and next time to Date objects for comparison
+        const selectedDateTime = new Date(
+          `${today.toDateString()} ${selectedTime}:00`
+        ); // Ensure seconds are included for accuracy
+  
+        const nextDateTime = new Date(`${today.toDateString()} ${nextTime}:00`); // Add seconds
+  
+        // Use getTime() for precise comparison of time values
+        if (selectedDateTime.getTime() < nextDateTime.getTime()) {
+          this.isTimeValid = false;
+          console.log("Selected time is less than one hour from now.");
+        } else {
+          this.isTimeValid = true;
+          console.log("Selected time is valid.");
+        }
+      }
+    }
+  }
+  
+
+  onChangeDate() {
+    const time = this.appointmentForm.get('appointmentTime')?.value;
+    if (time) {
+      const date = this.appointmentForm.get('appointmentDate')?.value;
+      const selectedDate = new Date(date);
+      const today = new Date();
+
+      selectedDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate.getTime() === today.getTime()) {
+        const selectedTime = time;
+
+        // Get current time and add one hour
+        const now = new Date();
+        now.setHours(now.getHours() + 1);
+        const nextHour = now.getHours().toString().padStart(2, '0');
+        const nextMinutes = now.getMinutes().toString().padStart(2, '0');
+        const nextTime = `${nextHour}:${nextMinutes}`;
+
+        // Convert selected time and next time to Date objects for comparison
+        const selectedDateTime = new Date(
+          `${today.toDateString()} ${selectedTime}`
+        );
+        const nextDateTime = new Date(`${today.toDateString()} ${nextTime}`);
+
+        if (selectedDateTime < nextDateTime) {
+          this.isTimeValid = false;
+        } else {
+          this.isTimeValid = true;
+        }
+      }
     }
   }
 

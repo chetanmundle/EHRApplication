@@ -210,8 +210,8 @@ export class HomePatientComponent implements OnDestroy {
   }
 
   async onClickMessage(email: string) {
-    alert('Implement It First');
-    return;
+    // alert('Implement It First');
+    // return;
 
     // comment out above code for working chat
 

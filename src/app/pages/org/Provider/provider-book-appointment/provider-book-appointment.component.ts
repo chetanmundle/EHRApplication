@@ -18,7 +18,6 @@ import { BookAppointmentDto } from '../../../../core/Models/Interfaces/Appointme
 import { LoggedUserDto } from '../../../../core/Models/classes/User/LoggedUserDto';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-provider-book-appointment',
   standalone: true,
@@ -32,6 +31,7 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
   isSubmitClick: boolean = false;
   loggedUser?: LoggedUserDto;
   isLoader: boolean = false;
+  isTimeValid: boolean = true;
 
   private subscriptions: Subscription = new Subscription();
   private userService = inject(UserService);
@@ -132,5 +132,80 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
         console.log('Error to book Appointment : ', err);
       },
     });
+  }
+
+  onChangeTime(event: Event) {
+    const date = this.appointmentForm.get('appointmentDate')?.value;
+    if (date) {
+      const selectedDate = new Date(date);
+      const today = new Date();
+
+      selectedDate.setHours(0, 0, 0, 0); // Normalize selected date to midnight
+      today.setHours(0, 0, 0, 0); // Normalize today to midnight
+
+      if (selectedDate.getTime() === today.getTime()) {
+        const selectedTime = (event.target as HTMLInputElement).value;
+
+        // Get the current time
+        const now = new Date();
+        const currentHour = now.getHours().toString().padStart(2, '0');
+        const currentMinutes = now.getMinutes().toString().padStart(2, '0');
+        const currentTime = `${currentHour}:${currentMinutes}`;
+
+        // Convert selected time and current time to Date objects for comparison
+        const selectedDateTime = new Date(
+          `${today.toDateString()} ${selectedTime}`
+        );
+        const currentDateTime = new Date(
+          `${today.toDateString()} ${currentTime}`
+        );
+
+        // Check if the selected time is greater than or equal to the current time
+        if (selectedDateTime.getTime() < currentDateTime.getTime()) {
+          this.isTimeValid = false; // Invalid time (past time)
+          console.log('Selected time is in the past.');
+        } else {
+          this.isTimeValid = true; // Valid time (current or future time)
+          console.log('Selected time is valid.');
+        }
+      }
+    }
+  }
+
+  onChangeDate() {
+    const time = this.appointmentForm.get('appointmentTime')?.value;
+    if (time) {
+      const date = this.appointmentForm.get('appointmentDate')?.value;
+      const selectedDate = new Date(date);
+      const today = new Date();
+
+      selectedDate.setHours(0, 0, 0, 0); // Normalize selected date to midnight
+      today.setHours(0, 0, 0, 0); // Normalize today to midnight
+
+      if (selectedDate.getTime() === today.getTime()) {
+        const selectedTime = time;
+
+        // Get current time
+        const now = new Date();
+        const currentHour = now.getHours().toString().padStart(2, '0');
+        const currentMinutes = now.getMinutes().toString().padStart(2, '0');
+        const currentTime = `${currentHour}:${currentMinutes}`;
+
+        // Convert selected time and current time to Date objects for comparison
+        const selectedDateTime = new Date(
+          `${today.toDateString()} ${selectedTime}`
+        );
+        const currentDateTime = new Date(
+          `${today.toDateString()} ${currentTime}`
+        );
+
+        // Check if the selected time is greater than or equal to the current time
+        if (selectedDateTime.getTime() < currentDateTime.getTime()) {
+          this.isTimeValid = false; // Invalid time (past time)
+        } else {
+          this.isTimeValid = true; // Valid time (current or future time)
+        }
+      }
+    }
   }
 }

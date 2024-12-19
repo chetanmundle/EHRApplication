@@ -74,6 +74,7 @@
           value="Otto"
           formControlName="appointmentDate"
           [min]="todaysDate()"
+          (input)="onChangeDate()"
         />
         <div
           style="font-size: 13px"
@@ -102,6 +103,7 @@
           class="form-control mb-0"
           id="appointmentTime"
           formControlName="appointmentTime"
+          (input)="onChangeTime($event)"
         />
 
         <div
@@ -113,9 +115,22 @@
           "
         >
           <div
-            *ngIf="appointmentForm.controls['appointmentTime'].hasError('required')"
+            *ngIf="
+              appointmentForm.controls['appointmentTime'].hasError('required')
+            "
           >
             <div class="text-danger">*required</div>
+          </div>
+          <div
+            *ngIf="
+              !appointmentForm.controls['appointmentTime'].hasError(
+                'required'
+              ) && !isTimeValid
+            "
+          >
+            <div class="text-danger">
+              *Time Must be One Hour later from current time
+            </div>
           </div>
         </div>
       </div>
