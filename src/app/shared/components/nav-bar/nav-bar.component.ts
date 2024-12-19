@@ -16,8 +16,7 @@ import { LoggedUserDto } from '../../../core/Models/classes/User/LoggedUserDto';
 export class NavBarComponent implements OnDestroy, OnInit {
   loggedUser?: LoggedUserDto;
   subscriptions: Subscription = new Subscription();
-  cartItemCount: number = 0;
-  searchWord: string = '';
+  currentUrl: string = '';
 
   private userService = inject(UserService);
 
@@ -33,7 +32,9 @@ export class NavBarComponent implements OnDestroy, OnInit {
 
     this.subscriptions.add(sub);
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.currentUrl = this.router.url;
+  }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

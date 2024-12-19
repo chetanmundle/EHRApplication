@@ -377,6 +377,7 @@
                       id="exampleFormControlInput1"
                       placeholder="qualification"
                       formControlName="qualification"
+                      (input)="onInputText($event, 25)"
                     />
                     <div
                       style="font-size: 13px"
@@ -459,6 +460,7 @@
                       class="form-control"
                       placeholder="registrationNumber"
                       formControlName="registrationNumber"
+                      (input)="onInputText($event, 20)"
                     />
                     <div
                       style="font-size: 13px"
@@ -496,6 +498,7 @@
                       class="form-control"
                       placeholder="visitingCharge"
                       formControlName="visitingCharge"
+                      (input)="onInputText($event, 7)"
                     />
                     <div
                       style="font-size: 13px"
@@ -535,6 +538,7 @@
                       id="exampleFormControlInput1"
                       placeholder="address"
                       formControlName="address"
+                      (input)="onInputText($event, 70)"
                     />
                     <div
                       style="font-size: 13px"

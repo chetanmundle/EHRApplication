@@ -108,6 +108,11 @@ export class HomeProviderComponent implements OnDestroy {
   }
 
   async onClickMessage(email: string) {
+    alert('Implement It First');
+    return;
+
+    // comment out above code for working chat
+
     try {
       const chatId = await this.chatStore.createNewChat(email);
       this.router.navigate(['/org/chat', chatId]);

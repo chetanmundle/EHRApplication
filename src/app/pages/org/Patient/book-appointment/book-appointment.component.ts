@@ -30,6 +30,7 @@ import { AppointmentService } from '../../../../core/services/Appointment/appoin
 import { MyToastServiceService } from '../../../../core/services/MyToastService/my-toast-service.service';
 import { Modal } from 'bootstrap';
 import { AngularStripeService } from '@fireflysemantics/angular-stripe-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-appointment',
@@ -73,6 +74,7 @@ export class BookAppointmentComponent
   private userService = inject(UserService);
   private appointmentService = inject(AppointmentService);
   private toastr = inject(MyToastServiceService);
+  private router = inject(Router);
 
   constructor(
     private fb: FormBuilder,
@@ -228,7 +230,8 @@ export class BookAppointmentComponent
       providerId: Number(this.appointmentForm.get('providerId')?.value),
       patientId: Number(this.loggedUser?.userId),
       appointmentDate: this.appointmentForm.get('appointmentDate')?.value,
-      appointmentTime: this.appointmentForm.get('appointmentTime')?.value + ':00',
+      appointmentTime:
+        this.appointmentForm.get('appointmentTime')?.value + ':00',
       chiefComplaint: this.appointmentForm.get('chiefComplaint')?.value,
       amount: this.fee,
       customerEmail: this.loggedUser?.email,
@@ -243,6 +246,7 @@ export class BookAppointmentComponent
           this.closeModal();
           this.isLoader = false;
           this.toastr.showSuccess(res.message);
+          this.router.navigateByUrl('/org/Patient/Home');
         } else {
           this.isLoader = false;
           this.toastr.showError(res.message);
