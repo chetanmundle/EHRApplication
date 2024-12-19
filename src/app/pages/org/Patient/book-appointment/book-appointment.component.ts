@@ -367,34 +367,41 @@ export class BookAppointmentComponent
       const date = this.appointmentForm.get('appointmentDate')?.value;
       const selectedDate = new Date(date);
       const today = new Date();
-
-      selectedDate.setHours(0, 0, 0, 0);
-      today.setHours(0, 0, 0, 0);
-
-      if (selectedDate.getTime() === today.getTime()) {
+  
+      selectedDate.setHours(0, 0, 0, 0); // Normalize selected date to midnight
+      today.setHours(0, 0, 0, 0); // Normalize today to midnight
+  
+      if (selectedDate.getTime() !== today.getTime()) {
+        // If selected date is not today's date, we assume the time is valid
+        this.isTimeValid = true;
+        console.log("Selected date is not today, time is considered valid.");
+      } else {
+        // If the selected date is today's date, proceed with time validation
         const selectedTime = time;
-
+  
         // Get current time and add one hour
         const now = new Date();
-        now.setHours(now.getHours() + 1);
+        now.setHours(now.getHours() + 1); // Add one hour to current time
         const nextHour = now.getHours().toString().padStart(2, '0');
         const nextMinutes = now.getMinutes().toString().padStart(2, '0');
         const nextTime = `${nextHour}:${nextMinutes}`;
-
+  
         // Convert selected time and next time to Date objects for comparison
-        const selectedDateTime = new Date(
-          `${today.toDateString()} ${selectedTime}`
-        );
+        const selectedDateTime = new Date(`${today.toDateString()} ${selectedTime}`);
         const nextDateTime = new Date(`${today.toDateString()} ${nextTime}`);
-
+  
+        // Check if the selected time is greater than or equal to the next hour time
         if (selectedDateTime < nextDateTime) {
           this.isTimeValid = false;
+          console.log("Selected time is less than the next hour time.");
         } else {
           this.isTimeValid = true;
+          console.log("Selected time is valid.");
         }
       }
     }
   }
+  
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

@@ -2,3 +2,20 @@
     content: " *";
     color: red;
   }
+
+  /* Style for the appointment div */
+.appointment-item {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white; /* Default background */
+    transition: all 0.3s ease; /* Smooth transition for background and glow */
+    box-shadow: none; /* Initially no glow */
+    cursor: pointer; /* Pointer on hover */
+  }
+  
+  /* Hover effect */
+  .appointment-item:hover {
+    background-color: #d4f7d4; /* Light green background */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.7); /* Green glow around the div */
+  }
+  

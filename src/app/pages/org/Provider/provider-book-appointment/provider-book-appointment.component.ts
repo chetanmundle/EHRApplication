@@ -178,19 +178,23 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
       const date = this.appointmentForm.get('appointmentDate')?.value;
       const selectedDate = new Date(date);
       const today = new Date();
-
+  
       selectedDate.setHours(0, 0, 0, 0); // Normalize selected date to midnight
       today.setHours(0, 0, 0, 0); // Normalize today to midnight
-
-      if (selectedDate.getTime() === today.getTime()) {
+  
+      if (selectedDate.getTime() !== today.getTime()) {
+        // If selected date is not today's date, we assume the time is valid
+        this.isTimeValid = true;
+      } else {
+        // If the selected date is today's date, proceed with time validation
         const selectedTime = time;
-
+  
         // Get current time
         const now = new Date();
         const currentHour = now.getHours().toString().padStart(2, '0');
         const currentMinutes = now.getMinutes().toString().padStart(2, '0');
         const currentTime = `${currentHour}:${currentMinutes}`;
-
+  
         // Convert selected time and current time to Date objects for comparison
         const selectedDateTime = new Date(
           `${today.toDateString()} ${selectedTime}`
@@ -198,7 +202,7 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
         const currentDateTime = new Date(
           `${today.toDateString()} ${currentTime}`
         );
-
+  
         // Check if the selected time is greater than or equal to the current time
         if (selectedDateTime.getTime() < currentDateTime.getTime()) {
           this.isTimeValid = false; // Invalid time (past time)
@@ -208,4 +212,5 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
       }
     }
   }
+  
 }
