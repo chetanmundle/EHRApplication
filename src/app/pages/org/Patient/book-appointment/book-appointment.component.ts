@@ -77,8 +77,6 @@ export class BookAppointmentComponent
   private toastr = inject(MyToastServiceService);
   private router = inject(Router);
 
-  
-
   constructor(
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
@@ -327,39 +325,34 @@ export class BookAppointmentComponent
     if (date) {
       const selectedDate = new Date(date);
       const today = new Date();
-  
-      selectedDate.setHours(0, 0, 0, 0);  // Normalize to midnight
-      today.setHours(0, 0, 0, 0);  // Normalize to midnight
-  
+
+      selectedDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+
       if (selectedDate.getTime() === today.getTime()) {
         const selectedTime = (event.target as HTMLInputElement).value;
-  
-        // Get current time and add one hour
+
         const now = new Date();
         now.setHours(now.getHours() + 1);
         const nextHour = now.getHours().toString().padStart(2, '0');
         const nextMinutes = now.getMinutes().toString().padStart(2, '0');
         const nextTime = `${nextHour}:${nextMinutes}`;
-  
-        // Convert selected time and next time to Date objects for comparison
+
         const selectedDateTime = new Date(
           `${today.toDateString()} ${selectedTime}:00`
-        ); // Ensure seconds are included for accuracy
-  
-        const nextDateTime = new Date(`${today.toDateString()} ${nextTime}:00`); // Add seconds
-  
-        // Use getTime() for precise comparison of time values
+        );
+
+        const nextDateTime = new Date(`${today.toDateString()} ${nextTime}:00`);
         if (selectedDateTime.getTime() < nextDateTime.getTime()) {
           this.isTimeValid = false;
-          console.log("Selected time is less than one hour from now.");
+          console.log('Selected time is less than one hour from now.');
         } else {
           this.isTimeValid = true;
-          console.log("Selected time is valid.");
+          console.log('Selected time is valid.');
         }
       }
     }
   }
-  
 
   onChangeDate() {
     const time = this.appointmentForm.get('appointmentTime')?.value;
@@ -367,41 +360,36 @@ export class BookAppointmentComponent
       const date = this.appointmentForm.get('appointmentDate')?.value;
       const selectedDate = new Date(date);
       const today = new Date();
-  
-      selectedDate.setHours(0, 0, 0, 0); // Normalize selected date to midnight
-      today.setHours(0, 0, 0, 0); // Normalize today to midnight
-  
+
+      selectedDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+
       if (selectedDate.getTime() !== today.getTime()) {
-        // If selected date is not today's date, we assume the time is valid
         this.isTimeValid = true;
-        console.log("Selected date is not today, time is considered valid.");
+        console.log('Selected date is not today, time is considered valid.');
       } else {
-        // If the selected date is today's date, proceed with time validation
         const selectedTime = time;
-  
-        // Get current time and add one hour
         const now = new Date();
-        now.setHours(now.getHours() + 1); // Add one hour to current time
+        now.setHours(now.getHours() + 1);
         const nextHour = now.getHours().toString().padStart(2, '0');
         const nextMinutes = now.getMinutes().toString().padStart(2, '0');
         const nextTime = `${nextHour}:${nextMinutes}`;
-  
-        // Convert selected time and next time to Date objects for comparison
-        const selectedDateTime = new Date(`${today.toDateString()} ${selectedTime}`);
+
+        const selectedDateTime = new Date(
+          `${today.toDateString()} ${selectedTime}`
+        );
         const nextDateTime = new Date(`${today.toDateString()} ${nextTime}`);
-  
-        // Check if the selected time is greater than or equal to the next hour time
+
         if (selectedDateTime < nextDateTime) {
           this.isTimeValid = false;
-          console.log("Selected time is less than the next hour time.");
+          console.log('Selected time is less than the next hour time.');
         } else {
           this.isTimeValid = true;
-          console.log("Selected time is valid.");
+          console.log('Selected time is valid.');
         }
       }
     }
   }
-  
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

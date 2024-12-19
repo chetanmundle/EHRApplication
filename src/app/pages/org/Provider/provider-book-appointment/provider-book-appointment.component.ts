@@ -140,19 +140,17 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
       const selectedDate = new Date(date);
       const today = new Date();
 
-      selectedDate.setHours(0, 0, 0, 0); // Normalize selected date to midnight
-      today.setHours(0, 0, 0, 0); // Normalize today to midnight
+      selectedDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
 
       if (selectedDate.getTime() === today.getTime()) {
         const selectedTime = (event.target as HTMLInputElement).value;
 
-        // Get the current time
         const now = new Date();
         const currentHour = now.getHours().toString().padStart(2, '0');
         const currentMinutes = now.getMinutes().toString().padStart(2, '0');
         const currentTime = `${currentHour}:${currentMinutes}`;
 
-        // Convert selected time and current time to Date objects for comparison
         const selectedDateTime = new Date(
           `${today.toDateString()} ${selectedTime}`
         );
@@ -160,12 +158,11 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
           `${today.toDateString()} ${currentTime}`
         );
 
-        // Check if the selected time is greater than or equal to the current time
         if (selectedDateTime.getTime() < currentDateTime.getTime()) {
-          this.isTimeValid = false; // Invalid time (past time)
+          this.isTimeValid = false;
           console.log('Selected time is in the past.');
         } else {
-          this.isTimeValid = true; // Valid time (current or future time)
+          this.isTimeValid = true;
           console.log('Selected time is valid.');
         }
       }
@@ -178,39 +175,33 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
       const date = this.appointmentForm.get('appointmentDate')?.value;
       const selectedDate = new Date(date);
       const today = new Date();
-  
-      selectedDate.setHours(0, 0, 0, 0); // Normalize selected date to midnight
-      today.setHours(0, 0, 0, 0); // Normalize today to midnight
-  
+
+      selectedDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+
       if (selectedDate.getTime() !== today.getTime()) {
-        // If selected date is not today's date, we assume the time is valid
         this.isTimeValid = true;
       } else {
-        // If the selected date is today's date, proceed with time validation
         const selectedTime = time;
-  
-        // Get current time
+
         const now = new Date();
         const currentHour = now.getHours().toString().padStart(2, '0');
         const currentMinutes = now.getMinutes().toString().padStart(2, '0');
         const currentTime = `${currentHour}:${currentMinutes}`;
-  
-        // Convert selected time and current time to Date objects for comparison
+
         const selectedDateTime = new Date(
           `${today.toDateString()} ${selectedTime}`
         );
         const currentDateTime = new Date(
           `${today.toDateString()} ${currentTime}`
         );
-  
-        // Check if the selected time is greater than or equal to the current time
+
         if (selectedDateTime.getTime() < currentDateTime.getTime()) {
-          this.isTimeValid = false; // Invalid time (past time)
+          this.isTimeValid = false;
         } else {
-          this.isTimeValid = true; // Valid time (current or future time)
+          this.isTimeValid = true;
         }
       }
     }
   }
-  
 }
