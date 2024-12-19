@@ -10,12 +10,12 @@
     background-color: white; /* Default background */
     transition: all 0.3s ease; /* Smooth transition for background and glow */
     box-shadow: none; /* Initially no glow */
-    cursor: pointer; /* Pointer on hover */
+    /* cursor: pointer; */
   }
   
   /* Hover effect */
   .appointment-item:hover {
     background-color: #d4f7d4; /* Light green background */
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.7); /* Green glow around the div */
+    box-shadow: 0 0 10px rgba(125, 138, 125, 0.7); /* Green glow around the div */
   }
   

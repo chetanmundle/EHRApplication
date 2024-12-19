@@ -57,12 +57,11 @@ export class LoginComponent {
       password: this.loginForm.get('password')?.value,
     };
 
-
     const sub = this.userService.LoginUser$(payload).subscribe({
-      next: (res: AppResponse<null>) => {
+      next: (res: AppResponse<string>) => {
         if (res.isSuccess) {
           this.isLoader = false;
-          this.FirebaseGetLogin(payload.email, 'Pass@123');
+          this.FirebaseGetLogin(res.data, 'Pass@123');
           this.isOtpBoxOpen = true;
         } else {
           this.isLoader = false;

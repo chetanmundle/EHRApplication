@@ -86,8 +86,11 @@ export class UserService {
     );
   }
 
-  LoginUser$(payload: LoginUserDto): Observable<AppResponse<null>> {
-    return this.http.post<AppResponse<null>>(`${this.Url}/LoginUser`, payload);
+  LoginUser$(payload: LoginUserDto): Observable<AppResponse<string>> {
+    return this.http.post<AppResponse<string>>(
+      `${this.Url}/LoginUser`,
+      payload
+    );
   }
 
   VerifyOtpAndGetJwtToken$(
