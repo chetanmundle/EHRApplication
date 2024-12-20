@@ -125,6 +125,18 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
     }
   }
 
+  checkTextNumberSpecialCharNotAllow(event: any, length: number): void {
+    const input = event.target;
+    // Remove any numeric characters and special characters
+    input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+    if (input.value.length > length) {
+      input.value = input.value.slice(0, length);
+      this.registerForm.controls[
+        input.getAttribute('formControlName')
+      ].setValue(input.value);
+    }
+  }
+
   todaysDate(): string {
     const today = new Date();
     const day = String(today.getDate()).padStart(2, '0');
@@ -194,7 +206,7 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
         },
         error: (err: Error) => {
           this.isLoader = false;
-        //   'Unble to Save the Image', err.message;
+          //   'Unble to Save the Image', err.message;
         },
       });
 

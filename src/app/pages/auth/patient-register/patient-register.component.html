@@ -12,7 +12,7 @@
           formControlName="firstName"
           required
           maxlength="25"
-          (input)="onInputText($event, 25)"
+          (input)="checkTextNumberSpecialCharNotAllow($event, 25)"
         />
         <div
           style="font-size: 13px"
@@ -41,7 +41,7 @@
           formControlName="lastName"
           required
           maxlength="25"
-          (input)="onInputText($event, 25)"
+          (input)="checkTextNumberSpecialCharNotAllow($event, 25)"
         />
         <div
           style="font-size: 13px"
@@ -239,7 +239,6 @@
           <option value="AB+">AB+</option>
           <option value="AB-">AB-</option>
           <option value="other">Other</option>
-       
         </select>
         <div
           style="font-size: 13px"
@@ -293,7 +292,7 @@
           required
           formControlName="city"
           maxlength="25"
-          (input)="onInputText($event, 25)"
+          (input)="checkTextNumberSpecialCharNotAllow($event, 25)"
         />
         <div
           style="font-size: 13px"
@@ -462,6 +461,6 @@
 
 @if (isLoader) {
 <div class="loader-backdrop">
-    <span class="loader"></span>
+  <span class="loader"></span>
 </div>
 }

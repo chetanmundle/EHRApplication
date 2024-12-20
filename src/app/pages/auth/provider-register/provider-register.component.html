@@ -12,7 +12,7 @@
           formControlName="firstName"
           required
           maxlength="25"
-          (input)="onInputText($event, 25)"
+          (input)="checkTextNumberSpecialCharNotAllow($event, 25)"
         />
         <div
           style="font-size: 13px"
@@ -42,7 +42,7 @@
           formControlName="lastName"
           required
           maxlength="25"
-          (input)="onInputText($event, 25)"
+          (input)="checkTextNumberSpecialCharNotAllow($event, 25)"
         />
         <div
           style="font-size: 13px"
@@ -296,7 +296,7 @@
           required
           formControlName="city"
           maxlength="25"
-          (input)="onInputText($event, 25)"
+          (input)="checkTextNumberSpecialCharNotAllow($event, 25)"
         />
         <div
           style="font-size: 13px"

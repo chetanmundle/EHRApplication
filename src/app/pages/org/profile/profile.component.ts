@@ -318,4 +318,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
       );
     }
   }
+
+  checkTextNumberSpecialCharNotAllow(event: any, length: number): void {
+    const input = event.target;
+    // Remove any numeric characters and special characters
+    input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+    if (input.value.length > length) {
+      input.value = input.value.slice(0, length);
+      this.userForm.controls[input.getAttribute('formControlName')].setValue(
+        input.value
+      );
+    }
+  }
 }
