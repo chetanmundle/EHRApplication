@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LoggedUserDto } from '../../../core/Models/classes/User/LoggedUserDto';
+import { useAuthStore } from '../../../core/stores/auth.store';
 
 @Component({
   selector: 'app-nav-bar',
@@ -19,7 +20,7 @@ export class NavBarComponent implements OnDestroy, OnInit {
   currentUrl: string = '';
 
   private userService = inject(UserService);
-
+  authStore = inject(useAuthStore);
   private router = inject(Router);
 
   constructor() {
@@ -53,6 +54,7 @@ export class NavBarComponent implements OnDestroy, OnInit {
   onClickLogOut() {
     localStorage.removeItem('accessToken');
     this.userService.resetLoggedUser();
+    this.authStore.logout();
     this.router.navigateByUrl('/auth/Login');
   }
 }

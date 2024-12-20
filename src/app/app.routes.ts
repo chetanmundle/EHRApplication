@@ -16,6 +16,7 @@ import { ViewAppoinmentComponent } from './pages/org/Provider/view-appoinment/vi
 import { ProfileComponent } from './pages/org/profile/profile.component';
 import { ChatListComponent } from './pages/Chat/chat-list/chat-list.component';
 import { ChatDetailComponent } from './pages/Chat/chat-detail/chat-detail.component';
+import { TestComponent } from './pages/test/test.component';
 
 // const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
@@ -129,6 +130,10 @@ export const routes: Routes = [
         data: { roles: ['Provider', 'Patient'] },
       },
     ],
+  },
+  {
+    path: 'test',
+    component: TestComponent,
   },
   {
     path: '**',

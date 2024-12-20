@@ -82,6 +82,14 @@ export const useChatStore = createInjectable(() => {
         })
       );
       chats.set(updatedChats);
+
+      // Send notification if a new chat is added
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+          // Send notification about new chat
+          showNotification('New Chat', 'You have a new chat!');
+        }
+      });
     });
   }
 
@@ -94,6 +102,18 @@ export const useChatStore = createInjectable(() => {
         (doc) => ({ id: doc.id, ...doc.data() } as Message)
       );
       messages.set(updatedMessages);
+
+      // Send notification if a new message is added
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+          const newMessage = change.doc.data() as Message;
+          if (newMessage.senderId !== authStore.currentUser()?.uid) {
+            // Only notify if the message is from another user
+            const senderName = getUserName(newMessage.senderId); // Get the sender's name
+            showNotification(`New Message : `, newMessage.text);
+          }
+        }
+      });
     });
   }
 
@@ -114,39 +134,40 @@ export const useChatStore = createInjectable(() => {
       lastMessageTimestamp: Timestamp.now(),
     });
   }
+
   async function createNewChat(participantEmail: string) {
     const currentUser = authStore.currentUser();
     if (!currentUser) throw new Error('You must be logged in to create a chat');
-  
+
     // Find the user with the given email
     const usersRef = collection(firestore, 'users');
     const q = query(usersRef, where('email', '==', participantEmail));
     const querySnapshot = await getDocs(q);
-  
+
     if (querySnapshot.empty) {
       throw new Error('User not found');
     }
-  
+
     const participantUser = querySnapshot.docs[0].data() as AppUser;
-  
+
     // Check if a chat already exists between these users
     const existingChatQuery = query(
       collection(firestore, 'chats'),
       where('participants', 'array-contains', currentUser.uid)
     );
     const existingChatSnapshot = await getDocs(existingChatQuery);
-  
+
     // Filter the result in memory to check if the participant exists in the same chat
-    const existingChat = existingChatSnapshot.docs.find(doc => {
+    const existingChat = existingChatSnapshot.docs.find((doc) => {
       const participants = doc.data()['participants']; // Access participants with bracket notation
       return participants && participants.includes(participantUser.uid);
     });
-  
+
     if (existingChat) {
       // Chat already exists, return its ID
       return existingChat.id;
     }
-  
+
     // Create a new chat document since no existing chat was found
     const chatsRef = collection(firestore, 'chats');
     const newChat = await addDoc(chatsRef, {
@@ -154,10 +175,10 @@ export const useChatStore = createInjectable(() => {
       lastMessage: '',
       lastMessageTimestamp: Timestamp.now(),
     });
-  
+
     return newChat.id;
   }
-  
+
   // async function createNewChat(participantEmail: string) {
   //   const currentUser = authStore.currentUser();
   //   if (!currentUser) throw new Error('You must be logged in to create a chat');
@@ -234,6 +255,36 @@ export const useChatStore = createInjectable(() => {
 
   //     return newChat.id;
   //   }
+
+  // Request permission for notifications
+  function requestNotificationPermission(): void {
+    if ('Notification' in window) {
+      Notification.requestPermission().then((permission) => {
+        if (permission !== 'granted') {
+          console.error('Permission not granted for Notification');
+        }
+      });
+    } else {
+      console.error('This browser does not support notifications.');
+    }
+  }
+
+  // Function to show notification
+  function showNotification(title: string, body: string): void {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      const notification = new Notification(title, {
+        body,
+        icon: 'images/EHR.png', // You can change this to any custom icon
+        tag: 'new-message-notification',
+      });
+
+      notification.onclick = () => {
+        window.location.href = '/org/Chat';
+      };
+    } else {
+      console.error('Notification permission is not granted.');
+    }
+  }
 
   return {
     chats,
