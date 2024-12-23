@@ -1,17 +1,18 @@
 import { Component, inject, OnDestroy } from '@angular/core';
-import { AppointmentService } from '../../../../core/services/Appointment/appointment.service';
-import { UserService } from '../../../../core/services/UserService/user.service';
+import { AppointmentService } from '../../../../core/services/index';
+import { UserService } from '../../../../core/services/index';
 import { GetAppoinmentByProviderIdDto } from '../../../../core/Models/Interfaces/Appointment/appointment.model';
 import { LoggedUserDto } from '../../../../core/Models/classes/User/LoggedUserDto';
 import { Subscription } from 'rxjs';
 import { AppResponse } from '../../../../core/Models/AppResponse';
 import { CommonModule } from '@angular/common';
 import { TimeFormatPipe } from '../../../../core/pipe/TimeFormat/time-format.pipe';
-import { MyToastServiceService } from '../../../../core/services/MyToastService/my-toast-service.service';
+import { MyToastServiceService } from '../../../../core/services/index';
 import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { useChatStore } from '../../../../core/stores/chat.store';
+import { SubSinkService } from '../../../../core/services/index';
 
 @Component({
   selector: 'app-home-provider',
@@ -23,10 +24,9 @@ import { useChatStore } from '../../../../core/stores/chat.store';
 export class HomeProviderComponent implements OnDestroy {
   appointmentList?: GetAppoinmentByProviderIdDto[];
   loggedUser?: LoggedUserDto;
-  isLoader: boolean = false;
   status: string = 'Scheduled';
 
-  private subscriptions: Subscription = new Subscription();
+  private readonly subSink: SubSinkService = new SubSinkService();
   private userService = inject(UserService);
   private appointmentService = inject(AppointmentService);
   private tostR = inject(MyToastServiceService);
@@ -34,15 +34,16 @@ export class HomeProviderComponent implements OnDestroy {
   private router = inject(Router);
 
   constructor() {
-    const sub = this.userService.loggedUser$.subscribe((res: LoggedUserDto) => {
-      this.loggedUser = res;
-      this.GetAllAppointments(this.loggedUser.userId, this.status);
-    });
-    this.subscriptions.add(sub);
+    this.subSink.sink = this.userService.loggedUser$.subscribe(
+      (res: LoggedUserDto) => {
+        this.loggedUser = res;
+        this.GetAllAppointments(this.loggedUser.userId, this.status);
+      }
+    );
   }
 
   GetAllAppointments(providerId: number, status: string) {
-    const sub = this.appointmentService
+    this.subSink.sink = this.appointmentService
       .GetAppointmentByProviderId$(providerId, status)
       .subscribe({
         next: (res: AppResponse<GetAppoinmentByProviderIdDto[]>) => {
@@ -54,8 +55,6 @@ export class HomeProviderComponent implements OnDestroy {
           console.log('Error to get Appointment : ', err);
         },
       });
-
-    this.subscriptions.add(sub);
   }
 
   onClickCancel = (appointmentId: number) => {
@@ -71,7 +70,6 @@ export class HomeProviderComponent implements OnDestroy {
       confirmButtonText: 'Yes, Cancel it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.isLoader = true;
         this.appointmentService
           .CancelAppointmentByApptId$(appointmentId)
           .subscribe({
@@ -80,17 +78,12 @@ export class HomeProviderComponent implements OnDestroy {
                 if (this.loggedUser) {
                   this.GetAllAppointments(this.loggedUser?.userId, this.status);
                 }
-
-                this.isLoader = false;
-
                 this.tostR.showSuccess(res.message);
               } else {
-                this.isLoader = false;
                 this.tostR.showError(res.message);
               }
             },
             error: (err: Error) => {
-              this.isLoader = false;
               this.tostR.showError('Internal Server Error');
               console.log('Unble to Cancel the appointment : ', err);
             },
@@ -106,7 +99,7 @@ export class HomeProviderComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subSink.unsubscribe();
   }
 
   async onClickMessage(email: string) {

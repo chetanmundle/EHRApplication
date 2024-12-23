@@ -1,7 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { Modal } from 'bootstrap'; // Import Bootstrap Modal
-import { UserService } from '../../../core/services/UserService/user.service';
+import { UserService } from '../../../core/services/index';
 import { CommonModule, DatePipe } from '@angular/common';
 import {
   FormBuilder,
@@ -10,8 +9,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MyToastServiceService } from '../../../core/services/MyToastService/my-toast-service.service';
-import { ImageService } from '../../../core/services/ImageService/image.service';
+import { MyToastServiceService } from '../../../core/services/index';
+import { ImageService } from '../../../core/services/index';
 import { LoggedUserDto } from '../../../core/Models/classes/User/LoggedUserDto';
 import {
   ChangePasswordDto,
@@ -20,7 +19,8 @@ import {
 } from '../../../core/Models/Interfaces/User/UserDto.model';
 import { AppResponse } from '../../../core/Models/AppResponse';
 import { specialisationDto } from '../../../core/Models/Interfaces/Specialization/specialization.model';
-import { SpecializationService } from '../../../core/services/SpecializationService/specialization.service';
+import { SpecializationService } from '../../../core/services/index';
+import { SubSinkService } from '../../../core/services/index';
 
 @Component({
   selector: 'app-profile',
@@ -35,7 +35,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   isEditMode: boolean = false;
   userForm: FormGroup;
   selectedFile: File | null = null;
-  isLoader: boolean = false;
   isMobileNumberValid: boolean = false;
 
   private modalInstance: Modal | null = null; // Hold the modal instance
@@ -45,7 +44,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private tostR = inject(MyToastServiceService);
   private imageService = inject(ImageService);
-  subscriptions: Subscription = new Subscription();
+  private readonly subSink: SubSinkService = new SubSinkService();
   specializationList?: specialisationDto[];
 
   private userService = inject(UserService);
@@ -70,7 +69,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const sub = this.userService.loggedUser$.subscribe({
+    this.subSink.sink = this.userService.loggedUser$.subscribe({
       next: (res: LoggedUserDto) => {
         this.loggedUser = res;
         this.GetUserById(this.loggedUser.userId);
@@ -79,8 +78,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
         }
       },
     });
-
-    this.subscriptions.add(sub);
   }
 
   GetSpecilizationName(specialisationId: number): string {
@@ -93,7 +90,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.modalInstance = null;
-    this.subscriptions.unsubscribe();
+    this.subSink.unsubscribe();
   }
 
   GetUserById(userId: number) {
@@ -136,20 +133,21 @@ export class ProfileComponent implements OnInit, OnDestroy {
           password: this.Password,
           confirmPassword: this.ConfirmPassword,
         };
-        const sub = this.userService.ChangePassword$(payload).subscribe({
-          next: (res: AppResponse<null>) => {
-            if (res.isSuccess) {
-              this.closeModal();
-              this.tostR.showSuccess('Password changed successfully');
-            } else {
-              this.tostR.showError(res.message);
-            }
-          },
-          error: (err: Error) => {
-            this.tostR.showError('Server Error...!');
-          },
-        });
-        this.subscriptions.add(sub);
+        this.subSink.sink = this.userService
+          .ChangePassword$(payload)
+          .subscribe({
+            next: (res: AppResponse<null>) => {
+              if (res.isSuccess) {
+                this.closeModal();
+                this.tostR.showSuccess('Password changed successfully');
+              } else {
+                this.tostR.showError(res.message);
+              }
+            },
+            error: (err: Error) => {
+              this.tostR.showError('Server Error...!');
+            },
+          });
       }
     } else {
       this.tostR.showWarning('Passwords do not match');
@@ -209,25 +207,23 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.tostR.showError('Enter all Required Fields');
       return;
     }
-    this.isLoader = true;
     if (this.selectedFile) {
-      const sub = this.imageService.uploadImage$(this.selectedFile).subscribe({
-        next: (res: AppResponse<string>) => {
-          if (res.isSuccess) {
-            this.userForm.get('profileImage')?.setValue(res.data);
-            this.updateProfile();
-          } else {
-            this.tostR.showWarning(res.message);
-            this.isLoader = false;
-            console.log('Unble to Save the Profile Image : ', res.message);
-          }
-        },
-        error: (err: Error) => {
-          this.isLoader = false;
-          console.log('Unble to Save the Image', err.message);
-        },
-      });
-      this.subscriptions.add(sub);
+      this.subSink.sink = this.imageService
+        .uploadImage$(this.selectedFile)
+        .subscribe({
+          next: (res: AppResponse<string>) => {
+            if (res.isSuccess) {
+              this.userForm.get('profileImage')?.setValue(res.data);
+              this.updateProfile();
+            } else {
+              this.tostR.showWarning(res.message);
+              console.log('Unble to Save the Profile Image : ', res.message);
+            }
+          },
+          error: (err: Error) => {
+            console.log('Unble to Save the Image', err.message);
+          },
+        });
     } else {
       this.updateProfile();
     }
@@ -239,7 +235,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.tostR.showWarning('Please login Again');
       return;
     }
-    this.isLoader = true;
     const payload: UpdateUserDto = {
       userId: this.loggedUser?.userId,
       firstName: this.userForm.get('firstName')?.value,
@@ -259,24 +254,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
       visitingCharge:
         Number(this.userForm.get('visitingCharge')?.value) ?? null,
     };
-    const sub = this.userService.UpdateUser$(payload).subscribe({
+    this.subSink.sink = this.userService.UpdateUser$(payload).subscribe({
       next: (res: AppResponse<null>) => {
         if (res.isSuccess) {
           this.userService.resetLoggedUser();
-          this.isLoader = false;
           this.isEditMode = false;
           this.tostR.showSuccess(res.message);
         } else {
-          this.isLoader = false;
           this.tostR.showError(res.message);
         }
       },
       error: (err: Error) => {
-        this.isLoader = false;
         this.tostR.showError('Internal Server error');
       },
     });
-    this.subscriptions.add(sub);
   }
 
   onClickCancelEditMode() {

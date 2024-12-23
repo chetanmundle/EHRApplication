@@ -6,13 +6,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MyToastServiceService } from '../../../core/services/MyToastService/my-toast-service.service';
-import { Subscription } from 'rxjs';
-import { UserService } from '../../../core/services/UserService/user.service';
+import { MyToastServiceService } from '../../../core/services/index';
+import { UserService } from '../../../core/services/index';
 import { Router, RouterLink } from '@angular/router';
-import { OtpService } from '../../../core/services/OtpService/otp.service';
+import { OtpService } from '../../../core/services/index';
 import { AppResponse } from '../../../core/Models/AppResponse';
 import { ForgetPasswordDto } from '../../../core/Models/Interfaces/User/UserDto.model';
+import { SubSinkService } from '../../../core/services/index';
 
 @Component({
   selector: 'app-forgot-password',
@@ -26,8 +26,7 @@ export class ForgotPasswordComponent implements OnDestroy {
     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()-_=+;:.<>?]).{8,}$/;
   isOtpSend: boolean = false;
   passwordResetForm: FormGroup;
-  subscriptions: Subscription = new Subscription();
-  isLoader: boolean = false;
+  private readonly subSink: SubSinkService = new SubSinkService();
   isSendRandomPassword: boolean = true;
 
   private otpService = inject(OtpService);
@@ -44,39 +43,35 @@ export class ForgotPasswordComponent implements OnDestroy {
     });
   }
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subSink.unsubscribe();
   }
 
   // this fuction send the otp
   onClickSendOtpBtn() {
     const emailControl = this.passwordResetForm.get('email');
 
-
     if (emailControl?.invalid) {
       this.tostr.showError('Enter the Valid Email..!');
       return;
     }
 
-    this.isLoader = true;
-    const sub = this.otpService.sendOtpToEmail$(emailControl?.value).subscribe({
-      next: (res: AppResponse<object>) => {
-        if (res.isSuccess) {
-          emailControl?.disable();
-          this.isOtpSend = true;
-          this.isLoader = false;
-          this.tostr.showSuccess(res.message);
-        } else {
-          this.isLoader = false;
-          this.tostr.showError(res.message);
-        }
-      },
-      error: (err: Error) => {
-        this.isLoader = false;
-        this.tostr.showError('Unble to send otp');
-      },
-    });
+    this.subSink.sink = this.otpService
+      .sendOtpToEmail$(emailControl?.value)
+      .subscribe({
+        next: (res: AppResponse<object>) => {
+          if (res.isSuccess) {
+            emailControl?.disable();
+            this.isOtpSend = true;
 
-    this.subscriptions.add(sub);
+            this.tostr.showSuccess(res.message);
+          } else {
+            this.tostr.showError(res.message);
+          }
+        },
+        error: (err: Error) => {
+          this.tostr.showError('Unble to send otp');
+        },
+      });
   }
 
   // Change Password fuction
@@ -102,26 +97,19 @@ export class ForgotPasswordComponent implements OnDestroy {
       return;
     }
 
-    this.isLoader = true;
-
-    const sub = this.userService.ForgetPassword$(payload).subscribe({
+    this.subSink.sink = this.userService.ForgetPassword$(payload).subscribe({
       next: (res: AppResponse<null>) => {
         if (res.isSuccess) {
-          this.isLoader = false;
           this.tostr.showSuccess(res.message);
           this.router.navigate(['/auth/Login']);
         } else {
-          this.isLoader = false;
           this.tostr.showError(res.message);
         }
       },
       error: (err: Error) => {
-        this.isLoader = false;
         this.tostr.showError('Unable to Validate otp');
       },
     });
-
-    this.subscriptions.add(sub);
   }
 
   // Send Random Password in Email
@@ -129,24 +117,22 @@ export class ForgotPasswordComponent implements OnDestroy {
     const email = this.passwordResetForm.get('email')?.value;
 
     if (email) {
-      this.isLoader = true;
-      this.userService.SendRandomPasswordOnEmail$(email).subscribe({
-        next: (res: AppResponse<null>) => {
-          if (res.isSuccess) {
-            this.isLoader = false;
-            this.router.navigateByUrl('/auth/Login');
-            this.tostr.showSuccess(res.message);
-          } else {
-            this.isLoader = false;
-            this.tostr.showError(res.message);
-          }
-        },
-        error: (err: Error) => {
-          this.isLoader = false;
-          console.log('Error to forget Password : ', err);
-          this.tostr.showError('Server Error...!');
-        },
-      });
+      this.subSink.sink = this.userService
+        .SendRandomPasswordOnEmail$(email)
+        .subscribe({
+          next: (res: AppResponse<null>) => {
+            if (res.isSuccess) {
+              this.router.navigateByUrl('/auth/Login');
+              this.tostr.showSuccess(res.message);
+            } else {
+              this.tostr.showError(res.message);
+            }
+          },
+          error: (err: Error) => {
+            console.log('Error to forget Password : ', err);
+            this.tostr.showError('Server Error...!');
+          },
+        });
     } else {
       this.tostr.showError('Enter The Email...!');
     }

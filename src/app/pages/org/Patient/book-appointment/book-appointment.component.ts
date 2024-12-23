@@ -10,10 +10,10 @@ import {
 } from '@angular/core';
 import { specialisationDto } from '../../../../core/Models/Interfaces/Specialization/specialization.model';
 import { Subscription } from 'rxjs';
-import { SpecializationService } from '../../../../core/services/SpecializationService/specialization.service';
+import { SpecializationService } from '../../../../core/services/index';
 import { AppResponse } from '../../../../core/Models/AppResponse';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../../../core/services/UserService/user.service';
+import { UserService } from '../../../../core/services/index';
 import { UserWithIdNameDto } from '../../../../core/Models/Interfaces/User/provider.model';
 import {
   FormBuilder,
@@ -26,11 +26,12 @@ import {
   PayAndBookAppointmentDto,
 } from '../../../../core/Models/Interfaces/Appointment/appointment.model';
 import { LoggedUserDto } from '../../../../core/Models/classes/User/LoggedUserDto';
-import { AppointmentService } from '../../../../core/services/Appointment/appointment.service';
-import { MyToastServiceService } from '../../../../core/services/MyToastService/my-toast-service.service';
+import { AppointmentService } from '../../../../core/services/index';
+import { MyToastServiceService } from '../../../../core/services/index';
 import { Modal } from 'bootstrap';
 import { AngularStripeService } from '@fireflysemantics/angular-stripe-service';
 import { Router } from '@angular/router';
+import { SubSinkService } from '../../../../core/services/index';
 
 @Component({
   selector: 'app-book-appointment',
@@ -52,10 +53,10 @@ export class BookAppointmentComponent
   isTimeValid: boolean = true;
 
   private modalInstance: Modal | null = null;
-  isLoader: boolean = false;
+
   isSubmitClick: boolean = false;
   appointmentForm: FormGroup;
-  private subscriptions: Subscription = new Subscription();
+  private readonly subSink: SubSinkService = new SubSinkService();
 
   stripe: any;
   cardNumberElement: any;
@@ -184,7 +185,7 @@ export class BookAppointmentComponent
 
   // Get Providers by specilization Id
   GetProvidersBySpecializationId(specialisationId: number) {
-    const sub = this.userService
+    this.subSink.sink = this.userService
       .GetProvidersBySpecializationId$(specialisationId)
       .subscribe({
         next: (res: AppResponse<UserWithIdNameDto[]>) => {
@@ -196,8 +197,6 @@ export class BookAppointmentComponent
           console.error('Error to get Providers', err);
         },
       });
-
-    this.subscriptions.add(sub);
   }
 
   onChangeSpecilization(event: Event) {
@@ -226,7 +225,6 @@ export class BookAppointmentComponent
       return;
     }
 
-    this.isLoader = true;
     const payload: PayAndBookAppointmentDto = {
       providerId: Number(this.appointmentForm.get('providerId')?.value),
       patientId: Number(this.loggedUser?.userId),
@@ -245,16 +243,13 @@ export class BookAppointmentComponent
         if (res.isSuccess) {
           this.resetAppointmentForm();
           this.closeModal();
-          this.isLoader = false;
           this.toastr.showSuccess(res.message);
           this.router.navigateByUrl('/org/Patient/Home');
         } else {
-          this.isLoader = false;
           this.toastr.showError(res.message);
         }
       },
       error: (err: Error) => {
-        this.isLoader = false;
         console.error('Error to book appointment', err);
       },
     });
@@ -297,7 +292,6 @@ export class BookAppointmentComponent
       return;
     }
 
-    this.isLoader = true;
     // Create the token for the card details entered by the user
     const { token, error } = await this.stripe.createToken(
       this.cardNumberElement
@@ -306,7 +300,6 @@ export class BookAppointmentComponent
       this.stripeToken = token;
       this.BookAppointment();
     } else {
-      this.isLoader = false;
       alert(error.message);
     }
   }
@@ -392,6 +385,6 @@ export class BookAppointmentComponent
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subSink.unsubscribe();
   }
 }

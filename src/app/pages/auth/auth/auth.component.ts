@@ -6,6 +6,7 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
+import { SubSinkService } from '../../../core/services/index';
 
 @Component({
   selector: 'app-auth',
@@ -18,7 +19,7 @@ export class AuthComponent implements OnDestroy {
   work: string = 'Login';
 
   currentUrl?: string;
-  private subscriptions: Subscription = new Subscription();
+  private readonly subSink: SubSinkService = new SubSinkService();
 
   constructor(private router: Router) {
     // Get Current Url
@@ -27,11 +28,9 @@ export class AuthComponent implements OnDestroy {
       .subscribe(() => {
         this.currentUrl = this.router.url;
       });
-
-    this.subscriptions.add(sub);
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subSink.unsubscribe();
   }
 }

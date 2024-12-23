@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { MyToastServiceService } from '../../../core/services/MyToastService/my-toast-service.service';
-import { UserService } from '../../../core/services/UserService/user.service';
+import { MyToastServiceService } from '../../../core/services/index';
+import { UserService } from '../../../core/services/index';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {

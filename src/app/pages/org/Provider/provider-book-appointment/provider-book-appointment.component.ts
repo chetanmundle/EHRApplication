@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { UserNameIdDto } from '../../../../core/Models/Interfaces/User/UserDto.model';
-import { UserService } from '../../../../core/services/UserService/user.service';
+import { UserService } from '../../../../core/services/index';
 import { Subscription } from 'rxjs';
 import { AppResponse } from '../../../../core/Models/AppResponse';
 import { CommonModule } from '@angular/common';
@@ -12,11 +12,12 @@ import {
 } from '@angular/forms';
 
 // import { AppointmentService } from '../../../../core/services/Appointment/appointment.service';
-import { AppointmentService } from '../../../../core/services/Appointment/appointment.service';
-import { MyToastServiceService } from '../../../../core/services/MyToastService/my-toast-service.service';
+import { AppointmentService } from '../../../../core/services/index';
+import { MyToastServiceService } from '../../../../core/services/index';
 import { BookAppointmentDto } from '../../../../core/Models/Interfaces/Appointment/appointment.model';
 import { LoggedUserDto } from '../../../../core/Models/classes/User/LoggedUserDto';
 import { Router } from '@angular/router';
+import { SubSinkService } from '../../../../core/services/index';
 
 @Component({
   selector: 'app-provider-book-appointment',
@@ -30,10 +31,9 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
   appointmentForm: FormGroup;
   isSubmitClick: boolean = false;
   loggedUser?: LoggedUserDto;
-  isLoader: boolean = false;
   isTimeValid: boolean = true;
 
-  private subscriptions: Subscription = new Subscription();
+  private readonly subSink: SubSinkService = new SubSinkService();
   private userService = inject(UserService);
   private appoinmentService = inject(AppointmentService);
   private tostR = inject(MyToastServiceService);
@@ -48,16 +48,17 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
       chiefComplaint: ['', [Validators.required]],
     });
 
-    const sub = this.userService.loggedUser$.subscribe((res: LoggedUserDto) => {
-      this.loggedUser = res;
-    });
-    this.subscriptions.add(sub);
+    this.subSink.sink = this.userService.loggedUser$.subscribe(
+      (res: LoggedUserDto) => {
+        this.loggedUser = res;
+      }
+    );
   }
   ngOnInit(): void {
     this.GetAllPatient();
   }
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subSink.unsubscribe();
   }
 
   ResetAppoinmentForm() {
@@ -102,7 +103,6 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
       this.tostR.showWarning('Please login Again');
       return;
     }
-    this.isLoader = true;
 
     const payload: BookAppointmentDto = {
       appointmentDate: this.appointmentForm.get('appointmentDate')?.value,
@@ -118,16 +118,13 @@ export class ProviderBookAppointmentComponent implements OnInit, OnDestroy {
       next: (res: AppResponse<null>) => {
         if (res.isSuccess) {
           this.ResetAppoinmentForm();
-          this.isLoader = false;
           this.tostR.showSuccess(res.message);
           this.router.navigateByUrl('/org/Provider/Home');
         } else {
-          this.isLoader = false;
           this.tostR.showError(res.message);
         }
       },
       error: (err: Error) => {
-        this.isLoader = false;
         this.tostR.showError('Internal Server Error');
         console.log('Error to book Appointment : ', err);
       },

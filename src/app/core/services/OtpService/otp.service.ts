@@ -1,16 +1,16 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppResponse } from '../../Models/AppResponse';
+import { CommonService } from '../commonService/common-service.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OtpService {
-  private http = inject(HttpClient);
-  private Url = 'https://localhost:7035/api/Otp';
+  private commonService = inject(CommonService);
+  //   private Url = 'https://localhost:7035/api/Otp';
 
   sendOtpToEmail$(email: string): Observable<AppResponse<any>> {
-    return this.http.get<AppResponse<any>>(`${this.Url}/SendOtp/${email}`);
+    return this.commonService.get<AppResponse<any>>(`Otp/SendOtp/${email}`);
   }
 }

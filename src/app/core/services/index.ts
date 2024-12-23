@@ -1,0 +1,11 @@
+export { CommonService } from './commonService/common-service.service';
+export { CountryStateService } from './CountryCityService/country-state.service';
+export { ImageService } from './ImageService/image.service';
+export { LoaderService } from './loadingService/loader.service';
+export { MyToastServiceService } from './MyToastService/my-toast-service.service';
+export { OtpService } from './OtpService/otp.service';
+export { SOAPNoteService } from './SOAPNoteService/soapnote.service';
+export { SpecializationService } from './SpecializationService/specialization.service';
+export { SubSinkService } from './subSinkService/sub-sink.service';
+export { UserService } from './UserService/user.service';
+export { AppointmentService } from './Appointment/appointment.service';

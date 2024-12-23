@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { RegisterPatientDto } from '../../Models/Interfaces/User/patient.model';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -19,14 +18,13 @@ import {
 } from '../../Models/Interfaces/User/UserDto.model';
 import { LoggedUserDto } from '../../Models/classes/User/LoggedUserDto';
 import { jwtDecode } from 'jwt-decode';
+import { CommonService } from '../commonService/common-service.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private http = inject(HttpClient);
-
-  private Url = 'https://localhost:7035/api/User';
+  private commonService = inject(CommonService);
 
   loggedUser$: BehaviorSubject<LoggedUserDto> =
     new BehaviorSubject<LoggedUserDto>(new LoggedUserDto());
@@ -65,14 +63,14 @@ export class UserService {
   }
 
   GetLoggedUserById$(userId: number): Observable<AppResponse<LoggedUserDto>> {
-    return this.http.get<AppResponse<LoggedUserDto>>(
-      `${this.Url}/GetLoggedUser/${userId}`
+    return this.commonService.get<AppResponse<LoggedUserDto>>(
+      `User/GetLoggedUser/${userId}`
     );
   }
 
   RegisterPatient$(payload: RegisterPatientDto): Observable<AppResponse<null>> {
-    return this.http.post<AppResponse<null>>(
-      `${this.Url}/RegisterPatient`,
+    return this.commonService.post<AppResponse<null>>(
+      `User/RegisterPatient`,
       payload
     );
   }
@@ -80,15 +78,15 @@ export class UserService {
   RegisterProvider$(
     payload: RegisterProvidertDto
   ): Observable<AppResponse<null>> {
-    return this.http.post<AppResponse<null>>(
-      `${this.Url}/RegisterProvider`,
+    return this.commonService.post<AppResponse<null>>(
+      `User/RegisterProvider`,
       payload
     );
   }
 
   LoginUser$(payload: LoginUserDto): Observable<AppResponse<string>> {
-    return this.http.post<AppResponse<string>>(
-      `${this.Url}/LoginUser`,
+    return this.commonService.post<AppResponse<string>>(
+      `User/LoginUser`,
       payload
     );
   }
@@ -96,24 +94,24 @@ export class UserService {
   VerifyOtpAndGetJwtToken$(
     payload: LoginUserValidateOtpDto
   ): Observable<AppResponse<LoginUserResponseDto>> {
-    return this.http.post<AppResponse<LoginUserResponseDto>>(
-      `${this.Url}/LoginUserValidateOtp`,
+    return this.commonService.post<AppResponse<LoginUserResponseDto>>(
+      `User/LoginUserValidateOtp`,
       payload
     );
   }
 
   // Forget Password
   ForgetPassword$(payload: ForgetPasswordDto): Observable<AppResponse<null>> {
-    return this.http.post<AppResponse<null>>(
-      `${this.Url}/ForgetPassword`,
+    return this.commonService.post<AppResponse<null>>(
+      `User/ForgetPassword`,
       payload
     );
   }
 
   // forgot Pass (send Random PAssword in Email)
   SendRandomPasswordOnEmail$(email: string): Observable<AppResponse<null>> {
-    return this.http.get<AppResponse<null>>(
-      `${this.Url}/ForgotPasswordWithRandomString/${email}`
+    return this.commonService.get<AppResponse<null>>(
+      `User/ForgotPasswordWithRandomString/${email}`
     );
   }
 
@@ -121,32 +119,35 @@ export class UserService {
   GetProvidersBySpecializationId$(
     specializationId: number
   ): Observable<AppResponse<UserWithIdNameDto[]>> {
-    return this.http.get<AppResponse<UserWithIdNameDto[]>>(
-      `${this.Url}/GetProvidersBySpecializationId/${specializationId}`
+    return this.commonService.get<AppResponse<UserWithIdNameDto[]>>(
+      `User/GetProvidersBySpecializationId/${specializationId}`
     );
   }
 
   GetAllPatientNameId$(): Observable<AppResponse<UserNameIdDto[]>> {
-    return this.http.get<AppResponse<UserNameIdDto[]>>(
-      `${this.Url}/GetAllPatientNameId`
+    return this.commonService.get<AppResponse<UserNameIdDto[]>>(
+      `User/GetAllPatientNameId`
     );
   }
 
   //Change Password
   ChangePassword$(payload: ChangePasswordDto): Observable<AppResponse<null>> {
-    return this.http.post<AppResponse<null>>(
-      `${this.Url}/ChangePassword`,
+    return this.commonService.post<AppResponse<null>>(
+      `User/ChangePassword`,
       payload
     );
   }
 
   GetUserByUserId$(userId: number): Observable<AppResponse<UserDto>> {
-    return this.http.get<AppResponse<UserDto>>(
-      `${this.Url}/GetUserByUserId?userId=${userId}`
+    return this.commonService.get<AppResponse<UserDto>>(
+      `User/GetUserByUserId?userId=${userId}`
     );
   }
 
   UpdateUser$(payload: UpdateUserDto): Observable<AppResponse<null>> {
-    return this.http.post<AppResponse<null>>(`${this.Url}/UpdateUser`, payload);
+    return this.commonService.post<AppResponse<null>>(
+      `User/UpdateUser`,
+      payload
+    );
   }
 }

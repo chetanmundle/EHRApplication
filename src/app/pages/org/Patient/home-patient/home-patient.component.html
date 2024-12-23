@@ -22,7 +22,7 @@
     <h2>No Appointments</h2>
   </div>
 
-  <div *ngFor="let appt of appointmentList" >
+  <div *ngFor="let appt of appointmentList">
     <div class="card mt-3" class="appointment-item">
       <div class="card-body row">
         <div class="col-5 column-gap-2">
@@ -242,9 +242,3 @@
     </div>
   </div>
 </div>
-
-@if (isLoader) {
-<div class="loader-backdrop">
-  <span class="loader"></span>
-</div>
-}

@@ -2,20 +2,21 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AppointmentWithSOAPNotesDto } from '../../../../core/Models/Interfaces/Appointment/appointment.model';
-import { AppointmentService } from '../../../../core/services/Appointment/appointment.service';
+import { AppointmentService } from '../../../../core/services/index';
 import { AppResponse } from '../../../../core/Models/AppResponse';
 import { CommonModule } from '@angular/common';
 import { TimeFormatPipe } from '../../../../core/pipe/TimeFormat/time-format.pipe';
-import { SOAPNoteService } from '../../../../core/services/SOAPNoteService/soapnote.service';
+import { SOAPNoteService } from '../../../../core/services/index';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MyToastServiceService } from '../../../../core/services/MyToastService/my-toast-service.service';
+import { MyToastServiceService } from '../../../../core/services/index';
 import { CreateSOAPNoteDto } from '../../../../core/Models/Interfaces/SOAPNotes/SOAPNotes.model';
 import Swal from 'sweetalert2';
+import { SubSinkService } from '../../../../core/services/index';
 
 @Component({
   selector: 'app-view-appoinment',
@@ -27,11 +28,12 @@ import Swal from 'sweetalert2';
 export class ViewAppoinmentComponent implements OnInit, OnDestroy {
   appointmentId?: number;
   appointmentwithSoapNote?: AppointmentWithSOAPNotesDto;
-  isLoader: boolean = false;
+
   isSubmitClick: boolean = false;
 
   soapNoteForm: FormGroup;
-  private subscriptions: Subscription = new Subscription();
+
+  private readonly subSink: SubSinkService = new SubSinkService();
   private appointmentService = inject(AppointmentService);
   private soapNoteService = inject(SOAPNoteService);
   private tostR = inject(MyToastServiceService);
@@ -55,26 +57,20 @@ export class ViewAppoinmentComponent implements OnInit, OnDestroy {
   }
 
   GetAppoinmentWithSoapNote(appointmentId: number) {
-    this.isLoader = true;
-    const sub = this.appointmentService
+    this.subSink.sink = this.appointmentService
       .GetAppointmentWithSOAPNotes$(appointmentId)
       .subscribe({
         next: (res: AppResponse<AppointmentWithSOAPNotesDto>) => {
           if (res.isSuccess) {
-            this.isLoader = false;
             this.appointmentwithSoapNote = res.data;
           } else {
-            this.isLoader = false;
             console.log(res.message);
           }
         },
         error: (err: Error) => {
-          this.isLoader = false;
           console.log('Error to get the Data : ', err);
         },
       });
-
-    this.subscriptions.unsubscribe();
   }
 
   calculateAge(dateOfBirth: string): number {
@@ -142,6 +138,6 @@ export class ViewAppoinmentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subSink.unsubscribe();
   }
 }

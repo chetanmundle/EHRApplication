@@ -1,1 +1,7 @@
 <router-outlet />
+
+<!-- @if (loadingService.isLoading$ |async) { -->
+<div class="loader-backdrop" *ngIf="loadingService.isLoading$ | async">
+  <span class="loader"></span>
+</div>
+<!-- } -->

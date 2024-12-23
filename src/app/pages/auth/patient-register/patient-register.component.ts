@@ -10,14 +10,16 @@ import { CommonModule } from '@angular/common';
 import { CountryDto } from '../../../core/Models/Interfaces/countryState/CountryDto';
 import { StateDto } from '../../../core/Models/Interfaces/countryState/StateDto';
 import { Subscription } from 'rxjs';
-import { CountryStateService } from '../../../core/services/CountryCityService/country-state.service';
+import { CountryStateService } from '../../../core/services/index';
 import { AppResponse } from '../../../core/Models/AppResponse';
-import { MyToastServiceService } from '../../../core/services/MyToastService/my-toast-service.service';
-import { ImageService } from '../../../core/services/ImageService/image.service';
+import { MyToastServiceService } from '../../../core/services/index';
+
 import { RegisterPatientDto } from '../../../core/Models/Interfaces/User/patient.model';
-import { UserService } from '../../../core/services/UserService/user.service';
+import { UserService } from '../../../core/services/index';
 import { Router } from '@angular/router';
 import { useAuthStore } from '../../../core/stores/auth.store';
+import { SubSinkService } from '../../../core/services/index';
+import { ImageService } from '../../../core/services/index';
 
 @Component({
   selector: 'app-patient-register',
@@ -28,7 +30,7 @@ import { useAuthStore } from '../../../core/stores/auth.store';
 })
 export class PatientRegisterComponent implements OnInit, OnDestroy {
   registerForm: FormGroup;
-  subscriptions: Subscription = new Subscription();
+  private readonly subSink: SubSinkService = new SubSinkService();
 
   countryList?: CountryDto[];
   stateList?: StateDto[];
@@ -36,7 +38,6 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
   isSubmitClick: boolean = false;
   isMobileNumberValid: boolean = false;
   selectedFile: File | null = null;
-  isLoader = false;
 
   private countryStateService = inject(CountryStateService);
   private tostR = inject(MyToastServiceService);
@@ -67,7 +68,7 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
     this.GetAllContries();
   }
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subSink.unsubscribe();
   }
 
   onClickClearBtn() {
@@ -95,7 +96,7 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
     const selectElement = event.target as HTMLSelectElement;
     const countryId = Number(selectElement.value);
 
-    const sub = this.countryStateService
+    this.subSink.sink = this.countryStateService
       .GetAllStateByCountryId$(countryId)
       .subscribe({
         next: (res: AppResponse<StateDto[]>) => {
@@ -110,8 +111,6 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
           console.log('Error to get the States : ', err);
         },
       });
-
-    this.subscriptions.add(sub);
   }
 
   // Handle not accept more that 25 letters
@@ -163,7 +162,7 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
   }
 
   GetAllContries() {
-    const sub = this.countryStateService.GetAllCountries$().subscribe({
+    this.subSink.sink = this.countryStateService.GetAllCountries$().subscribe({
       next: (res: AppResponse<CountryDto[]>) => {
         if (res.isSuccess) {
           this.countryList = res.data;
@@ -176,8 +175,6 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
         console.log('Error to register', error);
       },
     });
-
-    this.subscriptions.add(sub);
   }
 
   onFileSelected(event: any): void {
@@ -191,26 +188,23 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.isLoader = true;
     if (this.selectedFile) {
-      const sub = this.imageService.uploadImage$(this.selectedFile).subscribe({
-        next: (res: AppResponse<string>) => {
-          if (res.isSuccess) {
-            this.registerForm.get('profileImage')?.setValue(res.data);
-            this.RegisterUser();
-          } else {
-            this.tostR.showWarning(res.message);
-            this.isLoader = false;
-            console.log('Unble to Save the Profile Image : ', res.message);
-          }
-        },
-        error: (err: Error) => {
-          this.isLoader = false;
-          //   'Unble to Save the Image', err.message;
-        },
-      });
-
-      this.subscriptions.add(sub);
+      this.subSink.sink = this.imageService
+        .uploadImage$(this.selectedFile)
+        .subscribe({
+          next: (res: AppResponse<string>) => {
+            if (res.isSuccess) {
+              this.registerForm.get('profileImage')?.setValue(res.data);
+              this.RegisterUser();
+            } else {
+              this.tostR.showWarning(res.message);
+              console.log('Unble to Save the Profile Image : ', res.message);
+            }
+          },
+          error: (err: Error) => {
+            //   'Unble to Save the Image', err.message;
+          },
+        });
     } else {
       this.RegisterUser();
     }
@@ -233,27 +227,22 @@ export class PatientRegisterComponent implements OnInit, OnDestroy {
       profileImage: this.registerForm.get('profileImage')?.value,
     };
 
-    const sub = this.userService.RegisterPatient$(payload).subscribe({
+    this.subSink.sink = this.userService.RegisterPatient$(payload).subscribe({
       next: (res: AppResponse<null>) => {
         if (res.isSuccess) {
           this.RegisterInFirebase(payload.email, 'Pass@123', payload.firstName);
-          this.isLoader = false;
           this.onClickClearBtn();
           this.tostR.showSuccess(res.message);
           this.router.navigateByUrl('/auth/Login');
         } else {
-          this.isLoader = false;
           this.tostR.showError(res.message);
         }
       },
       error: (err: Error) => {
-        this.isLoader = false;
         console.log('Errot to Register the User ', err);
         this.tostR.showError('Internal Server Error');
       },
     });
-
-    this.subscriptions.add(sub);
   }
 
   async RegisterInFirebase(

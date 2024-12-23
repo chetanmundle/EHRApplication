@@ -4,12 +4,12 @@ import {
   UpdateAppointmentDto,
 } from '../../../../core/Models/Interfaces/Appointment/appointment.model';
 import { Subscription } from 'rxjs';
-import { AppointmentService } from '../../../../core/services/Appointment/appointment.service';
-import { UserService } from '../../../../core/services/UserService/user.service';
+import { AppointmentService } from '../../../../core/services/index';
+import { UserService } from '../../../../core/services/index';
 import { LoggedUserDto } from '../../../../core/Models/classes/User/LoggedUserDto';
 import { AppResponse } from '../../../../core/Models/AppResponse';
 import { CommonModule } from '@angular/common';
-import { MyToastServiceService } from '../../../../core/services/MyToastService/my-toast-service.service';
+import { MyToastServiceService } from '../../../../core/services/index';
 import Swal from 'sweetalert2';
 import { TimeFormatPipe } from '../../../../core/pipe/TimeFormat/time-format.pipe';
 import { Modal } from 'bootstrap';
@@ -22,6 +22,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { useChatStore } from '../../../../core/stores/chat.store';
+import { SubSinkService } from '../../../../core/services/index';
 
 @Component({
   selector: 'app-home-patient',
@@ -39,14 +40,13 @@ import { useChatStore } from '../../../../core/stores/chat.store';
 export class HomePatientComponent implements OnDestroy {
   appointmentList?: GetAppoinmentByPatientIdDto[];
   loggedUser?: LoggedUserDto;
-  isLoader: boolean = false;
   private modalInstance: Modal | null = null;
   appointmentForm: FormGroup;
   isSubmitClick: boolean = false;
   status: string = 'Scheduled';
   isTimeValid: boolean = true;
 
-  subscriptions: Subscription = new Subscription();
+  private readonly subSink: SubSinkService = new SubSinkService();
   private appointmentService = inject(AppointmentService);
   private userService = inject(UserService);
   private tostR = inject(MyToastServiceService);
@@ -54,12 +54,12 @@ export class HomePatientComponent implements OnDestroy {
   private chatStore = inject(useChatStore);
 
   constructor(private fb: FormBuilder) {
-    const sub = this.userService.loggedUser$.subscribe((res: LoggedUserDto) => {
-      this.loggedUser = res;
-      this.GetAppoinments(this.loggedUser.userId, this.status);
-    });
-
-    this.subscriptions.add(sub);
+    this.subSink.sink = this.userService.loggedUser$.subscribe(
+      (res: LoggedUserDto) => {
+        this.loggedUser = res;
+        this.GetAppoinments(this.loggedUser.userId, this.status);
+      }
+    );
 
     this.appointmentForm = this.fb.group({
       appointmentId: ['', Validators.required],
@@ -70,7 +70,7 @@ export class HomePatientComponent implements OnDestroy {
   }
 
   GetAppoinments(patientId: number, status: string) {
-    this.appointmentService
+    this.subSink.sink = this.appointmentService
       .GetAppointmentByPatientId$(patientId, status)
       .subscribe({
         next: (res: AppResponse<GetAppoinmentByPatientIdDto[]>) => {
@@ -90,15 +90,14 @@ export class HomePatientComponent implements OnDestroy {
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       icon: 'warning',
-      showCloseButton:true,
-      showDenyButton:true,
-    //   showCancelButton: true,
+      showCloseButton: true,
+      showDenyButton: true,
+      //   showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, Cancel it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.isLoader = true;
         this.appointmentService
           .CancelAppointmentByApptId$(appointmentId)
           .subscribe({
@@ -107,15 +106,12 @@ export class HomePatientComponent implements OnDestroy {
                 if (this.loggedUser) {
                   this.GetAppoinments(this.loggedUser.userId, this.status);
                 }
-                this.isLoader = false;
                 this.tostR.showSuccess(res.message);
               } else {
-                this.isLoader = false;
                 this.tostR.showError(res.message);
               }
             },
             error: (err: Error) => {
-              this.isLoader = false;
               console.log('Error to cancel Appointment: ');
               this.tostR.showError('Internal Server Error ');
             },
@@ -174,7 +170,6 @@ export class HomePatientComponent implements OnDestroy {
       return;
     }
 
-    this.isLoader = true;
 
     const payload: UpdateAppointmentDto = {
       appointmentId: this.appointmentForm.get('appointmentId')?.value,
@@ -191,16 +186,13 @@ export class HomePatientComponent implements OnDestroy {
           if (this.loggedUser) {
             this.GetAppoinments(this.loggedUser?.userId, this.status);
           }
-          this.isLoader = false;
           this.tostR.showSuccess(res.message);
           this.closeModal();
         } else {
-          this.isLoader = false;
           this.tostR.showError(res.message);
         }
       },
       error: (err: Error) => {
-        this.isLoader = false;
         console.log('Error to update :', err);
         this.tostR.showError('Internal Service Error');
       },
@@ -311,6 +303,6 @@ export class HomePatientComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subSink.unsubscribe();
   }
 }
