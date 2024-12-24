@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { CountryDto } from '../../../core/Models/Interfaces/countryState/CountryDto';
 import { StateDto } from '../../../core/Models/Interfaces/countryState/StateDto';
 import { CountryStateService } from '../../../core/services/index';

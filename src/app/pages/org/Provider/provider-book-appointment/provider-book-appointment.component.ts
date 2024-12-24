@@ -1,7 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { UserNameIdDto } from '../../../../core/Models/Interfaces/User/UserDto.model';
 import { UserService } from '../../../../core/services/index';
-import { Subscription } from 'rxjs';
 import { AppResponse } from '../../../../core/Models/AppResponse';
 import { CommonModule } from '@angular/common';
 import {

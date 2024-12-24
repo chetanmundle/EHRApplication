@@ -9,7 +9,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { specialisationDto } from '../../../../core/Models/Interfaces/Specialization/specialization.model';
-import { Subscription } from 'rxjs';
 import { SpecializationService } from '../../../../core/services/index';
 import { AppResponse } from '../../../../core/Models/AppResponse';
 import { CommonModule } from '@angular/common';

@@ -8,10 +8,13 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { MyToastServiceService } from '../../../core/services/index';
+import {
+  MyToastServiceService,
+  SubSinkService,
+} from '../../../core/services/index';
 import { UserService } from '../../../core/services/index';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+
 import {
   LoginUserResponseDto,
   LoginUserValidateOtpDto,
@@ -29,7 +32,7 @@ export class OtpComponent implements OnDestroy {
   @Input() email: string = '';
   @Output() onCancelBtnClick = new EventEmitter<boolean>();
   otp: string[] = ['', '', '', '', '', ''];
-  subscriptions: Subscription = new Subscription();
+  private readonly subSink: SubSinkService = new SubSinkService();
 
   private tostr = inject(MyToastServiceService);
   private userService = inject(UserService);
@@ -98,33 +101,34 @@ export class OtpComponent implements OnDestroy {
       otpValue: Number(otpCode),
     };
 
-    const sub = this.userService.VerifyOtpAndGetJwtToken$(payload).subscribe({
-      next: (res: AppResponse<LoginUserResponseDto>) => {
-        if (res.isSuccess) {
-          localStorage.setItem('accessToken', res.data.accessToken);
+    this.subSink.sink = this.userService
+      .VerifyOtpAndGetJwtToken$(payload)
+      .subscribe({
+        next: (res: AppResponse<LoginUserResponseDto>) => {
+          if (res.isSuccess) {
+            localStorage.setItem('accessToken', res.data.accessToken);
 
-          this.userService.resetLoggedUser();
+            this.userService.resetLoggedUser();
 
-          if (res.data.userTypeName === 'Provider') {
-            this.router.navigate(['/org/Provider/Home']);
-          } else if (res.data.userTypeName === 'Patient') {
-            this.router.navigate(['/org/Patient/Home']);
+            if (res.data.userTypeName === 'Provider') {
+              this.router.navigate(['/org/Provider/Home']);
+            } else if (res.data.userTypeName === 'Patient') {
+              this.router.navigate(['/org/Patient/Home']);
+            }
+
+            this.tostr.showSuccess(res.message);
+          } else {
+            this.tostr.showError(res.message);
           }
-
-          this.tostr.showSuccess(res.message);
-        } else {
-          this.tostr.showError(res.message);
-        }
-      },
-      error: (err: Error) => {
-        this.tostr.showError('Server Error...!');
-        console.log('Error to varify otp : ', err);
-      },
-    });
-    this.subscriptions.add(sub);
+        },
+        error: (err: Error) => {
+          this.tostr.showError('Server Error...!');
+          console.log('Error to varify otp : ', err);
+        },
+      });
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subSink.unsubscribe();
   }
 }

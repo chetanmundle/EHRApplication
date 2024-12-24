@@ -1,6 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { AppointmentWithSOAPNotesDto } from '../../../../core/Models/Interfaces/Appointment/appointment.model';
 import { AppointmentService } from '../../../../core/services/index';
 import { AppResponse } from '../../../../core/Models/AppResponse';

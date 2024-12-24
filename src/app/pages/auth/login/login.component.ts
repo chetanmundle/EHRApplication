@@ -5,7 +5,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { UserService } from '../../../core/services/index';
 import { MyToastServiceService } from '../../../core/services/index';
 import { Router, RouterLink } from '@angular/router';

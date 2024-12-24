@@ -5,7 +5,7 @@ import {
   RouterLink,
   RouterOutlet,
 } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
+import { filter } from 'rxjs';
 import { SubSinkService } from '../../../core/services/index';
 
 @Component({

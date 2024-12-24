@@ -3,7 +3,6 @@ import { AppointmentService } from '../../../../core/services/index';
 import { UserService } from '../../../../core/services/index';
 import { GetAppoinmentByProviderIdDto } from '../../../../core/Models/Interfaces/Appointment/appointment.model';
 import { LoggedUserDto } from '../../../../core/Models/classes/User/LoggedUserDto';
-import { Subscription } from 'rxjs';
 import { AppResponse } from '../../../../core/Models/AppResponse';
 import { CommonModule } from '@angular/common';
 import { TimeFormatPipe } from '../../../../core/pipe/TimeFormat/time-format.pipe';

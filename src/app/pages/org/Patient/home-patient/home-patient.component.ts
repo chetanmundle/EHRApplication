@@ -3,7 +3,6 @@ import {
   GetAppoinmentByPatientIdDto,
   UpdateAppointmentDto,
 } from '../../../../core/Models/Interfaces/Appointment/appointment.model';
-import { Subscription } from 'rxjs';
 import { AppointmentService } from '../../../../core/services/index';
 import { UserService } from '../../../../core/services/index';
 import { LoggedUserDto } from '../../../../core/Models/classes/User/LoggedUserDto';

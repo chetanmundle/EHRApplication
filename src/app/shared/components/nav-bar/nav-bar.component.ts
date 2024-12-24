@@ -1,6 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { UserService } from '../../../core/services/index';
-import { Subscription } from 'rxjs';
+import { SubSinkService, UserService } from '../../../core/services/index';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +15,7 @@ import { useAuthStore } from '../../../core/stores/auth.store';
 })
 export class NavBarComponent implements OnDestroy, OnInit {
   loggedUser?: LoggedUserDto;
-  subscriptions: Subscription = new Subscription();
+  private readonly subSink: SubSinkService = new SubSinkService();
   currentUrl: string = '';
 
   private userService = inject(UserService);
@@ -25,20 +24,18 @@ export class NavBarComponent implements OnDestroy, OnInit {
 
   constructor() {
     // subscribe for which user is currently logged in
-    const sub = this.userService.loggedUser$.subscribe({
+    this.subSink.sink = this.userService.loggedUser$.subscribe({
       next: (user: LoggedUserDto) => {
         this.loggedUser = user;
       },
     });
-
-    this.subscriptions.add(sub);
   }
   ngOnInit(): void {
     this.currentUrl = this.router.url;
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subSink.unsubscribe();
   }
 
   isModalOpen = false;
